@@ -43,7 +43,7 @@ const Login = () => {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="border rounded-lg px-3 py-2 mt-1 text-sm w-full"
+                    className="border-purple-500 bg-slate-900 rounded-lg px-3 py-2 mt-1 text-sm w-full"
                     placeholder="Enter your email"
                     required
                   />
@@ -56,10 +56,11 @@ const Login = () => {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="border rounded-lg px-3 py-2 mt-1 text-sm w-full"
+                    className="border-purple-500 bg-slate-900 rounded-lg px-3 py-2 mb-6 mt-1 text-sm w-full"
                     placeholder="Enter your password"
                     required
                   />
+                  <p className="text-slate-400 text-sm ">Forgot Password? <a><span className="text-purple-500">Recover</span></a></p>
                 </div>
                 <button
                   type="submit"
@@ -68,7 +69,28 @@ const Login = () => {
                   <span className="inline-block mr-2">Login</span>
                 </button>
 
-                <div className="flex"></div>
+                <div className="flex">
+                <button
+                  type="submit"
+                  className="mt-5 transition duration-200 bg-transparent border hover:bg-purple-600 focus:bg-purple-700 focus:shadow-sm focus:ring-4 focus:ring-purple-300 text-white w-full py-2.5 rounded-md text-sm shadow-sm hover:shadow-md font-semibold text-center items-center inline-block p-5"
+                >
+                  <span className="inline-block mr-2">Google</span>
+                </button>
+
+                <button
+                  type="submit"
+                  className="mt-5 transition duration-200 bg-transparent border hover:bg-purple-600 focus:bg-purple-700 focus:shadow-sm focus:ring-4 focus:ring-purple-300 text-white w-full py-2.5 rounded-md text-sm shadow-sm hover:shadow-md font-semibold text-center items-center inline-block p-5"
+                >
+                  <span className="inline-block mr-2">Twitter</span>
+                </button>
+
+                <button
+                  type="submit"
+                  className="mt-5 transition duration-200 bg-transparent border hover:bg-purple-600 focus:bg-purple-700 focus:shadow-sm focus:ring-4 focus:ring-purple-300 text-white w-full py-2.5 rounded-md text-sm shadow-sm hover:shadow-md font-semibold text-center items-center inline-block p-5"
+                >
+                  <span className="inline-block mr-2">Wallet</span>
+                </button>
+                </div>
               </form>
             </div>
           </div>
