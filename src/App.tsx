@@ -1,10 +1,13 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Dashboard from "./App/Dashboard";
+import RecruitDashboard from "./App/Recruit/Dashboard";
+import RecruiterDashboard from "./App/Recruiter/Dashboard";
 import Login from "./Auth/Login";
 import Signup from "./Auth/Signup";
-import Navbar from "./App/Navbar";
+import RecruitNavbar from "./App/Recruit/Navbar";
+import RecruiterNavbar from "./App/Recruiter/Navbar";
 import Landingpage from "./HomePage/Landingpage";
+import RequireAuth from "./Auth/RequireAuth";
 
 
 function App() {
@@ -13,9 +16,15 @@ function App() {
       <Route path="/" element={<Landingpage/>}/>
       <Route path="/auth/login" element={<Login />} />
       <Route path="/auth/signup" element={<Signup />} />
-      <Route path="/app" element={<Navbar/>}>
-        <Route index element={<Dashboard />} />
-        <Route path="/app/dashboard" element={<Dashboard />} />
+      <Route element={<RequireAuth/>}>
+        <Route path="/app/recruit" element={<RecruitNavbar/>}>
+          <Route index element={<RecruitDashboard />} />
+          <Route path="dashboard" element={<RecruitDashboard />} />
+        </Route>
+        <Route path="/app/recruiter" element={<RecruiterNavbar/>}>
+          <Route index element={<RecruiterDashboard />} />
+          <Route path="dashboard" element={<RecruiterDashboard />} />
+        </Route>
       </Route>
       </Routes>
   );
