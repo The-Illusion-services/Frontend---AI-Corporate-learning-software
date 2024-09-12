@@ -1,10 +1,10 @@
 import React from "react";
-import signupBG from "../assets/signupBG.svg";
-import Google from "../assets/google.svg";
-import Twitter from "../assets/twitter.svg";
-import Wallets from "../assets/wallets.svg";
-import Check from "../assets/check.svg";
-import Eye from "../assets/eye.svg";
+import signupBG from "../assets/signup/signupBG.svg";
+import Google from "../assets/signup/google.svg";
+import Twitter from "../assets/signup/twitter.svg";
+import Wallets from "../assets/signup/wallets.svg";
+import Check from "../assets/signup/check.svg";
+import Eye from "../assets/signup/eye.svg";
 
 const Signup = () => {
   return (
@@ -14,7 +14,7 @@ const Signup = () => {
       </div>
       <div className="max-w-xl lg:max-w-none w-screen lg:w-1/2 min-h-screen text-white px-5 py-10 lg:py-20 relative lg:left-1/2 flex justify-center">
         <div className="w-11/12 lg:w-2/3">
-          <div className="mb-8 text-center">
+          <div className="mb-8 lg:text-center">
             <h1 className="text-3xl lg:text-4xl lg:mb-2 font-semibold">
               Let's get started
             </h1>
