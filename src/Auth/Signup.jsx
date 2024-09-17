@@ -2,6 +2,8 @@ import React from "react";
 import signupBG from "../assets/signup/signupBG.svg";
 import { FcGoogle } from "react-icons/fc";
 import { RiTwitterXLine } from "react-icons/ri";
+import { BiHide } from "react-icons/bi";
+import { FaRegCheckCircle } from "react-icons/fa";
 import Wallets from "../assets/signup/wallets.svg";
 import Check from "../assets/signup/check.svg";
 import Eye from "../assets/signup/eye.svg";
@@ -87,11 +89,12 @@ const Signup = () => {
                   placeholder="Input"
                   className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md h-16 px-2 placeholder:text-lg placeholder:text-gray-300 outline-none focus:border-inputborderGreen focus:border-2 w-full"
                 />
-                <img
+                {/* <img
                   src={Eye}
                   alt=""
                   className="absolute top-[22px] right-6 cursor-pointer"
-                />
+                /> */}
+                <BiHide className="absolute top-[22px] right-6 cursor-pointer text-textGray" />
               </div>
             </div>
             <div className="flex flex-col mb-5 w-full">
@@ -104,11 +107,12 @@ const Signup = () => {
                   placeholder="Input"
                   className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md h-16 px-2 placeholder:text-lg placeholder:text-gray-300 outline-none focus:border-inputborderGreen focus:border-2 w-full"
                 />
-                <img
+                {/* <img
                   src={Check}
                   alt=""
                   className="absolute top-[22px] right-6 cursor-pointer"
-                />
+                /> */}
+                <FaRegCheckCircle className="absolute top-[22px] right-6 cursor-pointer text-inputborderGreen" />
               </div>
             </div>
 
