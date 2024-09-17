@@ -9,6 +9,7 @@ import RecruiterNavbar from "./App/Recruiter/Navbar";
 import Landingpage from "./HomePage/Landingpage";
 import RequireAuth from "./Auth/RequireAuth";
 
+
 function App() {
   return (
     <Routes>
