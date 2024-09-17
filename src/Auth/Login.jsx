@@ -1,9 +1,9 @@
 // src/Login.js
 import React, { useState } from "react";
-import loginImage from './assets/login-image.jpg'; // Import login image
-import google from './assets/google.png'; // Import your image
+import loginImage from '../assets/signup/signupBG.svg'; // Import login image
+import { FcGoogle } from "react-icons/fc";
+import { RiTwitterXLine } from "react-icons/ri"; // Import your image
 import Wallets from "../assets/signup/wallets.svg"; // Import your image
-import twitter from './assets/twitter.png'; // Import your image
 
 
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons from react-icons
@@ -92,34 +92,26 @@ const Login = () => {
               Login
             </button>
 
-            <hr className="my-4 border-textGray border-1 border-separate" />
 
-
-            <div className="flex">
-                <button
-                  type="button"
-                  className="flex mt-5 mr-4 transition duration-200 bg-textGray bg-opacity-10 focus:shadow-sm focus:ring-1 focus:ring-PrimaryPurple text-white w-full py-2.5 rounded-sm text-sm shadow-sm hover:shadow-md font-semibold text-center items-center  p-5 ring-opacity-50 ring-1 ring-textGray"
-                >
-                    <img src={google} className="w-6 h-6 mr-2" />
-                  <span className="inline-block mr-2">Google</span>
-                </button>
-
-                <button
-                  type="button"
-                  className="flex mt-5 mr-4 transition duration-200 bg-textGray bg-opacity-10 focus:shadow-sm focus:ring-1 focus:ring-PrimaryPurple text-white w-full py-2.5 rounded-sm text-sm shadow-sm hover:shadow-md font-semibold text-center items-center  p-5 ring-opacity-50 ring-1 ring-textGray"
-                >
-                    <img src={twitter} className="w-6 h-6 mr-2" />
-                  <span className="inline-block mr-2">Twitter</span>
-                </button>
-
-                <button
-                  type="button"
-                  className="flex mt-5 transition duration-200 bg-textGray bg-opacity-10 focus:shadow-sm focus:ring-1 focus:ring-PrimaryPurple text-white w-full py-2.5 rounded-sm text-sm shadow-sm hover:shadow-md font-semibold text-center items-center p-5 ring-opacity-50 ring-1 ring-textGray"
-                >
-                    <img src={Wallets} className="w-6 h-6 mr-2" />
-                  <span className="inline-block mr-2">Wallet</span>
-                </button>
-                </div>
+            <div className="flex items-center gap-3 mt-10 text-textGray">
+            <div className="w-5 bg-[#333333] flex-grow h-[1px]"></div>
+            Or
+            <div className="w-5 bg-[#333333] flex-grow h-[1px]"></div>
+          </div>
+          <div className="flex mt-10 gap-3">
+            <button className="bg-inputBackground border-inputBorderColor border-2 border-solid rounded-md h-16 flex-grow text-lg font-semibold flex items-center justify-center gap-2 outline-none">
+              <FcGoogle />
+              Google
+            </button>
+            <button className="bg-inputBackground border-inputBorderColor border-2 border-solid rounded-md h-16 flex-grow text-lg font-semibold flex items-center justify-center gap-2 outline-none">
+              <RiTwitterXLine />
+              Twitter
+            </button>
+            <button className="hidden bg-inputBackground border-inputBorderColor border-2 border-solid rounded-md h-16 flex-grow text-lg font-semibold lg:flex items-center justify-center gap-2 outline-none">
+              <img src={Wallets} alt="" />
+              Wallet
+            </button>
+          </div>
           </form>
         </div>
       </div>
