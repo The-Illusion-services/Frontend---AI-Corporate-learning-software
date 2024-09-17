@@ -1,9 +1,11 @@
 // src/Login.js
 import React, { useState } from "react";
+
 import loginImage from '../assets/signup/signupBG.svg'; // Import login image
 import { FcGoogle } from "react-icons/fc";
 import { RiTwitterXLine } from "react-icons/ri"; // Import your image
 import Wallets from "../assets/signup/wallets.svg"; // Import your image
+
 
 
 
@@ -21,6 +23,7 @@ const Login = () => {
   };
 
   return (
+
     <div className="min-h-screen flex flex-col justify-center items-center p-5 bg-mobileBackground">
       {/* Container for form and image, flexed on desktop */}
       <div className="w-full max-w-lg lg:max-w-4xl lg:flex lg:items-center bg-mobileBackground shadow-md rounded-lg p-5">
@@ -76,10 +79,9 @@ const Login = () => {
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Toggle eye/eye-slash icon */}
             </button>
+
               
 
-            </div>
-            
             <p className="text-textGray mb-7">
                 Forgot password? <a href=""><span className="text-PrimaryPurple">Recover</span></a>
             </p>
@@ -116,6 +118,10 @@ const Login = () => {
         </div>
       </div>
     </div>
+
+    <>
+    </>
+
   );
 };
 

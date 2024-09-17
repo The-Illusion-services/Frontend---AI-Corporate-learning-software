@@ -26,66 +26,66 @@ const Signup = () => {
 
           <form className="w-full">
             <div className="flex flex-col mb-5">
-              <label htmlFor="first name" className="text-lg mb-2">
+              <label htmlFor="first name" className="text-sm mb-2">
                 First Name
               </label>
               <input
                 type="text"
                 placeholder="Input"
-                className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md h-16 px-2 placeholder:text-lg placeholder:text-gray-300 outline-none focus:border-PrimaryPurple focus:border-2"
+                className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md py-2 px-2 placeholder:text-sm placeholder:text-gray-300 outline-none focus:border-PrimaryPurple focus:border-2"
               />
             </div>
             <div className="flex flex-col mb-5">
-              <label htmlFor="last name" className="text-lg mb-2">
+              <label htmlFor="last name" className="text-sm mb-2">
                 Last Name
               </label>
               <input
                 type="text"
                 placeholder="Input"
-                className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md h-16 px-2 placeholder:text-lg placeholder:text-gray-300 outline-none focus:border-PrimaryPurple focus:border-2"
+                className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md py-2 px-2 placeholder:text-sm placeholder:text-gray-300 outline-none focus:border-PrimaryPurple focus:border-2"
               />
             </div>
             <div className="flex flex-col mb-5">
-              <label htmlFor="first name" className="text-lg mb-2">
+              <label htmlFor="first name" className="text-sm mb-2">
                 Field
               </label>
               <select
                 name="field"
                 id=""
-                className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md h-16 px-2 placeholder:text-lg placeholder:text-gray-300 outline-none focus:border-PrimaryPurple focus:border-2"
+                className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md py-2 px-2 placeholder:text-sm placeholder:text-gray-300 outline-none focus:border-PrimaryPurple focus:border-2"
               >
                 <option value="UI/UX Design">UI/UX Design</option>
               </select>
             </div>
             <div className="flex flex-col mb-5">
-              <label htmlFor="company id" className="text-lg mb-2">
+              <label htmlFor="company id" className="text-sm mb-2">
                 Company ID
               </label>
               <input
                 type="text"
                 placeholder="Input"
-                className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md h-16 px-2 placeholder:text-lg placeholder:text-gray-300 outline-none focus:border-PrimaryPurple focus:border-2"
+                className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md py-2 px-2 placeholder:text-sm placeholder:text-gray-300 outline-none focus:border-PrimaryPurple focus:border-2"
               />
             </div>
             <div className="flex flex-col mb-5">
-              <label htmlFor="email address" className="text-lg mb-2">
+              <label htmlFor="email address" className="text-sm mb-2">
                 Email Address
               </label>
               <input
                 type="email"
                 placeholder="Input"
-                className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md h-16 px-2 placeholder:text-lg placeholder:text-gray-300 outline-none focus:border-PrimaryPurple focus:border-2"
+                className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md py-2 px-2 placeholder:text-sm placeholder:text-gray-300 outline-none focus:border-PrimaryPurple focus:border-2"
               />
             </div>
             <div className="flex flex-col mb-5">
-              <label htmlFor="password" className="text-lg mb-2">
+              <label htmlFor="password" className="text-sm mb-2">
                 Password
               </label>
               <div className="relative w-full">
                 <input
                   type="password"
                   placeholder="Input"
-                  className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md h-16 px-2 placeholder:text-lg placeholder:text-gray-300 outline-none focus:border-inputborderGreen focus:border-2 w-full"
+                  className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md py-2 px-2 placeholder:text-sm placeholder:text-gray-300 outline-none focus:border-inputborderGreen focus:border-2 w-full"
                 />
                 <img
                   src={Eye}
@@ -95,14 +95,14 @@ const Signup = () => {
               </div>
             </div>
             <div className="flex flex-col mb-5 w-full">
-              <label htmlFor="confirm password" className="text-lg mb-2">
+              <label htmlFor="confirm password" className="text-sm mb-2">
                 Confirm Password
               </label>
               <div className="relative w-full h-max">
                 <input
                   type="Password"
                   placeholder="Input"
-                  className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md h-16 px-2 placeholder:text-lg placeholder:text-gray-300 outline-none focus:border-inputborderGreen focus:border-2 w-full"
+                  className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md py-2 px-2 placeholder:text-sm placeholder:text-gray-300 outline-none focus:border-inputborderGreen focus:border-2 w-full"
                 />
                 <img
                   src={Check}
@@ -112,7 +112,7 @@ const Signup = () => {
               </div>
             </div>
 
-            <button className="bg-PrimaryPurple h-16 rounded-lg w-full mt-6 font-semibold text-xl outline-none">
+            <button className="bg-PrimaryPurple py-2 rounded-lg w-full mt-6 font-semibold text-lg outline-none">
               Sign Up
             </button>
           </form>
@@ -130,7 +130,7 @@ const Signup = () => {
               <RiTwitterXLine />
               Twitter
             </button>
-            <button className="hidden bg-inputBackground border-inputBorderColor border-2 border-solid rounded-md h-16 flex-grow text-lg font-semibold lg:flex items-center justify-center gap-2 outline-none">
+            <button className="hidden bg-inputBackground border-inputBorderColor border-2 border-solid rounded-md py-2 flex-grow text-sm font-semibold lg:flex items-center justify-center gap-2 outline-none">
               <img src={Wallets} alt="" />
               Wallet
             </button>
