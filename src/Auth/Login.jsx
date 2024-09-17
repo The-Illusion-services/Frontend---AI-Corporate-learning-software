@@ -21,7 +21,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center p-5 bg-textGray">
+    <div className="min-h-screen flex flex-col justify-center items-center p-5 bg-mobileBackground">
       {/* Container for form and image, flexed on desktop */}
       <div className="w-full max-w-lg lg:max-w-4xl lg:flex lg:items-center bg-mobileBackground shadow-md rounded-lg p-5">
 
@@ -92,28 +92,27 @@ const Login = () => {
             >
               Login
             </button>
+          </form>
 
-
-            <div className="flex items-center gap-3 mt-10 text-textGray">
+          <div className="flex items-center gap-3 mt-10 text-textGray">
             <div className="w-5 bg-[#333333] flex-grow h-[1px]"></div>
             Or
             <div className="w-5 bg-[#333333] flex-grow h-[1px]"></div>
           </div>
           <div className="flex mt-10 gap-3">
-            <button className="bg-inputBackground border-inputBorderColor border-2 border-solid rounded-md h-16 flex-grow text-lg font-semibold flex items-center justify-center gap-2 outline-none">
+            <button className="bg-inputBackground border-inputBorderColor border-2 border-solid rounded-md h-16 flex-grow text-lg font-semibold flex items-center justify-center gap-2 outline-none text-white">
               <FcGoogle />
               Google
             </button>
-            <button className="bg-inputBackground border-inputBorderColor border-2 border-solid rounded-md h-16 flex-grow text-lg font-semibold flex items-center justify-center gap-2 outline-none">
+            <button className="bg-inputBackground border-inputBorderColor border-2 border-solid rounded-md h-16 flex-grow text-lg font-semibold flex items-center justify-center gap-2 outline-none text-white">
               <RiTwitterXLine />
               Twitter
             </button>
-            <button className="hidden bg-inputBackground border-inputBorderColor border-2 border-solid rounded-md h-16 flex-grow text-lg font-semibold lg:flex items-center justify-center gap-2 outline-none">
+            <button className="hidden bg-inputBackground border-inputBorderColor border-2 border-solid rounded-md h-16 flex-grow text-lg font-semibold lg:flex items-center justify-center gap-2 outline-none text-white">
               <img src={Wallets} alt="" />
               Wallet
             </button>
           </div>
-          </form>
         </div>
       </div>
     </div>
