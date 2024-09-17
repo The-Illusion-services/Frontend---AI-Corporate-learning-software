@@ -10,7 +10,7 @@ const ContextProvider = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [currUser, setCurrUser] = useState("recruiter");
+  const [currUser, setCurrUser] = useState("recruit");
   const [skeletalLoading, setSkeletalLoading] = useState(false);
 
  

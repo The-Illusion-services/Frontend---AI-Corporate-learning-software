@@ -38,31 +38,31 @@ const QuizCreator = () => {
       
       creator.JSON = {
           "elements": [
-              {
-                  "type": "image",
-                  "name": "question1",
-                  "imageLink": "https://surveyjs.io/Content/Images/examples/image-picker/lion.jpg"
-              },
-              {
-                "type": "text",
-                "name": "question2"
-            },
-            {
-              "type": "text",
-              "name": "question3",
-              "isRequired": true
-          },
-          {
-            "type": "checkbox",
-            "name": "question4",
-            "choices": [
-              "Item 1",
-              "Item 2",
-              "Item 3"
-            ],
-            "maxSelectedChoices": 1,
-            "minSelectedChoices": 1
-          }
+          //     {
+          //         "type": "image",
+          //         "name": "question1",
+          //         "imageLink": "https://surveyjs.io/Content/Images/examples/image-picker/lion.jpg"
+          //     },
+          //     {
+          //       "type": "text",
+          //       "name": "question2"
+          //   },
+          //   {
+          //     "type": "text",
+          //     "name": "question3",
+          //     "isRequired": true
+          // },
+          // {
+          //   "type": "checkbox",
+          //   "name": "question4",
+          //   "choices": [
+          //     "Item 1",
+          //     "Item 2",
+          //     "Item 3"
+          //   ],
+          //   "maxSelectedChoices": 1,
+          //   "minSelectedChoices": 1
+          // }
           ]
       };
       

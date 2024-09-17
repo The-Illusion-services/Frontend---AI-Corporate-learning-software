@@ -1,7 +1,7 @@
 import React from "react";
 
 const RecruitDashboard = () => {
-  return <div>Recruit Dashboard</div>;
+  return <div className="lg:ml-52">Recruit Dashboard</div>;
 };
 
 export default RecruitDashboard;
