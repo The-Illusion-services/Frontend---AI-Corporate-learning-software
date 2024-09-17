@@ -1,9 +1,9 @@
 // src/Login.js
 import React, { useState } from "react";
 import loginImage from './assets/login-image.jpg'; // Import login image
-import google from './assets/google.png'; // Import your image
+import google from '../assets/google.png'; // Import your image
 import Wallets from "../assets/signup/wallets.svg"; // Import your image
-import twitter from './assets/twitter.png'; // Import your image
+import twitter from '../assets/twitter.png'; // Import your image
 
 
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons from react-icons
