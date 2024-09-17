@@ -1,7 +1,7 @@
 import React from "react";
 import MultiBackground from "../assets/multi/multiBG.svg";
-import Google from "../assets/signup/google.svg";
-import Twitter from "../assets/signup/twitter.svg";
+import { FcGoogle } from "react-icons/fc";
+import { RiTwitterXLine } from "react-icons/ri";
 
 function ForgottenPassword() {
   return (
@@ -42,11 +42,11 @@ function ForgottenPassword() {
           </div>
           <div className="flex mt-10 gap-3">
             <button className="bg-inputBackground border-inputBorderColor border-2 border-solid rounded-md h-16 flex-grow text-lg font-semibold flex items-center justify-center gap-2 outline-none">
-              <img src={Google} alt="" />
+              <FcGoogle />
               Google
             </button>
             <button className="bg-inputBackground border-inputBorderColor border-2 border-solid rounded-md h-16 flex-grow text-lg font-semibold flex items-center justify-center gap-2 outline-none">
-              <img src={Twitter} alt="" />
+              <RiTwitterXLine />
               Twitter
             </button>
           </div>

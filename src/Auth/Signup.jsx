@@ -1,7 +1,7 @@
 import React from "react";
 import signupBG from "../assets/signup/signupBG.svg";
-import Google from "../assets/signup/google.svg";
-import Twitter from "../assets/signup/twitter.svg";
+import { FcGoogle } from "react-icons/fc";
+import { RiTwitterXLine } from "react-icons/ri";
 import Wallets from "../assets/signup/wallets.svg";
 import Check from "../assets/signup/check.svg";
 import Eye from "../assets/signup/eye.svg";
@@ -123,11 +123,11 @@ const Signup = () => {
           </div>
           <div className="flex mt-10 gap-3">
             <button className="bg-inputBackground border-inputBorderColor border-2 border-solid rounded-md h-16 flex-grow text-lg font-semibold flex items-center justify-center gap-2 outline-none">
-              <img src={Google} alt="" />
+              <FcGoogle />
               Google
             </button>
             <button className="bg-inputBackground border-inputBorderColor border-2 border-solid rounded-md h-16 flex-grow text-lg font-semibold flex items-center justify-center gap-2 outline-none">
-              <img src={Twitter} alt="" />
+              <RiTwitterXLine />
               Twitter
             </button>
             <button className="hidden bg-inputBackground border-inputBorderColor border-2 border-solid rounded-md h-16 flex-grow text-lg font-semibold lg:flex items-center justify-center gap-2 outline-none">
