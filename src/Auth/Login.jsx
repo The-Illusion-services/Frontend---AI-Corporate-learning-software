@@ -79,7 +79,7 @@ const Login = () => {
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Toggle eye/eye-slash icon */}
             </button>
-
+          </div>
               
 
             <p className="text-textGray mb-7">
@@ -118,9 +118,6 @@ const Login = () => {
         </div>
       </div>
     </div>
-
-    <>
-    </>
 
   );
 };
