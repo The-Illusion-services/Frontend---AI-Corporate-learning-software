@@ -3,7 +3,8 @@ import MultiBackground from "../assets/multi/multiBG.svg";
 import { FcGoogle } from "react-icons/fc";
 import { RiTwitterXLine } from "react-icons/ri";
 import Check from "../assets/signup/check.svg";
-import Eye from "../assets/signup/eye.svg";
+import { BiHide } from "react-icons/bi";
+import { FaRegCheckCircle } from "react-icons/fa";
 
 function CreatePassword() {
   return (
@@ -15,7 +16,7 @@ function CreatePassword() {
         <div className="w-11/12 lg:w-2/3 flex flex-col lg:justify-center">
           <div className="mb-8 lg:text-center">
             <h1 className="text-3xl lg:text-4xl mb-2 font-semibold">
-              Create New Password
+              Create New Passwor d
             </h1>
             <p className="text-textGray text-sm">
               Create a new password, please don’t forget this one too.
@@ -33,11 +34,12 @@ function CreatePassword() {
                   placeholder="Input"
                   className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md h-16 px-2 placeholder:text-lg placeholder:text-gray-300 outline-none focus:border-inputborderGreen focus:border-2 w-full"
                 />
-                <img
+                {/* <img
                   src={Eye}
                   alt=""
                   className="absolute top-[22px] right-6 cursor-pointer"
-                />
+                /> */}
+                <BiHide className="absolute top-[22px] right-6 cursor-pointer text-textGray" />
               </div>
             </div>
             <div className="flex flex-col mb-5 w-full">
@@ -50,11 +52,12 @@ function CreatePassword() {
                   placeholder="Input"
                   className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md h-16 px-2 placeholder:text-lg placeholder:text-gray-300 outline-none focus:border-inputborderGreen focus:border-2 w-full"
                 />
-                <img
+                {/* <img
                   src={Check}
                   alt=""
                   className="absolute top-[22px] right-6 cursor-pointer"
-                />
+                /> */}
+                <FaRegCheckCircle className="absolute top-[22px] right-6 cursor-pointer text-inputborderGreen" />
               </div>
             </div>
             <button className="bg-PrimaryPurple h-14 rounded-lg w-full mt-6 font-semibold text-xl outline-none">
