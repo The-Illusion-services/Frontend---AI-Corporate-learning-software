@@ -1,18 +1,18 @@
-import React, {useContext} from 'react'
-import { CreateContext } from '../../Context/Context'
-import { Outlet } from 'react-router'
+import React, { useContext } from "react";
+import { CreateContext } from "../../Context/Context";
+import { Outlet } from "react-router";
 
-const age = ""
+const age = "";
 
 const RecruiterNavbar = () => {
-  const {currUser} = useContext(CreateContext).user
+  const { currUser } = useContext(CreateContext).user;
 
   return (
     <>
-    <div>current user type: {currUser}</div>
-    {currUser == "recruiter" ? <Outlet/> : null}
+      <div>current user type: {currUser}</div>
+      {currUser === "recruiter" ? <Outlet /> : null}
     </>
-  )
-}
+  );
+};
 
-export default RecruiterNavbar
+export default RecruiterNavbar;
