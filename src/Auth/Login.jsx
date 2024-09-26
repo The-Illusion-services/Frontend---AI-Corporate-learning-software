@@ -24,7 +24,7 @@ const Login = () => {
 
   return (
 
-    <div className="min-h-screen flex flex-col justify-center items-center p-5 bg-mobileBackground">
+    <div className="max-h-screen flex flex-col justify-center items-center p-5 bg-mobileBackground">
       {/* Container for form and image, flexed on desktop */}
       <div className="w-full max-w-lg lg:max-w-4xl lg:flex lg:items-center bg-mobileBackground shadow-md rounded-lg p-5">
 
