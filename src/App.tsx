@@ -9,14 +9,14 @@ import RecruiterNavbar from "./App/Recruiter/Navbar";
 import Landingpage from "./HomePage/Landingpage";
 import RequireAuth from "./Auth/RequireAuth";
 
-
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Landingpage />} />
       <Route path="/auth/login" element={<Login />} />
       <Route path="/auth/signup" element={<Signup />} />
-      <Route element={<RequireAuth />}>
+      {/* element={<RequireAuth />} */}
+      <Route>
         <Route path="/app/recruit" element={<RecruitNavbar />}>
           <Route index element={<RecruitDashboard />} />
           <Route path="dashboard" element={<RecruitDashboard />} />
