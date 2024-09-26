@@ -10,12 +10,15 @@ import Landingpage from "./HomePage/Landingpage";
 import Lessons from "./App/Recruit/Lessons";
 import LessonsGallry from "./App/Recruit/LessonsGallery";
 import RequireAuth from "./Auth/RequireAuth";
+import ForgottenPassword from "./Auth/ForgottenPassword";
+import Spinner from "./UiElements/spinner";
 
 function App() {
-  return (
+  return (<>
     <Routes>
       <Route path="/" element={<Landingpage />} />
-      <Route path="/auth/login" element={<Login />} />
+      <Route  path="/auth/login" element={<Login />} />
+        <Route path="auth/login/recoverpassword" index element={<ForgottenPassword />} />
       <Route path="/auth/signup" element={<Signup />} />
       {/* element={<RequireAuth />} */}
       <Route>
@@ -31,6 +34,7 @@ function App() {
         </Route>
       </Route>
     </Routes>
+  </>
   );
 }
 

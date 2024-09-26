@@ -5,6 +5,7 @@ import loginImage from '../assets/signup/signupBG.svg'; // Import login image
 import { FcGoogle } from "react-icons/fc";
 import { RiTwitterXLine } from "react-icons/ri"; // Import your image
 import Wallets from "../assets/signup/wallets.svg"; // Import your image
+import { Link } from "react-router-dom";
 
 
 
@@ -83,7 +84,7 @@ const Login = () => {
               
 
             <p className="text-textGray mb-7">
-                Forgot password? <a href=""><span className="text-PrimaryPurple">Recover</span></a>
+                Forgot password? <Link to="/auth/login/recoverpassword"><span className="text-PrimaryPurple">Recover</span></Link>
             </p>
 
 
