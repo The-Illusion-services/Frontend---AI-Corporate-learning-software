@@ -42,11 +42,19 @@ const RecruiterDashboard = () => {
                   </p>
                 </div>
                 <div className="flex w-full lg:w-auto items-center">
-                  <img src={Piggy} alt="" className="lg:hidden" />
+                  <img
+                    src={Piggy}
+                    alt=""
+                    className="lg:hidden"
+                    width={70}
+                    height={70}
+                  />
                   <img
                     src={PiggyDesktop}
                     alt=""
-                    className="lg:block hidden lg:h-[70px] lg:ml-32 lg:w-[70px] xl:w-[104.87px] xl:h-[125.92px]"
+                    className="lg:block hidden lg:ml-32"
+                    width={150}
+                    height={150}
                   />
                 </div>
               </div>
@@ -54,7 +62,7 @@ const RecruiterDashboard = () => {
             {/*highlights*/}
             <div className="w-full overflow-x-hidden mt-6">
               <div className="flex overflow-x-auto scrollbar-hide gap-3">
-                <div className="bg-[#1b1c1e] border-2 border-inputBorderColor h-28 w-[240px] flex-shrink-0 lg:flex-1 rounded-xl p-3">
+                <div className="bg-[#1b1c1e] border-2 border-inputBorderColor h-28 min-w-[240px] flex-shrink-0 md:flex-1 rounded-xl p-3">
                   <div className="flex items-center">
                     <img src={Courses} alt="" />
                     <h4 className="text-[#999999] font-semibold ml-3 text-lg">
@@ -63,7 +71,7 @@ const RecruiterDashboard = () => {
                   </div>
                   <div className="text-2xl text-white mt-4">8</div>
                 </div>
-                <div className="bg-[#1b1c1e] border-2 border-inputBorderColor h-28 w-[240px] flex-shrink-0 lg:flex-1 rounded-xl p-3">
+                <div className="bg-[#1b1c1e] border-2 border-inputBorderColor h-28 min-w-[240px] flex-shrink-0 md:flex-1 rounded-xl p-3">
                   <div className="flex items-center">
                     <img src={Lesson} alt="" />
                     <h4 className="text-[#999999] font-semibold ml-3 text-lg">
@@ -72,7 +80,7 @@ const RecruiterDashboard = () => {
                   </div>
                   <div className="text-2xl text-white mt-4">21</div>
                 </div>
-                <div className="bg-[#1b1c1e] border-2 border-inputBorderColor h-28 w-[240px] flex-shrink-0 lg:flex-1 rounded-xl p-3">
+                <div className="bg-[#1b1c1e] border-2 border-inputBorderColor h-28 min-w-[240px] flex-shrink-0 md:flex-1 rounded-xl p-3">
                   <div className="flex items-center">
                     <img src={Quiz} alt="" />
                     <h4 className="text-[#999999] font-semibold ml-3 text-lg">
@@ -134,7 +142,7 @@ const RecruiterDashboard = () => {
           <div className="xl:w-[68.8%] border-">
             {/* Financials */}
             <div className="flex overflow-x-auto scrollbar-hide gap-3 mt-5">
-              <div className="bg-[#1b1c1e] border-2 border-inputBorderColor h-28 w-[240px] flex-shrink-0 lg:flex-1 rounded-xl p-3">
+              <div className="bg-[#1b1c1e] border-2 border-inputBorderColor h-28 min-w-[240px] sm:flex-1 flex-shrink-0 lg:flex-1 rounded-xl p-3">
                 <div className="flex items-center">
                   <img src={Courses} alt="" />
                   <h4 className="text-[#999999] font-semibold ml-3 text-lg">
@@ -143,7 +151,7 @@ const RecruiterDashboard = () => {
                 </div>
                 <div className="text-2xl text-white mt-4">$20,000</div>
               </div>
-              <div className="bg-[#1b1c1e] border-2 border-inputBorderColor h-28 w-[240px] flex-shrink-0 lg:flex-1 rounded-xl p-3">
+              <div className="bg-[#1b1c1e] border-2 border-inputBorderColor h-28 min-w-[240px] sm:flex-1 flex-shrink-0 lg:flex-1 rounded-xl p-3">
                 <div className="flex items-center">
                   <img src={Lesson} alt="" />
                   <h4 className="text-[#999999] font-semibold ml-3 text-lg">
@@ -171,8 +179,8 @@ const RecruiterDashboard = () => {
             </div>
             {/* ongoing */}
             <div className="mt-5 px-5 py-7 bg-[#1b1c1e] border-2 border-inputBorderColor text-white rounded-lg w-full">
-              <div className="flex w-full h-full justify-evenly">
-                <div className="flex items-center flex-col">
+              <div className="flex w-full flex-col sm:flex-row h-full justify-evenly">
+                <div className="flex items-center flex-col mb-10 sm:mb-0">
                   <h4 className="mb-8 font-semibold">Staking Distribution</h4>
                   <img src={StakingChart} alt="" />
                 </div>
