@@ -11,6 +11,7 @@ const RecruiterNavbar = () => {
     <>
       <div>current user type: {currUser}</div>
       {currUser === "recruiter" ? <Outlet /> : null}
+      <Outlet />
     </>
   );
 };
