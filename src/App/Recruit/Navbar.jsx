@@ -8,9 +8,7 @@ import { IoChatbubblesOutline } from "react-icons/io5";
 import { PiCertificateLight } from "react-icons/pi";
 
 const RecruitNavbar = () => {
-  const { currUser } = useContext(CreateContext).user;
 
-  if (currUser === "recruit") {
     return (
       <React.Fragment>
         <section className=" bg-[#101010] text-white border-solid mt-10 fixed z-50 lg:h-full flex flex-row lg:flex-col justify-evenly items-center lg:items-start shadow-md  text-3xl h-20 bottom-0  w-full lg:w-[16%] lg:px-4">
@@ -40,9 +38,7 @@ const RecruitNavbar = () => {
         <Outlet />
       </React.Fragment>
     );
-  } else {
-    return <Navigate to="/app/recruiter" />;
-  }
+  
 };
 
 export default RecruitNavbar;

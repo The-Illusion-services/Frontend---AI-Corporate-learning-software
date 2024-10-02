@@ -21,7 +21,7 @@ function App() {
         <Route path="auth/login/recoverpassword" index element={<ForgottenPassword />} />
       <Route path="/auth/signup" element={<Signup />} />
       {/* element={<RequireAuth />} */}
-      <Route>
+      <Route element={<RequireAuth />}>
         <Route path="/app/recruit" element={<RecruitNavbar />}>
           <Route index element={<RecruitDashboard />} />
           <Route path="dashboard" element={<RecruitDashboard />} />

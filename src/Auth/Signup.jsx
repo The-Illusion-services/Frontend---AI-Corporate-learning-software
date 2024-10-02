@@ -1,14 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import signupBG from "../assets/signup/signupBG.svg";
 import { FcGoogle } from "react-icons/fc";
 import { RiTwitterXLine } from "react-icons/ri";
 import { BiHide } from "react-icons/bi";
 import { FaRegCheckCircle } from "react-icons/fa";
 import Wallets from "../assets/signup/wallets.svg";
-import Check from "../assets/signup/check.svg";
-import Eye from "../assets/signup/eye.svg";
+import { useQuery } from "@tanstack/react-query";
+import Spinner from "../UiElements/spinner";
 
 const Signup = () => {
+  const [registerForm, setRegisterForm] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+    confirm_password: "",
+    company: "",
+    role: "",
+  });
+  const signup = async()=>{
+    
+    const response = await fetch(
+      "https://illusion-6ga5.onrender.com/api/register/",
+      {
+        method: "POST",
+        body: JSON.stringify(registerForm),
+        headers: {
+          "Content-Type": "application/json", // Ensure JSON content type
+        }
+      }
+      );
+      const responseData = await response.json();
+      console.log(response);
+
+      return responseData;
+    }
+  const submit = (e) => {
+    e.preventDefault()
+   return registerForm.first_name && registerForm.last_name && registerForm.email && registerForm.role && registerForm.password && registerForm.confirm_password && registerForm.company && registerForm.password === registerForm.confirm_password
+      && signup()
+    
+  };
+  const formDataChangeHandler = (e) => {
+    setRegisterForm((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
+  };
+
+  const {data: signupData, isLoading} = useQuery({
+    queryKey: ["signup"],
+    queryFn: submit
+  })
+  console.log(signupData);
+  // if (isLoading) return <Spinner/>
   return (
     <div className="w-screen flex bg-mobileBackground justify-center lg:justify-normal ">
       <div className="hidden lg:flex w-1/2 h-screen fixed">
@@ -26,14 +70,17 @@ const Signup = () => {
             </p>
           </div>
 
-          <form className="w-full">
+          <form onSubmit={submit} className="w-full">
             <div className="flex flex-col mb-5">
               <label htmlFor="first name" className="text-sm mb-2">
                 First Name
               </label>
               <input
                 type="text"
-                placeholder="Input"
+                placeholder="first name"
+                value={registerForm.first_name}
+                name="first_name"
+                onChange={formDataChangeHandler}
                 className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md py-2 px-2 placeholder:text-sm placeholder:text-gray-300 outline-none focus:border-PrimaryPurple focus:border-2"
               />
             </div>
@@ -43,11 +90,14 @@ const Signup = () => {
               </label>
               <input
                 type="text"
-                placeholder="Input"
+                placeholder="last name"
+                name="last_name"
+                onChange={formDataChangeHandler}
+                value={registerForm.last_name}
                 className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md py-2 px-2 placeholder:text-sm placeholder:text-gray-300 outline-none focus:border-PrimaryPurple focus:border-2"
               />
             </div>
-            <div className="flex flex-col mb-5">
+            {/* <div className="flex flex-col mb-5">
               <label htmlFor="first name" className="text-sm mb-2">
                 Field
               </label>
@@ -58,26 +108,49 @@ const Signup = () => {
               >
                 <option value="UI/UX Design">UI/UX Design</option>
               </select>
-            </div>
-            <div className="flex flex-col mb-5">
+            </div> */}
+             <div className="flex flex-col mb-5">
               <label htmlFor="company id" className="text-sm mb-2">
-                Company ID
+                Company
               </label>
               <input
                 type="text"
-                placeholder="Input"
+                placeholder="company"
+                name="company"
+                onChange={formDataChangeHandler}
+                value={registerForm.company}
                 className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md py-2 px-2 placeholder:text-sm placeholder:text-gray-300 outline-none focus:border-PrimaryPurple focus:border-2"
               />
-            </div>
+            </div> 
             <div className="flex flex-col mb-5">
               <label htmlFor="email address" className="text-sm mb-2">
                 Email Address
               </label>
               <input
                 type="email"
-                placeholder="Input"
+                placeholder="email"
+                name="email"
+                onChange={formDataChangeHandler}
+                value={registerForm.email}
                 className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md py-2 px-2 placeholder:text-sm placeholder:text-gray-300 outline-none focus:border-PrimaryPurple focus:border-2"
               />
+            </div>
+            <div className="flex flex-col mb-5">
+              <label htmlFor="first name" className="text-sm mb-2">
+                Role
+              </label>
+              <select
+                name="role"
+                id=""
+                onChange={formDataChangeHandler}
+                value={registerForm.role}
+                
+                className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md py-2 px-2 placeholder:text-sm placeholder:text-gray-300 outline-none focus:border-PrimaryPurple focus:border-2"
+              >
+                <option value="select option" defaultValue="select option"  disabled>Select option</option>
+                <option value="Employee" >Employee</option>
+                <option value="Employer">Employer</option>
+              </select>
             </div>
             <div className="flex flex-col mb-5">
               <label htmlFor="password" className="text-sm mb-2">
@@ -87,6 +160,10 @@ const Signup = () => {
                 <input
                   type="password"
                   placeholder="Input"
+                  name="password"
+                  autoComplete="true"
+                  onChange={formDataChangeHandler}
+                  value={registerForm.password}
                   className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md py-2 px-2 placeholder:text-sm placeholder:text-gray-300 outline-none focus:border-inputborderGreen focus:border-2 w-full"
                 />
                 {/* <img
@@ -105,6 +182,10 @@ const Signup = () => {
                 <input
                   type="Password"
                   placeholder="Input"
+                  name="confirm_password"
+                  onChange={formDataChangeHandler}
+                  autoComplete="true"
+                  value={registerForm.confirm_password}
                   className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md py-2 px-2 placeholder:text-sm placeholder:text-gray-300 outline-none focus:border-inputborderGreen focus:border-2 w-full"
                 />
                 {/* <img
@@ -116,7 +197,10 @@ const Signup = () => {
               </div>
             </div>
 
-            <button className="bg-PrimaryPurple py-2 rounded-lg w-full mt-6 font-semibold text-lg outline-none">
+            <button
+              type="submit"
+              className="bg-PrimaryPurple py-2 rounded-lg w-full mt-6 font-semibold text-lg outline-none"
+            >
               Sign Up
             </button>
           </form>
