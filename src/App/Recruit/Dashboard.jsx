@@ -14,7 +14,7 @@ import BackButton from "../../assets/dashboard/backbutton.svg";
 import ForwardButton from "../../assets/dashboard/forwardbutton.svg";
 import LessonImage from "../../assets/dashboard/lessonImage.svg";
 import Clock from "../../assets/dashboard/clock.svg";
-
+import PaymentCheckout from "../../Payment/PaymentCheckout";
 const RecruitDashboard = () => {
   return (
     <div className="bg-mobileBackground min-h-screen lg:w-[84%] relative lg:left-[16%]">

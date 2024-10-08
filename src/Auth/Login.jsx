@@ -1,35 +1,68 @@
 // src/Login.js
-import React, { useState } from "react";
-
-import loginImage from '../assets/signup/signupBG.svg'; // Import login image
+import React, { useState, useContext } from "react";
+import { useQuery } from "@tanstack/react-query";
+import loginImage from "../assets/signup/signupBG.svg"; // Import login image
 import { FcGoogle } from "react-icons/fc";
 import { RiTwitterXLine } from "react-icons/ri"; // Import your image
 import Wallets from "../assets/signup/wallets.svg"; // Import your image
-
-
-
+import { Link } from "react-router-dom";
+import { CreateContext } from "../Context/Context";
 
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons from react-icons
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {login} = useContext(CreateContext).auth
+  const {setIsLoading} = useContext(CreateContext).loader
+  const [loginForm, setLoginForm] = useState({
+    email: "",
+    password: "",
+  });
+  const formDataChangeHandler = (e) => {
+    console.log(e.target.value);
+    setLoginForm((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
+    console.log(loginForm);
+  };
+
   const [showPassword, setShowPassword] = useState(false); // State for password visibility
 
+  const handleLogin = async () => {
+    setIsLoading(true)
+    const response = await fetch(
+      "https://illusion-6ga5.onrender.com/api/login/",
+      {
+        method: "POST",
+        body: JSON.stringify(loginForm),
+        headers: {
+          "Content-Type": "application/json", // Ensure JSON content type
+        },
+      }
+    );
+
+    const responseData = await response.json();
+    const { access_token: accessToken, user_id: userId, role: userRole} = responseData
+    
+    login(accessToken, userId, userRole)
+    setIsLoading(false)
+
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ email, password });
+    
+
+    if(loginForm.email && loginForm.password){
+        handleLogin()
+    }
     // Handle login logic here
   };
 
   return (
-
-    <div className="max-h-screen flex flex-col justify-center items-center p-5 bg-mobileBackground">
+    <div className="min-h-screen flex flex-col justify-center items-center p-5 bg-mobileBackground">
       {/* Container for form and image, flexed on desktop */}
       <div className="w-full max-w-lg lg:max-w-4xl lg:flex lg:items-center bg-mobileBackground shadow-md rounded-lg p-5">
-
         {/* Login Image (visible only on desktop) */}
-        <div className="hidden lg:block lg:w-1/2 h-full p-5">
+        <div className="hidden lg:block  lg:w-1/2 h-screen p-5">
           <img
             src={loginImage}
             alt="login illustration"
@@ -38,10 +71,19 @@ const Login = () => {
         </div>
 
         {/* Login Form */}
-        <div className="w-full lg:w-1/2 p-10 xs:p-5">
-          <h1 className="font-bold text-center text-3xl mb-2 text-white">Welcome back!</h1>
+        <div className="w-full lg:w-1/2 h-screen  p-10 xs:p-5">
+          <h1 className="font-bold text-center text-3xl mb-2 text-white">
+            Welcome back!
+          </h1>
 
-          <p className="text-center text-textGray mb-10">Don't have an account? <a href=""><span className="text-PrimaryPurple">Sign Up</span></a></p>
+          <p className="text-center text-textGray mb-10">
+            Don't have an account?{" "}
+            <a href="">
+              <Link to="/auth/signup">
+              <span className="text-PrimaryPurple">Sign Up</span>
+              </Link>
+            </a>
+          </p>
 
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
@@ -50,8 +92,9 @@ const Login = () => {
               </label>
               <input
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                name="email"
+                value={loginForm.email}
+                onChange={(e) => formDataChangeHandler(e)}
                 className="border-inputborderGreen text-textGray rounded-lg px-3 py-4 mt-1 text-sm w-full bg-inputBackground focus:outline-PrimaryPurple focus:ring-1 focus:border-PrimaryPurple"
                 placeholder=""
                 required
@@ -63,29 +106,32 @@ const Login = () => {
                 Password
               </label>
               <input
-               type={showPassword ? "text" : "password"} // Toggle input type between password and text
-               value={password}
-               onChange={(e) => setPassword(e.target.value)}
+                type={showPassword ? "text" : "password"} // Toggle input type between password and text
+                value={loginForm.password}
+                name="password"
+                onChange={(e) => formDataChangeHandler(e)}
                 className="border-inputborderGreen text-textGray rounded-lg px-3 py-4 mt-1 text-sm w-full bg-inputBackground focus:outline-PrimaryPurple focus:ring focus:border-PrimaryPurple"
                 placeholder=""
                 required
               />
 
               {/* Show/Hide password icon */}
-            <button
-              type="button"
-              className="absolute bottom-5 right-2 flex items-center text-textGray"
-              onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
-            >
-              {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Toggle eye/eye-slash icon */}
-            </button>
-          </div>
-              
+              <button
+                type="button"
+                className="absolute bottom-5 right-2 flex items-center text-textGray"
+                onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}{" "}
+                {/* Toggle eye/eye-slash icon */}
+              </button>
+            </div>
 
             <p className="text-textGray mb-7">
-                Forgot password? <a href=""><span className="text-PrimaryPurple">Recover</span></a>
+              Forgot password?{" "}
+              <Link to="/auth/login/recoverpassword">
+                <span className="text-PrimaryPurple">Recover</span>
+              </Link>
             </p>
-
 
             {/* Login Button*/}
             <button
@@ -110,7 +156,10 @@ const Login = () => {
               <RiTwitterXLine />
               Twitter
             </button>
-            <button className="hidden bg-inputBackground border-inputBorderColor border-2 border-solid rounded-md h-16 flex-grow text-lg font-semibold lg:flex items-center justify-center gap-2 outline-none text-white">
+            <button
+              type="submit"
+              className="hidden bg-inputBackground border-inputBorderColor border-2 border-solid rounded-md h-16 flex-grow text-lg font-semibold lg:flex items-center justify-center gap-2 outline-none text-white"
+            >
               <img src={Wallets} alt="" />
               Wallet
             </button>
@@ -118,7 +167,6 @@ const Login = () => {
         </div>
       </div>
     </div>
-
   );
 };
 
