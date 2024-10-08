@@ -1,47 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { CreateContext } from "../Context/Context";
-import Spinner from "../UiElements/spinner";
+import React from "react";
 import { Link } from "react-router-dom";
 
 const Landingpage = () => {
-  // const getQuotes = async () => {
-  //   const response = await fetch("http://localhost:5000/api/quotes");
-  //   const data = await response.json();
-  //   return data;
-  //   // setFacts(data)
-  // };
-  // const [facts, setFacts] = useState([])
-  const queryKey = "facts";
-  // const {
-  //   data: facts,
-  //   isLoading,
-  //   error,
-  // } = useQuery({
-  //   queryKey: ["facts"],
-  //   // queryFn: getQuotes,
-  //   staleTime: 60 * 1000 * 5, // Data will never become stale
-  //   // refetchOnMount: false
-  // });
-
-  // useEffect(()=>{
-  //   getQuotes()
-  // }, [])
-
-  // if (isLoading) return <Spinner/>
   return (
-    <>
-      <Link to="/auth/login">
-        <span>Login</span>
-      </Link>
-      <div>
-        {/* {facts?.map((data) => {
-          return <p>{data.q}</p>;
-        })} */}
+    <main className=" h-screen bg-mobileBackground flex flex-col gap-y-6 justify-center items-center">
+      <h2 className="text-5xl font-bold text-PrimaryPurple">Go to app</h2>
+      <div className="flex gap-x-4 text-white">
+        <Link to="/auth/login">
+        <button className="bg-PrimaryPurple px-4 rounded-sm flex items-center">Login</button>
+        </Link>
+        <Link to="/auth/signup">
+        <button className="bg-PrimaryPurple px-4 rounded-sm flex items-center">Signup</button>
+        </Link>
       </div>
-    </>
+    </main>
   );
-  // return <div>Landingpage</div>;
 };
 
 export default Landingpage;

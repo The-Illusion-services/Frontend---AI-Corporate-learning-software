@@ -17,27 +17,31 @@ const ContextProvider = (props) => {
 
 
   const login=(accessToken, userId, userRole)=>{
-    console.log(userRole);
     setToken(accessToken)
     setUserId(userId)
     setUserRole(userRole)
     localStorage.setItem("userData", JSON.stringify({accessToken, userId, userRole}))
-    console.log(userRole);
     userRole == "Employee" ? navigate("/app/recruit") : navigate("/app/recruiter")
+  }
+
+  const logout = ()=>{
+    setToken(null)
+    setUserId(null)
+    setUserRole(null)
+    localStorage.removeItem("userData")
+    navigate("/auth/login")
   }
  
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("userData"));
-    console.log(storedData);
+
     if (
       storedData &&
       storedData.accessToken
       // storedData.tokenExpDate > new Date().getTime()
     ) {
       login(storedData.accessToken, storedData.userId, storedData.userRole);
-    } else {
-         navigate("/auth/login")  
-    }
+    } 
   }, [token]);
 
   return (
@@ -50,7 +54,8 @@ const ContextProvider = (props) => {
           userId,
           username,
           userRole,
-          login
+          login,
+          logout
         },
 
         modal: {

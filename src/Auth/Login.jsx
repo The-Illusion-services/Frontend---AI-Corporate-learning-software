@@ -12,6 +12,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons from rea
 
 const Login = () => {
   const {login} = useContext(CreateContext).auth
+  const {setIsLoading} = useContext(CreateContext).loader
   const [loginForm, setLoginForm] = useState({
     email: "",
     password: "",
@@ -23,23 +24,11 @@ const Login = () => {
     });
     console.log(loginForm);
   };
-  
-  // const {
-  //   data: loginData,
-  //   isLoading,
-  //   error,
-  // } = useQuery({
-  //   queryKey: ["login"],
-  //   queryFn: login,
-  //   staleTime: 60 * 1000 * 5, // Data will never become stale
-  //   refetchOnMount: false
-  // });
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false); // State for password visibility
 
   const handleLogin = async () => {
+    setIsLoading(true)
     const response = await fetch(
       "https://illusion-6ga5.onrender.com/api/login/",
       {
@@ -53,8 +42,9 @@ const Login = () => {
 
     const responseData = await response.json();
     const { access_token: accessToken, user_id: userId, role: userRole} = responseData
-    console.log(responseData);
+    
     login(accessToken, userId, userRole)
+    setIsLoading(false)
 
   };
   const handleSubmit = (e) => {
@@ -89,7 +79,9 @@ const Login = () => {
           <p className="text-center text-textGray mb-10">
             Don't have an account?{" "}
             <a href="">
+              <Link to="/auth/signup">
               <span className="text-PrimaryPurple">Sign Up</span>
+              </Link>
             </a>
           </p>
 

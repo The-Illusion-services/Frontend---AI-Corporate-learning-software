@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import signupBG from "../assets/signup/signupBG.svg";
 import { FcGoogle } from "react-icons/fc";
 import { RiTwitterXLine } from "react-icons/ri";
 import { BiHide } from "react-icons/bi";
 import { FaRegCheckCircle } from "react-icons/fa";
 import Wallets from "../assets/signup/wallets.svg";
-import { useQuery } from "@tanstack/react-query";
-import Spinner from "../UiElements/spinner";
+import { CreateContext } from "../Context/Context";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
+  const {login} = useContext(CreateContext).auth
   const [registerForm, setRegisterForm] = useState({
     first_name: "",
     last_name: "",
@@ -31,9 +32,9 @@ const Signup = () => {
       }
       );
       const responseData = await response.json();
-      console.log(response);
-
-      return responseData;
+      const { access_token: accessToken, user_id: userId, role: userRole} = responseData
+    
+      login(accessToken, userId, userRole)
     }
   const submit = (e) => {
     e.preventDefault()
@@ -47,11 +48,7 @@ const Signup = () => {
     });
   };
 
-  const {data: signupData, isLoading} = useQuery({
-    queryKey: ["signup"],
-    queryFn: submit
-  })
-  console.log(signupData);
+
   // if (isLoading) return <Spinner/>
   return (
     <div className="w-screen flex bg-mobileBackground justify-center lg:justify-normal ">
@@ -65,7 +62,10 @@ const Signup = () => {
               Let's get started
             </h1>
             <p className="text-textGray text-sm">
-              Have an account? <span className="text-PrimaryPurple">Login</span>{" "}
+              Have an account? 
+              <Link to="/auth/login">
+              <span className="text-PrimaryPurple">Login</span>{" "}
+              </Link>
               {/*the "login" would eventually become a link to the login page*/}
             </p>
           </div>
