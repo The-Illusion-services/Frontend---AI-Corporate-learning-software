@@ -25,7 +25,7 @@ const Login = () => {
     console.log(loginForm);
   };
 
-  const [showPassword, setShowPassword] = useState(false); // State for password visibility
+  const [showPassword, setShowPassword] = useState(false); 
 
   const handleLogin = async () => {
     setIsLoading(true)
@@ -35,7 +35,7 @@ const Login = () => {
         method: "POST",
         body: JSON.stringify(loginForm),
         headers: {
-          "Content-Type": "application/json", // Ensure JSON content type
+          "Content-Type": "application/json", 
         },
       }
     );

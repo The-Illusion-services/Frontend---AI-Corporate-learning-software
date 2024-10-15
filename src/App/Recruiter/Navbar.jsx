@@ -112,7 +112,7 @@ const RecruitNavbar = () => {
   if (userRole === "Employer") {
     return (
       <React.Fragment>
-        <section className=" bg-[#101010] text-white border-solid mt-10 fixed z-50 lg:h-full shadow-md flex flex-col text-3xl h-20 bottom-0  w-full lg:w-[16%] lg:px-4">
+        <section className=" bg-[#101010] text-white border-solid lg:py-0 mt-10 fixed z-50 lg:h-full shadow-md flex flex-col text-3xl h-20 bottom-0  w-full lg:w-[16%] lg:px-4">
           <article className="lg:h-[70%] lg:items-start flex flex-row lg:flex-col justify-evenly  items-center h-full  w-full border-b">
             <Link
               to="/app/recruiter/dashboard"
