@@ -9,21 +9,28 @@ const QuizBuilder = () => {
 
   // Function to add a new form element based on type
   const addElement = (type) => {
+    // This will log the formElements before the update
+    console.log("Before adding:", formElements);
+  
     const newElement = {
-      index: formElements.length + 1,
-      id: Date.now(), // Unique ID for each element
+      index: formElements?.length + 1,
+      id: Date.now(),  // Unique ID for each element
       type: type,
-      name: `Question ${formElements.length + 1}`,
-      choices:
-        type === "multipleChoice"
-          ? [
-              "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas ",
-              "Option 2",
-            ]
-          : [],
+      name: `Question ${formElements?.length + 1}`,
+      choices: type === "multipleChoice" ? ["Option 1", "Option 2"] : [],
     };
-    setFormElements([...formElements, newElement]);
-
+  
+    // Update formElements with the new element
+    setFormElements((prevFormElements) => {
+      const updatedElements = [...prevFormElements, newElement];
+      
+      // You can log the updated elements here inside the state update callback
+      console.log("After adding:", updatedElements);
+      
+      return updatedElements;
+    });
+  
+    // Call updateState after updating the formElements
     updateState(newElement, "new");
   };
 
@@ -43,28 +50,33 @@ const QuizBuilder = () => {
   const titleInputRef = useRef(null);
 
   const deleteElement = (elementId) => {
-    console.log(elementId);
     setFormElements((prev) => {
-      const newFormElement = prev.filter((obj) => {
-        return obj.id !== elementId;
-      });
-      newFormElement.length == 0 &&
-        localStorage.setItem("questionBuilder", JSON.stringify([]));
+      const newFormElements = prev.filter((obj) => obj.id !== elementId);
 
-      return newFormElement.map((obj, i) => {
-        return { ...obj, name: `${obj.name}`, index: i + 1 };
-      });
+      // No need to update localStorage here; useEffect will handle it
+      return newFormElements.map((obj, i) => ({
+        ...obj,
+        name: `${obj.name}`,
+        index: i + 1,
+      }));
     });
-    updateState();
+
+    updateState(); // Assuming updateState does something other than localStorage
   };
 
+  // Sync with localStorage
   useEffect(() => {
-    const savedData = JSON.parse(localStorage.getItem("questionBuilder"));
+    // On initial load, try to load saved form elements from localStorage
+    const savedData = JSON.parse(localStorage.getItem("courseBuilder"));
 
-    if (formElements.length === 0 && savedData.length !== 0) {
-      // localStorage.setItem("questionBuilder", JSON.stringify(formElements))
+    if (formElements.length === 0 && savedData?.length) {
       setFormElements(savedData);
-    } else if (formElements.length !== 0) {
+    }
+  }, []); // Only run once on component mount
+
+  useEffect(() => {
+    if (formElements.length !== 0) {
+      // Only update localStorage if there are elements to save
       localStorage.setItem("questionBuilder", JSON.stringify(formElements));
     }
   }, [formElements]);
@@ -227,7 +239,7 @@ const QuizBuilder = () => {
         </div>
       </div>
       <div className="w-[70%] mt-4 gap-y-2 flex flex-col">
-        {!preview ? (
+        {!preview && formElements !== null ? (
           formElements.map((element, index) => renderElement(element, index))
         ) : (
           <Preview formElements={formElements} />

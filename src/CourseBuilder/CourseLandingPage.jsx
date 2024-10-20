@@ -1,6 +1,41 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 
 const CourseLandingPage = () => {
+  const [course, setCourse] = useState({
+    title: "",
+    description: "",
+  });
+
+  useEffect(() => {
+    const savedData = JSON.parse(localStorage.getItem("courseBuilder"));
+    if (savedData) {
+      setCourse((prev) => ({
+        ...prev,
+        title: savedData.title,
+        description: savedData.description,
+      }));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (course.title || course.description) {
+      const { title, description } = course;
+      localStorage.setItem(
+        "courseBuilder",
+        JSON.stringify({ title, description })
+      );
+    }
+  }, [course.title, course.description]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCourse((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+
   return (
     <div>          
       <article className="flex flex-col gap-y-4">
@@ -11,7 +46,10 @@ const CourseLandingPage = () => {
         You must enter at least 4 learning objectives or outcomes that
         learners can expect to achieve after completing your <br/> course.
       </p>
-      <input className="h-12 mt-2 px-2 text-sm bg-inputBackground border-inputBorderColor border rounded-md w-[70%]" />
+      <input type="text"
+          name="title"
+          value={course.title}
+          onChange={handleChange} className="h-12 mt-2 px-2 text-sm bg-inputBackground border-inputBorderColor border rounded-md w-[70%]" />
     </div>
 
     {/* <div className="text-white">
@@ -33,7 +71,10 @@ const CourseLandingPage = () => {
         If there are no requirements, use this space as an opportunity
         to lower the barrier for beginners.
       </p>
-      <textarea className="min-h-28 mt-2 text-xs px-2 py-2 bg-inputBackground border-inputBorderColor border rounded-md w-[70%]" ></textarea>
+      <textarea           name="description"
+          value={course.description}
+          onChange={handleChange}
+          placeholder="Course Description" className="min-h-28 mt-2 text-xs px-2 py-2 bg-inputBackground border-inputBorderColor border rounded-md w-[70%]" ></textarea>
     </div>
   </article></div>
   )

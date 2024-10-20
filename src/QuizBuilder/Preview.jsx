@@ -4,7 +4,7 @@ const Preview = ({formElements}) => {
 
   return (
     <div>
-     {formElements.map((element)=>{
+     {formElements  && formElements.map((element)=>{
           switch (element.type) {
             case "text":
               return (
