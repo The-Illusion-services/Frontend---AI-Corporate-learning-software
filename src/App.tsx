@@ -18,11 +18,13 @@ import QuizBuilder from "./QuizBuilder/QuizBuilder";
 import CourseLandingPage from "./CourseBuilder/CourseLandingPage";
 import Payment from "./App/Recruit/Payment";
 import CreateJobs from "./App/Recruiter/CreateJobs";
+import Toast from "./Shared/toast";
 
 function App() {
   return (
     <>
       <Spinner />
+      <Toast/>
       <Routes>
         <Route path="/" element={<Landingpage />} />
         <Route path="/create-course" element={<CreateCourse />} />

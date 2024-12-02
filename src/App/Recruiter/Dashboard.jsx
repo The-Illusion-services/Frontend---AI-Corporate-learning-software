@@ -62,10 +62,19 @@ const RecruiterDashboard = () => {
             {/*highlights*/}
             <div className="w-full overflow-x-hidden mt-6">
               <div className="flex overflow-x-auto scrollbar-hide gap-3">
+              <div className="bg-[#1b1c1e] border-2 border-inputBorderColor h-28 min-w-[240px] flex-shrink-0 md:flex-1 rounded-xl p-3">
+                  <div className="flex items-center">
+                    <img src={Quiz} alt="" />
+                    <h4 className="text-[#999999] font-semibold ml-3 text-lg">
+                      Active courses
+                    </h4>
+                  </div>
+                  <div className="text-2xl text-white mt-4">2</div>
+                </div>
                 <div className="bg-[#1b1c1e] border-2 border-inputBorderColor h-28 min-w-[240px] flex-shrink-0 md:flex-1 rounded-xl p-3">
                   <div className="flex items-center">
                     <img src={Courses} alt="" />
-                    <h4 className="text-[#999999] font-semibold ml-3 text-lg">
+                    <h4 className="text-[#999999] font-semibold ml-3 text-base">
                       New Sign-Ups (Today)
                     </h4>
                   </div>
@@ -80,15 +89,7 @@ const RecruiterDashboard = () => {
                   </div>
                   <div className="text-2xl text-white mt-4">21</div>
                 </div>
-                <div className="bg-[#1b1c1e] border-2 border-inputBorderColor h-28 min-w-[240px] flex-shrink-0 md:flex-1 rounded-xl p-3">
-                  <div className="flex items-center">
-                    <img src={Quiz} alt="" />
-                    <h4 className="text-[#999999] font-semibold ml-3 text-lg">
-                      Active courses
-                    </h4>
-                  </div>
-                  <div className="text-2xl text-white mt-4">2</div>
-                </div>
+               
               </div>
             </div>
           </div>
