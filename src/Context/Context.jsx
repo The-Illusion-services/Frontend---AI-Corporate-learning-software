@@ -22,6 +22,12 @@ const ContextProvider = (props) => {
     setUserRole(userRole)
     localStorage.setItem("userData", JSON.stringify({accessToken, userId, userRole}))
     userRole == "Employee" ? navigate("/app/recruit") : navigate("/app/recruiter")
+    
+
+  }
+
+  const getCourses = ()=>{
+    
   }
 
   const logout = ()=>{

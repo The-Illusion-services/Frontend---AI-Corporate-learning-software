@@ -31,10 +31,10 @@ const Course = () => {
               <span className={`${activeTab.createResource ? "bg-PrimaryPurple" : "bg-inputBorderColor"}   text-center rounded-full w-4 h-4`}>2 </span>
               <span>Create resource</span>
             </Link>
-            <Link to="/app/recruiter/course/quiz" className="flex flex-row gap-x-1">
+            {/* <Link to="/app/recruiter/course/quiz" className="flex flex-row gap-x-1">
               <span className={`${activeTab.quiz ? "bg-PrimaryPurple" : "bg-inputBorderColor"}  text-center rounded-full w-4 h-4`}>3 </span>
               <span>Quiz</span>
-            </Link>
+            </Link> */}
           </div>
           <Outlet />
         </section>

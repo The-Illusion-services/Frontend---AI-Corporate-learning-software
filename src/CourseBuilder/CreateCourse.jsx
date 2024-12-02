@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { CreateContext } from "../Context/Context";
 import { MdDeleteOutline } from "react-icons/md";
+import { toast } from "sonner";
 
 const CreateCourse = () => {
   const {auth, loader} = useContext(CreateContext)
@@ -8,37 +9,66 @@ const CreateCourse = () => {
   const {setIsLoading} = loader
   const [formElements, setFormElements] = useState([]);
   const [course, setCourse] = useState({
-    title: "",
-    description: "",
+    course_title: "",
+    course_description: "",
+    price: "",
     modules: [],
   });
 
-  const publishCourse = async ()=>{
-    if(course.modules.length >= 1){
-    setIsLoading(true)
-    const response = await fetch("https://illusion-6ga5.onrender.com/api/create-course/", {
-      method: 'POST',
-      body: JSON.stringify(course),
-      headers: {
-        "Content-Type": "application/json", 
-        Authorization: "Bearer " + token,
-      },
+  const checkLessonsFieldValidity = ()=>{
+    let validity = true
+    course.modules.map((module)=>{
+        const invalidLessons = module.lessons.filter((lesson)=>{
+            return lesson.title === "" || lesson.description === ""
+        })
+        if (invalidLessons.length >= 1){
+          return validity = false
+        }
     })
-    const responseData = await response.json()
+    return validity
+  }
+  const publishCourse = async ()=>{
+    if(course.modules.length >= 1 && checkLessonsFieldValidity()){
+    setIsLoading(true)
+
+    try{
+      const response = await fetch("https://illusion-6ga5.onrender.com/api/create-course/", {
+        method: 'POST',
+        body: JSON.stringify(course),
+        headers: {
+          "Content-Type": "application/json", 
+          Authorization: "Bearer " + token,
+        },
+      })
+      if (response.ok){
+          const responseData = await response.json()
+          toast.success("Course created!");
+          console.log(responseData);
+          localStorage.removeItem("courseBuilder")
+        }
+        
+      }catch(err){
+
+      return console.log("error");
+
+    }
+    
     setIsLoading(false)
-    console.log(responseData);
+  }else{
+    toast.error("Lessons fields or title cannot be empty");
   }
   }
 
   useEffect(() => {
     // Retrieve the saved course data from localStorage
     const savedData = JSON.parse(localStorage.getItem("courseBuilder"));
-    console.log("Loaded from localStorage:", savedData);
+    
   
     if (savedData) {
       setCourse((prev) => ({
-        title: savedData.title || prev.title,
-        description: savedData.description || prev.description,
+        course_title: savedData.title || prev.title,
+        course_description: savedData.description || prev.description,
+        price: savedData.price || prev.price,
         modules: savedData.modules || prev.modules,
       }));
   
@@ -63,7 +93,7 @@ const CreateCourse = () => {
     const newModule = {
       index: formElements.length + 1,
       id: Date.now(), // Unique ID for each element
-      name: `Module ${formElements.length + 1}`,
+      title: `Module ${formElements.length + 1}`,
       lessons: [
         {
           index: 1,
@@ -77,7 +107,7 @@ const CreateCourse = () => {
     setFormElements([...formElements, newModule]);
     setCourse((prev) => ({
       ...prev,
-      modules: [...prev.modules, newModule],
+      modules: [...prev.modules, {title: newModule.title, lessons: [{title: newModule.lessons[0].title, description: newModule.lessons[0].description}]}],
     }));
   };
 
@@ -101,6 +131,34 @@ const CreateCourse = () => {
     });
 
     setFormElements(updatedFormElements);
+
+    const updatedModules = updatedFormElements.map((module) => ({
+      title: module.title || "Untitled Module", // Add default title if missing
+      lessons: module.lessons.map((lesson) => ({
+        title: lesson.title || "Untitled Lesson", // Add default title if missing
+        description: lesson.description || "",
+      })),
+    }));
+    setCourse((prev) => ({
+      ...prev,
+    modules: updatedModules,
+    }));
+  };
+
+  const handleModuleTitleChange = (e, moduleIndex) => {
+    const updatedFormElements = formElements.map((element, idx) => {
+      if (idx === moduleIndex) {
+        return { ...element, title: e.target.textContent };
+      }
+      return element; // Ensure other elements are returned unchanged
+    });
+  
+    setFormElements(updatedFormElements);
+  
+    setCourse((prev) => ({
+      ...prev,
+      modules: updatedFormElements,
+    }));
   };
 
   const handleLessonChange = (moduleIndex, lessonIndex, field, value) => {
@@ -124,6 +182,9 @@ const CreateCourse = () => {
     });
 
     setFormElements(updatedFormElements);
+    setCourse(()=>{
+     return {...course, modules: updatedFormElements}
+    })
   };
 
   const deleteLesson = (moduleIndex, lessonId) => {
@@ -148,6 +209,7 @@ const CreateCourse = () => {
   };
 
   console.log(course);
+  console.log(formElements)
 
   const renderElement = (element, moduleIndex) => {
     return (
@@ -156,9 +218,11 @@ const CreateCourse = () => {
           <h2>Module:</h2>
           <div
             contentEditable
+            suppressContentEditableWarning={true}
             className="bg-inputBackground rounded-sm border-PrimaryPurple border w-[60%]"
+            onBlur={(e) => handleModuleTitleChange(e, moduleIndex)}
           >
-            {element.name}
+            {element.title}
           </div>
         </div>
 
