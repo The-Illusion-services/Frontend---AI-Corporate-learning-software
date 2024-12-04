@@ -4,12 +4,22 @@ import { MdDeleteOutline } from "react-icons/md";
 import { toast } from "sonner";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import PreviewCourse from "./previewCourse";
 
 const CreateCourse = () => {
   const { auth, loader } = useContext(CreateContext);
   const { token } = auth;
   const { setIsLoading } = loader;
   const [formElements, setFormElements] = useState([]);
+  const [preview, setPreview] = useState(false);
+
+  const handlePreview = () => {
+    setPreview(true);
+  };
+  const handleCreate = () => {
+    setPreview(false);
+  };
+
   const [course, setCourse] = useState({
     course_title: "",
     course_description: "",
@@ -221,20 +231,19 @@ const CreateCourse = () => {
     });
   };
 
-  const deleteModule = (moduleIndex) => {
-    setFormElements((prev)=>{
+  const deleteModule = (moduleId) => {
+    setFormElements((prev) => {
       const updatedFormElements = prev.filter((currFormElement) => {
-        console.log(moduleIndex);
-        return currFormElement.index !== moduleIndex;
+        return currFormElement.id !== moduleId;
       });
-      
-      console.log(updatedFormElements);
-      return updatedFormElements
-     
-    })
-   
+
+      // Update course with the new formElements here
+      setCourse((prevCourse) => {
+        return { ...prevCourse, modules: updatedFormElements };
+      });
+      return updatedFormElements;
+    });
   };
-  console.log(course);
 
   const renderElement = (element, moduleIndex) => {
     return (
@@ -255,7 +264,7 @@ const CreateCourse = () => {
             </div>
           </div>
           <MdDeleteOutline
-            onClick={() => deleteModule(moduleIndex)}
+            onClick={() => deleteModule(element.id)}
             className="text-2xl hover:text-PrimaryPurple cursor-pointer"
             title="delete"
           />
@@ -292,7 +301,7 @@ const CreateCourse = () => {
                       e.target.value
                     )
                   }
-                  className="h-12 bg-inputBackground border-inputBorderColor border rounded-md"
+                  className="h-12 bg-inputBackground border-inputBorderColor border rounded-md px-2"
                 />
               </div>
               <div className="flex flex-col px-2">
@@ -327,21 +336,39 @@ const CreateCourse = () => {
   return (
     <main className="flex flex-col gap-y-4 py-4 bg-[#1B1C1E]">
       <h2 className="font-bold mt-4 text-xxl text-white">Create Resource</h2>
-      {formElements.map((element, index) => renderElement(element, index))}
-      <div className="w-full flex gap-x-10 ">
-        <span
-          className="text-start text-PrimaryPurple cursor-pointer"
-          onClick={addModule}
-        >
-          Add new module
-        </span>
-        <button
-          onClick={publishCourse}
-          className="hover:bg-PrimaryPurple  px-4 rounded-md text-white"
-        >
-          Publish Course
-        </button>
-      </div>
+
+      
+        <section>
+          {!preview ? 
+          formElements.map((element, index) => renderElement(element, index)): <PreviewCourse course={course}/>}
+          <div className="w-full flex gap-x-10 ">
+            <span
+              className="text-start text-PrimaryPurple cursor-pointer"
+              onClick={addModule}
+            >
+              Add new module
+            </span>
+            <button
+              onClick={publishCourse}
+              className="hover:bg-PrimaryPurple  px-4 rounded-md text-white"
+            >
+              Publish Course
+            </button>
+            <button
+              onClick={handlePreview}
+              className="hover:bg-PrimaryPurple  px-4 rounded-md text-white"
+            >
+              Preview Course
+            </button>
+            <button
+              onClick={handleCreate}
+              className="hover:bg-PrimaryPurple  px-4 rounded-md text-white"
+            >
+            Edit Course
+            </button>
+          </div>
+        </section>
+      
     </main>
   );
 };

@@ -208,8 +208,10 @@ const RecruitNavbar = () => {
             </div>
           </article>
         </section>
+          <section className="lg:ml-[16%]">
 
         <Outlet />
+          </section>
       </React.Fragment>
     );
   } else {

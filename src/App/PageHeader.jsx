@@ -7,7 +7,7 @@ import Profile from "../assets/lessons/profile.svg";
 const PageHeader = () => {
   return (
     <div>
-      <div className="flex justify-between bg-mobileBackground text-white h-auto lg:ml-[16%] p-3">
+      <div className="flex justify-between bg-mobileBackground text-white h-auto p-3">
         <div className=" text-white flex items-center justify-center text-1xl border-inputBorderColor lg:ml-[3%]">
           <h2 className="hidden xl:block p-3">Course Detail</h2>
           <img

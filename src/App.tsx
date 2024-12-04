@@ -21,6 +21,8 @@ import CreateJobs from "./App/Recruiter/CreateJobs";
 import Toast from "./Shared/toast";
 import ManageCourses from "./App/Recruiter/ManageCourse";
 import CreateCourseLandingPage from "./App/Recruiter/Course";
+import CourseList from "./App/Recruit/Courses";
+import ViewCourse from "./App/Recruit/ViewCourse";
 
 function App() {
   return (
@@ -43,7 +45,8 @@ function App() {
           <Route path="/app/recruit" element={<RecruitNavbar />}>
             <Route index element={<RecruitDashboard />} />
             <Route path="dashboard" element={<RecruitDashboard />} />
-            <Route path="courses" element={<Courses />} />
+            <Route path="courses" element={<CourseList />} />
+            <Route path="course/view" element={<ViewCourse />} />
             <Route path="course" element={<Payment />} />
             <Route path="lessons-gallery" element={<LessonsGallery />} />
             <Route path="payment" element={<Payment />} />
@@ -53,6 +56,7 @@ function App() {
             <Route path="dashboard" element={<RecruiterDashboard />} />
             <Route path="create-jobs" element={<CreateJobs />} />
             <Route path="manage-courses" element={<ManageCourses />} />
+            <Route path="course/view" element={<ViewCourse />} />
             <Route path="create-course" element={<Course />}>
               <Route index element={<CourseLandingPage />} />
               <Route path="create-resource" element={<CreateCourse />} />

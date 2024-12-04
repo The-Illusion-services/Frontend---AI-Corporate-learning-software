@@ -20,10 +20,10 @@ const CreateCourseLandingPage = () => {
   return (
     <>
       <PageHeader />
-      <main className="lg:ml-[16%] lg:mb-0 mb-16">
+      <main className=" lg:mb-0 mb-16">
         <section className="bg-[#1B1C1E] min-h-screen px-4 py-4">
           <div className="text-white text-xs flex flex-row gap-x-4 justify-center lg:justify-normal">
-            <Link to="/app/recruiter/course" className="flex flex-row gap-x-1">
+            <Link to="/app/recruiter/create-course/" className="flex flex-row gap-x-1">
               <span className={`${activeTab.createCourse ? "bg-PrimaryPurple" : "bg-inputBorderColor"}   text-center rounded-full w-4 h-4`}>1 </span>
               <span>Create course content</span>
             </Link>

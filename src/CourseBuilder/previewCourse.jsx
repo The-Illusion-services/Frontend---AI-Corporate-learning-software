@@ -1,34 +1,33 @@
-import React, { useState, useContext } from "react";
-import { CreateContext } from "../../Context/Context";
+import React, { useState } from "react";
 import { FaClock } from "react-icons/fa";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { LiaDownloadSolid } from "react-icons/lia";
-import CourseIcon from "../../assets/lessons/courseIcon.svg";
-import DurationIcon from "../../assets/lessons/durationIcon.svg";
-import IntermediateIcon from "../../assets/lessons/intermediateIcon.svg";
-import AssignmentIcon from "../../assets/lessons/assignmentIcon.svg";
-import StarIcon from "../../assets/lessons/starIcon.svg";
-import Video from "../../assets/lessons/video.svg";
-import Profile from "../../assets/lessons/profile.svg";
-import Profile2 from "../../assets/lessons/profile2.svg";
-import Profile3 from "../../assets/lessons/profile3.svg";
-import Eclipse from "../../assets/lessons/circle.svg";
-import play from "../../assets/lessons/play.svg";
-import pdf from "../../assets/lessons/pdf.svg";
-import face from "../../assets/lessons/face.svg";
-import rocket from "../../assets/lessons/rocket.svg";
-import smirk from "../../assets/lessons/smirking.svg";
-import message from "../../assets/lessons/message.svg";
+import CourseIcon from "../assets/lessons/courseIcon.svg";
+import DurationIcon from "../assets/lessons/durationIcon.svg";
+import IntermediateIcon from "../assets/lessons/intermediateIcon.svg";
+import AssignmentIcon from "../assets/lessons/assignmentIcon.svg";
+import StarIcon from "../assets/lessons/starIcon.svg";
+import Video from "../assets/lessons/video.svg";
+import Profile from "../assets/lessons/profile.svg";
+import Profile2 from "../assets/lessons/profile2.svg";
+import Profile3 from "../assets/lessons/profile3.svg";
+import Eclipse from "../assets/lessons/circle.svg";
+import play from "../assets/lessons/play.svg";
+import pdf from "../assets/lessons/pdf.svg";
+import face from "../assets/lessons/face.svg";
+import rocket from "../assets/lessons/rocket.svg";
+import smirk from "../assets/lessons/smirking.svg";
+import message from "../assets/lessons/message.svg";
 import DOMPurify from "dompurify";
 
-const PreviewCourse = () => {
-  const { courseInView} = useContext(CreateContext).course;
+const PreviewCourse = ({course}) => {
+  console.log(course);
   const [activeTab, setActiveTab] = useState("description");
   // Course Details
   const [activeModule, setActiveModule] = useState(0);
   const [activeLesson, setActiveLesson] = useState(0)
-  const [showModuleLessons, setShowModuleLessons] = useState(false)
-  const lesson_description = courseInView?.modules[activeModule]?.lessons[activeLesson]?.description
+  const [showModuleLessons, setShowModuleLessons] = useState(true)
+  const lesson_description = course?.modules[activeModule]?.lessons[activeLesson]?.description
 
   const handleShowModuleLessons = ()=>{
       setShowModuleLessons(!showModuleLessons)
@@ -55,7 +54,7 @@ const PreviewCourse = () => {
           {/* Course Title */}
           <div className="mb-6 mt-6">
             <h1 className=" lg:text-3xl font-bold">
-             {courseInView.course_title}
+             {course.course_title}
             </h1>
           </div>
 
@@ -118,7 +117,7 @@ const PreviewCourse = () => {
             </div>
 
             <div className="flex justify-between items-center my-2">
-              <h2 className="text-lg font-bold">{courseInView?.modules[activeModule]?.lessons[activeLesson]?.title}</h2>
+              <h2 className="text-lg font-bold">{course?.modules[activeModule]?.lessons[activeLesson]?.title}</h2>
             </div>
 
             <div dangerouslySetInnerHTML={{
@@ -133,7 +132,7 @@ const PreviewCourse = () => {
           <div className="mt-6 bg-mobileBackground border border-inputBorderColor rounded-lg p-3">
             {/* Tab Headers */}
             <div className="">
-              <ul className="flex space-x-2 lg:space-x-10 border-b border-inputBorderColor items-center justify-center">
+              <ul className="flex space-x-2 lg:space-x-10 border-b border-inputBorderColor items-center justify-between">
                 <li
                   className={`cursor-pointer pb-3 ${
                     activeTab === "home"
@@ -196,7 +195,7 @@ const PreviewCourse = () => {
               {activeTab === "description" && (
                 <div>
                   <p className="text-gray-400">
-                   {courseInView.course_description}
+                   {course.course_description}
                   </p>
                   
                 </div>
@@ -489,7 +488,7 @@ const PreviewCourse = () => {
 
           <div className="bg-[#1b1c1e] border-2 border-inputBorderColor  rounded-lg w-full lg:w-[90%] flex flex-col lg:gap-y-6  overflow-y-auto h-full lg:p-2">
             {/** Accordion List */}
-            {courseInView.modules.map((module, index) => (
+            {course.modules.map((module, index) => (
               <div key={module.id} className="">
                 <div
                   className="flex items-center justify-between cursor-pointer  hover:bg-PrimaryPurple hover:text-white rounded"

@@ -15,6 +15,7 @@ const ContextProvider = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [currUser, setCurrUser] = useState("recruit");
   const [skeletalLoading, setSkeletalLoading] = useState(false);
+  const [courseInView, setCourseInView] = useState([])
 
   const login = (accessToken, userId, userRole) => {
     setToken(accessToken);
@@ -110,6 +111,11 @@ const ContextProvider = (props) => {
         user: {
           currUser,
         },
+
+        course: {
+          courseInView,
+          setCourseInView
+        }
       }}
     >
       {props.children}
