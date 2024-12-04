@@ -17,7 +17,7 @@ const RecruitNavbar = () => {
     dashboard: {
       isActive: true,
     },
-    lessons: {
+    courses: {
       isActive: false,
     },
     payment: {
@@ -37,17 +37,17 @@ const RecruitNavbar = () => {
         return {
           ...state,
           dashboard: { isActive: true },
-          lessons: { isActive: false },
+          courses: { isActive: false },
           payment: { isActive: false },
           peerNetwork: { isActive: false },
           credentials: { isActive: false },
         };
       }
-      case "LESSONS": {
+      case "COURSES": {
         return {
           ...state,
           dashboard: { isActive: false },
-          lessons: { isActive: true },
+          courses: { isActive: true },
           payment: { isActive: false },
           peerNetwork: { isActive: false },
           credentials: { isActive: false },
@@ -57,7 +57,7 @@ const RecruitNavbar = () => {
         return {
           ...state,
           dashboard: { isActive: false },
-          lessons: { isActive: false },
+          courses: { isActive: false },
           payment: { isActive: true },
           peerNetwork: { isActive: false },
           credentials: { isActive: false },
@@ -67,7 +67,7 @@ const RecruitNavbar = () => {
         return {
           ...state,
           dashboard: { isActive: false },
-          lessons: { isActive: false },
+          courses: { isActive: false },
           payment: { isActive: false },
           peerNetwork: { isActive: true },
           credentials: { isActive: false },
@@ -77,7 +77,7 @@ const RecruitNavbar = () => {
         return {
           ...state,
           dashboard: { isActive: false },
-          lessons: { isActive: false },
+          courses: { isActive: false },
           payment: { isActive: false },
           peerNetwork: { isActive: false },
           credentials: { isActive: true },
@@ -92,8 +92,8 @@ const RecruitNavbar = () => {
       location.pathname === "/app/recruit/dashboard"
     ) {
       return dispatch({ type: "DASHBOARD" });
-    } else if (location.pathname === "/app/recruit/lessons") {
-      return dispatch({ type: "LESSONS" });
+    } else if (location.pathname === "/app/recruit/courses") {
+      return dispatch({ type: "COURSES" });
     } else if (location.pathname === "/app/recruit/payment") {
       return dispatch({ type: "PAYMENT" });
     } else if (location.pathname === "/app/recruit/peer-network") {
@@ -127,16 +127,16 @@ const RecruitNavbar = () => {
               </div>
             </Link>
             <Link
-              to="/app/recruit/lessons"
-              onClick={() => handleDispatch("LESSONS")}
+              to="/app/recruit/courses"
+              onClick={() => handleDispatch("COURSES")}
               className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
-                state.lessons.isActive &&
+                state.courses.isActive &&
                 "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
               } `}
             >
               <div className="flex flex-col w-full text-sm gap-x-1 lg:flex-row items-center">
                 <BiBook className="text-lg" />
-                <span className="">Lessons</span>
+                <span className="">Courses</span>
               </div>
             </Link>
             <Link

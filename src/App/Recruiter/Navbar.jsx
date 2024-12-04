@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useContext } from "react";
+import React, { useReducer, useEffect, useContext, useState } from "react";
 import { CreateContext } from "../../Context/Context";
 import { Navigate, Outlet } from "react-router";
 import { GoHome } from "react-icons/go";
@@ -8,11 +8,16 @@ import { IoChatbubblesOutline } from "react-icons/io5";
 import { PiCertificateLight } from "react-icons/pi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GoSignOut } from "react-icons/go";
+import Course from "./Course";
 
 const RecruitNavbar = () => {
-  const navigate = useNavigate();
   const { logout, userRole } = useContext(CreateContext).auth;
   const location = useLocation();
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const handleCourseDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
 
   const initialState = {
     dashboard: {
@@ -112,8 +117,8 @@ const RecruitNavbar = () => {
   if (userRole === "Employer") {
     return (
       <React.Fragment>
-        <section className=" bg-[#101010] text-white border-solid lg:py-0 mt-10 fixed z-50 lg:h-full shadow-md flex flex-col text-3xl h-20 bottom-0  w-full lg:w-[16%] lg:px-4">
-          <article className="lg:h-[70%] lg:items-start flex flex-row lg:flex-col justify-evenly  items-center h-full  w-full border-b">
+        <section className=" bg-[#101010] text-white border-solid lg:py-0 mt-10 fixed z-50 lg:h-full shadow-md flex flex-col text-3xl bottom-0  w-full lg:w-[16%] lg:px-4">
+          <article className="lg:h-[450px] lg:items-start flex flex-row lg:flex-col lg:gap-y-4 items-center h-full  w-full border-b overflow-y-auto lg:py-8">
             <Link
               to="/app/recruiter/dashboard"
               onClick={() => handleDispatch("DASHBOARD")}
@@ -127,9 +132,9 @@ const RecruitNavbar = () => {
                 <span className="">Dashboard</span>
               </div>
             </Link>
-            <Link
-              to="/app/recruiter/course"
-              onClick={() => handleDispatch("COURSE")}
+            <div
+              // to="/app/recruiter/course"
+              onClick={handleCourseDropdown}
               className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
                 state.course.isActive &&
                 "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
@@ -139,7 +144,19 @@ const RecruitNavbar = () => {
                 <BiBook className="text-lg" />
                 <span className="">Course</span>
               </div>
-            </Link>
+            </div>
+            <article
+              className={`flex flex-col ${
+                showDropdown ? "h-auto" : "h-0 hidden"
+              }  transition-all text-[12px] w-full  `}
+            >
+              <Link to="/app/recruiter/create-course" className="">
+                <div className="pl-5">Create Course</div>
+              </Link>
+              <Link to="/app/recruiter/manage-courses" className="">
+                <div className="pl-5">Manage Courses</div>
+              </Link>
+            </article>
             <Link
               to="/app/recruiter/liveSessions"
               onClick={() => handleDispatch("LIVE_SESSIONS")}
@@ -181,7 +198,7 @@ const RecruitNavbar = () => {
               </div>
             </Link>
           </article>
-          <article className="lg:block hidden  mt-auto py-2">
+          <article className="lg:block hidden  mt-auto py-2 border">
             <div
               onClick={logout}
               className=" hover:lg:bg-PrimaryPurple cursor-pointer rounded-md h-8 px-2 flex flex-col w-full text-sm gap-x-1 lg:flex-row items-center"

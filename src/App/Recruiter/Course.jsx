@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import PageHeader from "../PageHeader";
 import { Link, Outlet, useLocation } from "react-router-dom";
 
-const Course = () => {
+const CreateCourseLandingPage = () => {
   const [activeTab, setActiveTab] = useState({
     createCourse: true,
     createResource: false,
@@ -27,7 +27,7 @@ const Course = () => {
               <span className={`${activeTab.createCourse ? "bg-PrimaryPurple" : "bg-inputBorderColor"}   text-center rounded-full w-4 h-4`}>1 </span>
               <span>Create course content</span>
             </Link>
-            <Link to="/app/recruiter/course/create-resource" className="flex flex-row gap-x-1">
+            <Link to="/app/recruiter/create-course/create-resource" className="flex flex-row gap-x-1">
               <span className={`${activeTab.createResource ? "bg-PrimaryPurple" : "bg-inputBorderColor"}   text-center rounded-full w-4 h-4`}>2 </span>
               <span>Create resource</span>
             </Link>
@@ -43,4 +43,4 @@ const Course = () => {
   );
 };
 
-export default Course;
+export default CreateCourseLandingPage;

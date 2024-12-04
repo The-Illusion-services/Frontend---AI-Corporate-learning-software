@@ -22,7 +22,7 @@ import rocket from "../../assets/lessons/rocket.svg";
 import smirk from "../../assets/lessons/smirking.svg";
 import message from "../../assets/lessons/message.svg";
 
-const RecruitLessons = () => {
+const ViewCourse = () => {
   const [activeTab, setActiveTab] = useState("description");
   // Course Details
   const [activeSection, setActiveSection] = useState(null);
@@ -693,4 +693,4 @@ const RecruitLessons = () => {
   );
 };
 
-export default RecruitLessons;
+export default ViewCourse;
