@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-import { CiSearch } from "react-icons/ci";
-import { FaBell } from "react-icons/fa6";
-import { IoPersonCircleSharp } from "react-icons/io5";
+import React, { useState, useContext } from "react";
+import { CreateContext } from "../../Context/Context";
 import { FaClock } from "react-icons/fa";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { LiaDownloadSolid } from "react-icons/lia";
@@ -21,73 +19,59 @@ import face from "../../assets/lessons/face.svg";
 import rocket from "../../assets/lessons/rocket.svg";
 import smirk from "../../assets/lessons/smirking.svg";
 import message from "../../assets/lessons/message.svg";
+import DOMPurify from "dompurify";
+import { useNavigate } from "react-router-dom";
+import CourseBuilder from "../../CourseBuilder/courseBuilder";
 
-const RecruitLessons = () => {
+const PreviewCourse = () => {
+  const navigate = useNavigate()
+  const { courseInView} = useContext(CreateContext).course;
   const [activeTab, setActiveTab] = useState("description");
   // Course Details
-  const [activeSection, setActiveSection] = useState(null);
+  const [activeModule, setActiveModule] = useState(0);
+  const [activeLesson, setActiveLesson] = useState(0)
+  const [showModuleLessons, setShowModuleLessons] = useState(false)
+  const lesson_description = courseInView?.modules[activeModule]?.lessons[activeLesson]?.description
+
+  const handleShowModuleLessons = ()=>{
+      setShowModuleLessons(!showModuleLessons)
+  }
+
   // Function to toggle accordion sections in the course details
   const toggleSection = (index) => {
-    setActiveSection(index === activeSection ? null : index);
+    setActiveModule(index);
+    handleShowModuleLessons()
   };
+
+  const handleActiveLesson = (index) => {
+    setActiveLesson( index);
+  };
+  console.log(courseInView);
+
+  const handleManageCourse = ()=>{
+    localStorage.setItem("manageCourse", JSON.stringify({course_title: courseInView.title, course_description: courseInView.description, price: courseInView.price, modules: courseInView.modules, id: courseInView.id}))
+    navigate("/app/recruiter/update")
+  }
 
   return (
     <section className=" bg-mobileBackground text-white min-h-screen max-w-full">
-      {/* Heading/Search */}
-      <div className="flex justify-between bg-mobileBackground text-white h-auto lg:ml-[16%] p-3">
-        <div className=" text-white flex items-center justify-center text-1xl border-inputBorderColor lg:ml-[3%]">
-          <h2 className="hidden xl:block p-3">Course Detail</h2>
-          <img
-            src={Profile}
-            alt="login illustration"
-            className="object-contain w-10 h-10 rounded-full xl:hidden"
-          />
-        </div>
-
-        <div className="hidden relative xl:block">
-          <div className="absolute bottom-4 left-3 flex text-2xl text-textGray">
-            <CiSearch />
-          </div>
-
-          <input
-            type="search"
-            className="border-inputborderGreen text-textGray rounded-lg px-3 py-4 mt-1 text-sm w-[700px] bg-inputBackground focus:outline-PrimaryPurple focus:ring focus:border-PrimaryPurple"
-            placeholder="       ...Search"
-          />
-        </div>
-
-        <div className="flex items-center justify-between mr-[3%]">
-          <div className=" rounded-full text-PrimaryPurple w-10 h-10 flex items-center justify-center text-3xl bg-[#1b1c1e] border-inputBorderColor">
-            <FaBell />
-          </div>
-
-          <div className=" rounded-full text-PrimaryPurple w-10 h-10 flex items-center justify-center text-3xl bg-[#1b1c1e] border-inputBorderColor xl:hidden">
-            <IoPersonCircleSharp />
-          </div>
-          <img
-            src={Profile}
-            alt="login illustration"
-            className="object-contain w-10 h-10 rounded-full hidden xl:block"
-          />
-        </div>
-      </div>
 
       {/* Content Area */}
-      <div className="xl:flex bg-mobileBackground text-white min-h-screen max-w-full lg:ml-[16%]">
+      <div className="xl:flex bg-mobileBackground text-white min-h-screen max-w-full ">
         {/* Main Content Area */}
         <main className="w-full p-6 lg:px-12 lg:py-8 xl:w-[70%]">
-          <h1 className="xl:hidden">Course Detail</h1>
+          {/* <h1 className="xl:hidden">Course Detail</h1> */}
           {/* Course Title */}
-          <div className="mb-6 mt-6">
+          <div className="mb-6 mt-6  flex justify-between items-center py-2 px-1">
             <h1 className=" lg:text-3xl font-bold">
-              Complete Website Responsive Design: from Figma to Webflow to
-              Website Design
+             {courseInView.course_title}
             </h1>
+            <button className="w-40 px-2 py-1  rounded-md bg-PrimaryPurple" onClick={handleManageCourse}>Manage Course</button>
           </div>
 
           {/* Video Section */}
           <div className="bg-inputBackground rounded-lg flex items-center justify-center">
-            <img
+            {/* <img
               src={Video}
               alt="Course"
               className="aspect-video object-cover rounded-lg w-full flex relative"
@@ -97,8 +81,10 @@ const RecruitLessons = () => {
               src={Eclipse}
               className="flex absolute object-cover rounded-lg"
             />
-            <img src={play} className="flex absolute object-cover rounded-lg" />
+            <img src={play} className="flex absolute object-cover rounded-lg" /> */}
+
           </div>
+          {/* {activeModule.} */}
 
           {/* Quiz Section */}
           <div className="mb-6 mt-6 hidden">
@@ -135,28 +121,21 @@ const RecruitLessons = () => {
           </div>
 
           {/* Lecture Section */}
-          <div className="mb-6 mt-6 hidden">
+          <div className="mb-6 mt-6 ">
             <div className="flex items-center space-x-3 text-textGray">
               <img src={Profile3} />
               <p>Dianne Russell.Kristin Watson</p>
             </div>
 
             <div className="flex justify-between items-center my-2">
-              <h2 className="text-lg font-bold">Lecture 1</h2>
+              <h2 className="text-lg font-bold">{courseInView?.modules[activeModule]?.lessons[activeLesson]?.title}</h2>
             </div>
 
-            <div>
-              <p className="text-textGray p-2">
-                "At vero eos et accusamus et justo odio dignissimos ducimus qui
-                blanditiis praesentium voluptatum deleniti atque corrupti quos
-                dolores et quas molestias excepturi sint occaecati." Omnis
-                voluptas assumenda est, omnis dolor repellendus. Harum quidem
-                rerum facilis est et expedita distinctio. Omnis voluptas
-                assumenda est, omnis dolor repellendus. Harum quidem rerum
-                facilis est et expedita distinctio. Omnis voluptas assumenda
-                est, omnis dolor repellendus. Harum quidem rerum facilis est et
-                expedita distinctio.
-              </p>
+            <div dangerouslySetInnerHTML={{
+          __html: DOMPurify.sanitize(lesson_description),
+        }}>
+              
+                
             </div>
           </div>
 
@@ -221,126 +200,15 @@ const RecruitLessons = () => {
             {/* Tab Content */}
             <div className="mt-4 mb-20">
               {/* Home Tab */}
-              {activeTab === "home" && (
-                <div>
-                  {/* Left Section: Course List */}
-                  <div className="flex flex-col lg:flex-row items-center justify-between mt-5 px-5 xl:mt-0 py-7 w-full">
-                    <div className="bg-[#1b1c1e] border-2 border-inputBorderColor p-6 rounded-lg w-full lg:w-full space-y-4 m-2">
-                      {/** Accordion List */}
-                      {[
-                        { id: 1, title: "Introduction" },
-                        {
-                          id: 2,
-                          title: "Section 1",
-                          items: [
-                            "Lorem ipsum dolor sit amet ipsum",
-                            "Lorem ipsum dolor sit amet ipsum dolor sit amet",
-                            "Lorem ipsum dolor sit amet ipsum dolor sit amet",
-                            "Lorem ipsum dolor sit amet ipsum dolor sit amet",
-                          ],
-                        },
-                        { id: 3, title: "Section 2" },
-                        { id: 4, title: "Section 3" },
-                      ].map((section, index) => (
-                        <div key={section.id}>
-                          <div
-                            className="flex items-center justify-between cursor-pointer p-4 hover:bg-mobileBackground rounded"
-                            onClick={() => toggleSection(index)}
-                          >
-                            <div className="flex items-center gap-2">
-                              <span className="flex items-center justify-center w-6 h-6 rounded-full border border-textGray">
-                                {section.id}
-                              </span>
-                              <span
-                                className={
-                                  index === activeSection
-                                    ? "text-PrimaryPurple"
-                                    : "text-white"
-                                }
-                              >
-                                {section.title}
-                              </span>
-                            </div>
-                            {index === activeSection ? (
-                              <IoIosArrowUp className="text-lg" />
-                            ) : (
-                              <IoIosArrowDown className="text-lg" />
-                            )}
-                          </div>
-
-                          {/* Expandable Content */}
-                          {index === activeSection && section.items && (
-                            <div className="bg-inputBackground p-4 mt-2 rounded space-y-2">
-                              {section.items.map((item, itemIndex) => (
-                                <div
-                                  key={itemIndex}
-                                  className="flex justify-between"
-                                >
-                                  <div className="flex items-center gap-2">
-                                    <span className="w-2 h-2 rounded-full bg-purple-500" />
-                                    <span className="text-gray-300">
-                                      {item}
-                                    </span>
-                                  </div>
-                                  <span className="text-xs">21:03</span>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Course Progress */}
-
-                    {/* Right Section: Course Metadata */}
-                    <div className="bg-[#1b1c1e] border-2 border-inputBorderColor p-6 rounded-lg w-full lg:w-full space-y-4 mb-10">
-                      {/* Course Metadata Items */}
-                      <div className="flex items-center gap-4">
-                        <img src={CourseIcon} className="text-textGray" />
-                        <span className="text-textGray">6 courses and 29</span>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <img src={DurationIcon} className="text-textGray" />
-                        <span className="text-textGray">24hrs 30min</span>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <img
-                          src={IntermediateIcon}
-                          className="text-textGray text-lg"
-                        />
-                        <span className="text-textGray">Intermediate</span>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <img src={AssignmentIcon} className="text-textGray" />
-                        <span className="text-textGray">
-                          5 Assignments and 7 Lessons
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <img src={StarIcon} />
-                        <span className="text-textGray">
-                          Receive NFT certificate upon completing all 6 courses
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
+             
 
               {/* Description Tab */}
               {activeTab === "description" && (
                 <div>
                   <p className="text-gray-400">
-                    "At vero eos et accusamus et justo odio dignissimos ducimus
-                    qui blanditiis praesentium voluptatum deleniti atque
-                    corrupti quos dolores et quas molestias excepturi sint
-                    occaecati."
+                   {courseInView.course_description}
                   </p>
-                  <p className="mt-4 text-gray-400">
-                    Omnis voluptas assumenda est, omnis dolor repellendus. Harum
-                    quidem rerum facilis est et expedita distinctio.
-                  </p>
+                  
                 </div>
               )}
 
@@ -598,7 +466,7 @@ const RecruitLessons = () => {
         </main>
 
         {/* Course Info Sidebar */}
-        <aside className="hidden xl:block mt-5 px-5 xl:mt-3 py-7  lg:w-[30%]">
+        <aside className="hidden xl:block mt-5 px-5 xl:mt-3 py-7  lg:w-[35%]">
           {/* Right Section: Course Metadata */}
           <div className="bg-[#1b1c1e] border-2 border-inputBorderColor p-6 rounded-lg w-full lg:w-full space-y-4 mb-10">
             {/* Course Metadata Items */}
@@ -627,43 +495,25 @@ const RecruitLessons = () => {
           </div>
 
           {/* Left Section: Course List */}
-          <div className="bg-[#1b1c1e] border-2 border-inputBorderColor p-6 rounded-lg w-full lg:w-full space-y-4 mb-5">
+          <section className="border h-[100px] lg:h-[445px] flex flex-col items-center justify-center lg:py-4">
+
+          <div className="bg-[#1b1c1e] border-2 border-inputBorderColor  rounded-lg w-full lg:w-[90%] flex flex-col lg:gap-y-6  overflow-y-auto h-full lg:p-2">
             {/** Accordion List */}
-            {[
-              { id: 1, title: "Introduction" },
-              {
-                id: 2,
-                title: "Section 1",
-                items: [
-                  "Lorem ipsum dolor sit amet ipsum",
-                  "Lorem ipsum dolor sit amet ipsum dolor sit amet",
-                  "Lorem ipsum dolor sit amet ipsum dolor sit amet",
-                  "Lorem ipsum dolor sit amet ipsum dolor sit amet",
-                ],
-              },
-              { id: 3, title: "Introduction" },
-              { id: 4, title: "Introduction" },
-            ].map((section, index) => (
-              <div key={section.id}>
+            {courseInView.modules.map((module, index) => (
+              <div key={index} className="">
                 <div
-                  className="flex items-center justify-between cursor-pointer p-4 hover:bg-PrimaryPurple rounded"
+                  className="flex items-center justify-between cursor-pointer  hover:bg-PrimaryPurple hover:text-white rounded"
                   onClick={() => toggleSection(index)}
                 >
                   <div className="flex items-center gap-2">
-                    <span className="flex items-center justify-center w-6 h-6 rounded-full border border-gray-500">
-                      {section.id}
-                    </span>
+                    
                     <span
-                      className={
-                        index === activeSection
-                          ? "text-PrimaryPurple"
-                          : "text-white"
-                      }
+                      className=""
                     >
-                      {section.title}
+                      {module.title}
                     </span>
                   </div>
-                  {index === activeSection ? (
+                  {!showModuleLessons ? (
                     <IoIosArrowUp className="text-lg" />
                   ) : (
                     <IoIosArrowDown className="text-lg" />
@@ -671,13 +521,14 @@ const RecruitLessons = () => {
                 </div>
 
                 {/* Expandable Content */}
-                {index === activeSection && section.items && (
+
+                {showModuleLessons && module.lessons && (
                   <div className="bg-[#1b1c1e] border-2 border-inputBorderColor p-4 mt-2 rounded space-y-5">
-                    {section.items.map((item, itemIndex) => (
-                      <div key={itemIndex} className="flex justify-between">
-                        <div className="flex items-center gap-2">
-                          <span className="w-2 h-2 rounded-full bg-PrimaryPurple" />
-                          <span className="text-gray-300">{item}</span>
+                    {module.lessons.map((lesson, index) => (
+                      <div key={index} className="flex justify-between text-xs"  onClick={()=> handleActiveLesson(index)}>
+                        <div className="flex items-center gap-2 cursor-pointer">
+                          <span className={`w-2 h-2 rounded-full ${index === activeLesson && "bg-PrimaryPurple"}`} />
+                          <span className="text-gray-300 text-nowrap overflow-x-hidden">{lesson.title.length > 22 ? `${lesson.title.slice(0, 22)}...` : lesson.title}</span>
                         </div>
                         <span className="text-xs">21:03</span>
                       </div>
@@ -687,10 +538,12 @@ const RecruitLessons = () => {
               </div>
             ))}
           </div>
+          </section>
+
         </aside>
       </div>
     </section>
   );
 };
 
-export default RecruitLessons;
+export default PreviewCourse;
