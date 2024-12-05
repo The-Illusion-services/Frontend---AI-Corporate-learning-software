@@ -15,7 +15,7 @@ import CourseChart from "../../assets/dashboard/courseChart.svg";
 
 const RecruiterDashboard = () => {
   return (
-    <div className="bg-mobileBackground min-h-screen lg:w-[84%] relative lg:left-[16%]">
+    <div className="bg-mobileBackground min-h-screen  relative ">
       <div className="flex flex-col h-full pt-5 pb-28 lg:p-7 px-5">
         <div className="xl:flex xl:gap-5">
           {/* welcome, highlights, assignments */}
@@ -62,7 +62,7 @@ const RecruiterDashboard = () => {
             {/*highlights*/}
             <div className="w-full overflow-x-hidden mt-6">
               <div className="flex overflow-x-auto scrollbar-hide gap-3">
-              <div className="bg-[#1b1c1e] border-2 border-inputBorderColor h-28 min-w-[240px] flex-shrink-0 md:flex-1 rounded-xl p-3">
+                <div className="bg-[#1b1c1e] border-2 border-inputBorderColor h-28 min-w-[220px] flex-shrink-0 md:flex-1 rounded-xl p-3">
                   <div className="flex items-center">
                     <img src={Quiz} alt="" />
                     <h4 className="text-[#999999] font-semibold ml-3 text-lg">
@@ -71,7 +71,7 @@ const RecruiterDashboard = () => {
                   </div>
                   <div className="text-2xl text-white mt-4">2</div>
                 </div>
-                <div className="bg-[#1b1c1e] border-2 border-inputBorderColor h-28 min-w-[240px] flex-shrink-0 md:flex-1 rounded-xl p-3">
+                <div className="bg-[#1b1c1e] border-2 border-inputBorderColor h-28 min-w-[220px] flex-shrink-0 md:flex-1 rounded-xl p-3">
                   <div className="flex items-center">
                     <img src={Courses} alt="" />
                     <h4 className="text-[#999999] font-semibold ml-3 text-base">
@@ -80,7 +80,7 @@ const RecruiterDashboard = () => {
                   </div>
                   <div className="text-2xl text-white mt-4">8</div>
                 </div>
-                <div className="bg-[#1b1c1e] border-2 border-inputBorderColor h-28 min-w-[240px] flex-shrink-0 md:flex-1 rounded-xl p-3">
+                <div className="bg-[#1b1c1e] border-2 border-inputBorderColor h-28 min-w-[220px] flex-shrink-0 md:flex-1 rounded-xl p-3">
                   <div className="flex items-center">
                     <img src={Lesson} alt="" />
                     <h4 className="text-[#999999] font-semibold ml-3 text-lg">
@@ -89,7 +89,6 @@ const RecruiterDashboard = () => {
                   </div>
                   <div className="text-2xl text-white mt-4">21</div>
                 </div>
-               
               </div>
             </div>
           </div>

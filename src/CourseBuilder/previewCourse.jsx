@@ -52,7 +52,7 @@ const PreviewCourse = ({course}) => {
         <main className="w-full p-6 lg:px-12 lg:py-8 xl:w-[70%]">
           <h1 className="xl:hidden">Course Detail</h1>
           {/* Course Title */}
-          <div className="mb-6 mt-6">
+          <div className="mb-6 mt-6 border">
             <h1 className=" lg:text-3xl font-bold">
              {course.course_title}
             </h1>
@@ -502,16 +502,16 @@ const PreviewCourse = ({course}) => {
                       {module.title}
                     </span>
                   </div>
-                  {!showModuleLessons ? (
-                    <IoIosArrowUp className="text-lg" />
-                  ) : (
+                  {!showModuleLessons && index === activeModule ? (
                     <IoIosArrowDown className="text-lg" />
+                  ) : (
+                    <IoIosArrowUp className="text-lg" />
                   )}
                 </div>
 
                 {/* Expandable Content */}
 
-                {showModuleLessons && module.lessons && (
+                {showModuleLessons && module.lessons && index === activeModule && (
                   <div className="bg-[#1b1c1e] border-2 border-inputBorderColor p-4 mt-2 rounded space-y-5">
                     {module.lessons.map((lesson, index) => (
                       <div key={index} className="flex justify-between text-xs"  onClick={()=> handleActiveLesson(index)}>

@@ -20,8 +20,11 @@ import rocket from "../../assets/lessons/rocket.svg";
 import smirk from "../../assets/lessons/smirking.svg";
 import message from "../../assets/lessons/message.svg";
 import DOMPurify from "dompurify";
+import { useNavigate } from "react-router-dom";
+import CourseBuilder from "../../CourseBuilder/courseBuilder";
 
 const PreviewCourse = () => {
+  const navigate = useNavigate()
   const { courseInView} = useContext(CreateContext).course;
   const [activeTab, setActiveTab] = useState("description");
   // Course Details
@@ -43,6 +46,12 @@ const PreviewCourse = () => {
   const handleActiveLesson = (index) => {
     setActiveLesson( index);
   };
+  console.log(courseInView);
+
+  const handleManageCourse = ()=>{
+    localStorage.setItem("manageCourse", JSON.stringify({course_title: courseInView.title, course_description: courseInView.description, price: courseInView.price, modules: courseInView.modules, id: courseInView.id}))
+    navigate("/app/recruiter/update")
+  }
 
   return (
     <section className=" bg-mobileBackground text-white min-h-screen max-w-full">
@@ -51,12 +60,13 @@ const PreviewCourse = () => {
       <div className="xl:flex bg-mobileBackground text-white min-h-screen max-w-full ">
         {/* Main Content Area */}
         <main className="w-full p-6 lg:px-12 lg:py-8 xl:w-[70%]">
-          <h1 className="xl:hidden">Course Detail</h1>
+          {/* <h1 className="xl:hidden">Course Detail</h1> */}
           {/* Course Title */}
-          <div className="mb-6 mt-6">
+          <div className="mb-6 mt-6  flex justify-between items-center py-2 px-1">
             <h1 className=" lg:text-3xl font-bold">
              {courseInView.course_title}
             </h1>
+            <button className="w-40 px-2 py-1  rounded-md bg-PrimaryPurple" onClick={handleManageCourse}>Manage Course</button>
           </div>
 
           {/* Video Section */}
@@ -490,7 +500,7 @@ const PreviewCourse = () => {
           <div className="bg-[#1b1c1e] border-2 border-inputBorderColor  rounded-lg w-full lg:w-[90%] flex flex-col lg:gap-y-6  overflow-y-auto h-full lg:p-2">
             {/** Accordion List */}
             {courseInView.modules.map((module, index) => (
-              <div key={module.id} className="">
+              <div key={index} className="">
                 <div
                   className="flex items-center justify-between cursor-pointer  hover:bg-PrimaryPurple hover:text-white rounded"
                   onClick={() => toggleSection(index)}

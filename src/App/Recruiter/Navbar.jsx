@@ -117,7 +117,7 @@ const RecruitNavbar = () => {
   if (userRole === "Employer") {
     return (
       <React.Fragment>
-        <section className=" bg-[#101010] text-white border-solid lg:py-0 mt-10 fixed z-50 lg:h-full shadow-md flex flex-col text-3xl bottom-0  w-full lg:w-[16%] lg:px-4">
+        <section className=" bg-[#101010] text-white border-solid lg:py-0 mt-10 fixed z-30 lg:h-full shadow-md flex flex-col text-3xl bottom-0  w-full lg:w-[16%] lg:px-4">
           <article className="lg:h-[450px] lg:items-start flex flex-row lg:flex-col lg:gap-y-4 items-center h-full  w-full border-b overflow-y-auto lg:py-8">
             <Link
               to="/app/recruiter/dashboard"
@@ -198,7 +198,7 @@ const RecruitNavbar = () => {
               </div>
             </Link>
           </article>
-          <article className="lg:block hidden  mt-auto py-2 border">
+          <article className="lg:block hidden  mt-auto py-2 ">
             <div
               onClick={logout}
               className=" hover:lg:bg-PrimaryPurple cursor-pointer rounded-md h-8 px-2 flex flex-col w-full text-sm gap-x-1 lg:flex-row items-center"

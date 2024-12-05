@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useLocation } from "react-router-dom";
 export const CreateContext = createContext();
 
 const ContextProvider = (props) => {
@@ -16,6 +17,9 @@ const ContextProvider = (props) => {
   const [currUser, setCurrUser] = useState("recruit");
   const [skeletalLoading, setSkeletalLoading] = useState(false);
   const [courseInView, setCourseInView] = useState([])
+
+  const location = useLocation()
+  const pathname = location.pathname
 
   const login = (accessToken, userId, userRole) => {
     setToken(accessToken);
@@ -52,6 +56,12 @@ const ContextProvider = (props) => {
     }
   }, [token]);
 
+  useEffect(()=>{
+    if (!pathname.includes("/recruiter/create-course")){
+      localStorage.removeItem("checkCachedCourse")
+    }
+  })
+
   // const getAllCourses = async()=>{
   //   try{
   //     const response = await fetch("https://illusion-6ga5.onrender.com/api/courses/",{
@@ -80,6 +90,12 @@ const ContextProvider = (props) => {
   //   queryKey: ["all-courses"],
   //   queryFn: getAllCourses
   // })
+
+  const [course, setCourse] = useState({
+    course_title: "",
+    course_description: "",
+    price: "",
+  });
   return (
     <CreateContext.Provider
       value={{
@@ -114,7 +130,9 @@ const ContextProvider = (props) => {
 
         course: {
           courseInView,
-          setCourseInView
+          setCourseInView,
+          course,
+          setCourse
         }
       }}
     >

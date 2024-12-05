@@ -53,7 +53,7 @@ const PreviewCourse = () => {
         <main className="w-full p-6 lg:px-12 lg:py-8 xl:w-[70%]">
           <h1 className="xl:hidden">Course Detail</h1>
           {/* Course Title */}
-          <div className="mb-6 mt-6">
+          <div className="mb-6 mt-6 border">
             <h1 className=" lg:text-3xl font-bold">
              {courseInView.course_title}
             </h1>
@@ -80,7 +80,7 @@ const PreviewCourse = () => {
           <div className="mb-6 mt-6 hidden">
             <div className="flex text-textGray">
               <img src={Profile3} />
-              <p>Dianne Russell.Kristin Watson</p>
+              {/* <p>Dianne Russell.Kristin Watson</p> */}
             </div>
             <div className="flex justify-between items-center my-3">
               <h2 className="text-1xl font-bold">Quiz</h2>

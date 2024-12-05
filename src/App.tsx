@@ -20,15 +20,15 @@ import Payment from "./App/Recruit/Payment";
 import CreateJobs from "./App/Recruiter/CreateJobs";
 import Toast from "./Shared/toast";
 import ManageCourses from "./App/Recruiter/ManageCourse";
-import CreateCourseLandingPage from "./App/Recruiter/Course";
 import CourseList from "./App/Recruit/Courses";
 import ViewCourse from "./App/Recruit/ViewCourse";
+import UpdateCourse from "./CourseBuilder/UpdateCourse";
 
 function App() {
   return (
     <>
       <Spinner />
-      <Toast/>
+      <Toast />
       <Routes>
         <Route path="/" element={<Landingpage />} />
         <Route path="/create-course" element={<CreateCourse />} />
@@ -55,10 +55,14 @@ function App() {
             <Route index element={<RecruiterDashboard />} />
             <Route path="dashboard" element={<RecruiterDashboard />} />
             <Route path="create-jobs" element={<CreateJobs />} />
-            <Route path="manage-courses" element={<ManageCourses />} />
+              <Route path="update" element={<UpdateCourse />} />
+            <Route path="manage-courses" element={<ManageCourses />}>
+              <Route index element={<ManageCourses />} />
+            </Route>
             <Route path="course/view" element={<ViewCourse />} />
             <Route path="create-course" element={<Course />}>
               <Route index element={<CourseLandingPage />} />
+              <Route path="landing-page" element={<CourseLandingPage />} />
               <Route path="create-resource" element={<CreateCourse />} />
               <Route path="quiz" element={<QuizBuilder />} />
             </Route>
