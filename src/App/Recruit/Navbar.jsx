@@ -1,39 +1,29 @@
-import React, { useReducer, useEffect, useContext } from "react";
+import React, { useReducer, useEffect, useContext, useState } from "react";
 import { CreateContext } from "../../Context/Context";
 import { Navigate, Outlet } from "react-router";
-import { GoHome } from "react-icons/go";
+import { GoHome, GoSignOut } from "react-icons/go";
 import { BiBook } from "react-icons/bi";
 import { LuVideo } from "react-icons/lu";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { PiCertificateLight } from "react-icons/pi";
 import { Link, useLocation } from "react-router-dom";
-import { GoSignOut } from "react-icons/go";
 
 const RecruitNavbar = () => {
   const { logout, userRole } = useContext(CreateContext).auth;
   const location = useLocation();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const initialState = {
-    dashboard: {
-      isActive: true,
-    },
-    lessons: {
-      isActive: false,
-    },
-    payment: {
-      isActive: false,
-    },
-    peerNetwork: {
-      isActive: false,
-    },
-    credentials: {
-      isActive: false,
-    },
+    dashboard: { isActive: true },
+    lessons: { isActive: false },
+    payment: { isActive: false },
+    peerNetwork: { isActive: false },
+    credentials: { isActive: false },
   };
 
   const reducerFunc = (state, action) => {
     switch (action.type) {
-      case "DASHBOARD": {
+      case "DASHBOARD":
         return {
           ...state,
           dashboard: { isActive: true },
@@ -42,8 +32,7 @@ const RecruitNavbar = () => {
           peerNetwork: { isActive: false },
           credentials: { isActive: false },
         };
-      }
-      case "LESSONS": {
+      case "LESSONS":
         return {
           ...state,
           dashboard: { isActive: false },
@@ -52,8 +41,7 @@ const RecruitNavbar = () => {
           peerNetwork: { isActive: false },
           credentials: { isActive: false },
         };
-      }
-      case "PAYMENT": {
+      case "PAYMENT":
         return {
           ...state,
           dashboard: { isActive: false },
@@ -62,8 +50,7 @@ const RecruitNavbar = () => {
           peerNetwork: { isActive: false },
           credentials: { isActive: false },
         };
-      }
-      case "PEER_NETWORK": {
+      case "PEER_NETWORK":
         return {
           ...state,
           dashboard: { isActive: false },
@@ -72,8 +59,7 @@ const RecruitNavbar = () => {
           peerNetwork: { isActive: true },
           credentials: { isActive: false },
         };
-      }
-      case "CREDENTIALS": {
+      case "CREDENTIALS":
         return {
           ...state,
           dashboard: { isActive: false },
@@ -82,7 +68,8 @@ const RecruitNavbar = () => {
           peerNetwork: { isActive: false },
           credentials: { isActive: true },
         };
-      }
+      default:
+        return state;
     }
   };
 
@@ -91,105 +78,77 @@ const RecruitNavbar = () => {
       location.pathname === "/app/recruit" ||
       location.pathname === "/app/recruit/dashboard"
     ) {
-      return dispatch({ type: "DASHBOARD" });
+      dispatch({ type: "DASHBOARD" });
     } else if (location.pathname === "/app/recruit/lessons") {
-      return dispatch({ type: "LESSONS" });
+      dispatch({ type: "LESSONS" });
     } else if (location.pathname === "/app/recruit/payment") {
-      return dispatch({ type: "PAYMENT" });
+      dispatch({ type: "PAYMENT" });
     } else if (location.pathname === "/app/recruit/peer-network") {
-      return dispatch({ type: "PEER_NETWORK" });
+      dispatch({ type: "PEER_NETWORK" });
     } else if (location.pathname === "/app/recruit/credentials") {
-      return dispatch({ type: "CREDENTIALS" });
+      dispatch({ type: "CREDENTIALS" });
     }
   }, [location.pathname]);
+
   const [state, dispatch] = useReducer(reducerFunc, initialState);
 
   const handleDispatch = (type) => {
     dispatch({ type });
+    setIsMobileMenuOpen(false); // Close menu after navigation
   };
 
   if (userRole === "Employee") {
     return (
       <React.Fragment>
-        <section className=" bg-[#101010] text-white border-solid mt-10 fixed z-50 lg:h-full shadow-md flex flex-col text-3xl h-20 bottom-0  w-full lg:w-[16%] lg:px-4">
-          <article className="lg:h-[70%] lg:items-start flex flex-row lg:flex-col justify-evenly  items-center h-full  w-full border-b">
-            <Link
-              to="/app/recruit/dashboard"
-              onClick={() => handleDispatch("DASHBOARD")}
-              className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
-                state.dashboard.isActive &&
-                "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
-              } `}
-            >
-              <div className="flex flex-col w-full text-sm gap-x-1 lg:flex-row items-center ">
-                <GoHome className="text-lg " />
-                <span className="">Dashboard</span>
-              </div>
-            </Link>
-            <Link
-              to="/app/recruit/lessons"
-              onClick={() => handleDispatch("LESSONS")}
-              className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
-                state.lessons.isActive &&
-                "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
-              } `}
-            >
-              <div className="flex flex-col w-full text-sm gap-x-1 lg:flex-row items-center">
-                <BiBook className="text-lg" />
-                <span className="">Lessons</span>
-              </div>
-            </Link>
-            <Link
-              to="/app/recruit/payment"
-              onClick={() => handleDispatch("PAYMENT")}
-              className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
-                state.payment.isActive &&
-                "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
-              } `}
-            >
-              <div className=" w-full flex flex-col text-sm gap-x-1 lg:flex-row  items-center">
-                <LuVideo className="text-lg" />
-                <span className="">Payment</span>
-              </div>
-            </Link>
+        {/* Mobile Hamburger Menu */}
+        <button
+          className="lg:hidden fixed font-bold top-3 right-5 z-50 bg-transparent p-2 rounded text-[20px] text-white"
+          onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+        >
+          {isMobileMenuOpen ? "✖" : "☰"}
+        </button>
 
-            <Link
-              onClick={() => handleDispatch("PEER_NETWORK")}
-              className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
-                state.peerNetwork.isActive &&
-                "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
-              } `}
-            >
-              <div className="flex flex-col w-full text-sm gap-x-1 lg:flex-row items-center">
-                <IoChatbubblesOutline className="text-lg" />
-                <span className="">Peer Network</span>
-              </div>
-            </Link>
-
-            <Link
-              onClick={() => handleDispatch("CREDENTIALS")}
-              className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
-                state.credentials.isActive &&
-                "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
-              } `}
-            >
-              <div className="flex flex-col w-full text-sm gap-x-1 lg:flex-row items-center">
-                <PiCertificateLight className="text-lg" />
-                <span className="">Credentials</span>
-              </div>
-            </Link>
+        <section
+          className={`fixed z-40 top-0 left-0 h-full bg-[#101010] text-white transition-transform ${
+            isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+          } lg:translate-x-0 lg:w-[16%] w-[50%]`}
+        >
+          <article className="lg:h-[70%] flex flex-col justify-evenly items-start p-4">
+            {[
+              { type: "DASHBOARD", label: "Dashboard", Icon: GoHome },
+              { type: "LESSONS", label: "Lessons", Icon: BiBook },
+              { type: "PAYMENT", label: "Payment", Icon: LuVideo },
+              { type: "PEER_NETWORK", label: "Peer Network", Icon: IoChatbubblesOutline },
+              { type: "CREDENTIALS", label: "Credentials", Icon: PiCertificateLight },
+            ].map(({ type, label, Icon }) => (
+              <Link
+                key={type}
+                to={`/app/recruit/${type.toLowerCase()}`}
+                onClick={() => handleDispatch(type)}
+                className={`w-full py-2 flex items-center gap-2 ${
+                  state[type.toLowerCase()]?.isActive &&
+                  "text-white bg-PrimaryPurple rounded-lg p-3"
+                }`}
+              >
+                <Icon className="text-lg" />
+                <span>{label}</span>
+              </Link>
+            ))}
           </article>
-          <article className="lg:block hidden  mt-auto py-2">
-            <div
+
+          {/* Logout Button */}
+          <article className="mt-auto p-4">
+            <button
               onClick={logout}
-              className=" hover:lg:bg-PrimaryPurple cursor-pointer rounded-md h-8 px-2 flex flex-col w-full text-sm gap-x-1 lg:flex-row items-center"
+              className="hover:lg:bg-PrimaryPurple cursor-pointer rounded-md h-8 px-2 flex w-full text-sm gap-x-1 lg:flex-row items-center"
             >
-              <GoSignOut className="text-lg" />
-              <span className="">Sign Out</span>
-            </div>
+              <GoSignOut />
+              <span>Sign Out</span>
+            </button>
           </article>
         </section>
 
+        {/* Content Section */}
         <Outlet />
       </React.Fragment>
     );

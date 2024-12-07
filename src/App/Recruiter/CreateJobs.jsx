@@ -2,7 +2,7 @@ import React from "react";
 
 const CreateJobs = () => {
   return (
-    <div className="bg-mobileBackground w-screen min-h-screen p-10 text-white ml-[16%]">
+    <div className="bg-mobileBackground w-screen min-h-screen p-10 text-white lg:ml-[16%]">
       {/* Basic Information */}
       <div className="bg-[#1B1C1E] w-[716px] px-5 py-7">
         <div className="mb-10">
