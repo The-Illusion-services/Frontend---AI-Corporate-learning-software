@@ -105,7 +105,7 @@ const RecruitNavbar = () => {
         <section
           className={`fixed top-0 left-0 z-40 h-full bg-[#101010] text-white transition-transform ${
             isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-          } lg:translate-x-0 lg:w-[16%] w-[50%]`}
+          } lg:translate-x-0 lg:w-[16%] md:w-[50%] w-[70%]`}
         >
           <article className="lg:h-[70%] flex flex-col justify-evenly p-4">
             {[
