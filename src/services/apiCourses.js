@@ -1,5 +1,5 @@
 const storedData = JSON.parse(localStorage.getItem("userData"));
-const token = storedData.accessToken
+const token = storedData?.accessToken
 export const getEnrolledCourses = async () => {
   try {
     const response = await fetch(

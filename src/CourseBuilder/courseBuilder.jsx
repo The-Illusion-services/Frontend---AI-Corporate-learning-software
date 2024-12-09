@@ -251,7 +251,7 @@ const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
     return (
       <section
         key={moduleIndex}
-        className=" bg-[#161616] mx-auto lg:mx-0 px-4 py-4 text-white w-[95%] lg:w-[60%]"
+        className=" bg-[#161616] ml-10 mx-auto lg:ml-4 px-4 py-4 text-white w-[95%] lg:w-[60%]"
       >
         <article className="flex justify-between items-center">
           <div className="flex flex-row gap-x-2 w-[80%]">
@@ -337,7 +337,7 @@ const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
 
   return (
     <main className="flex flex-col gap-y-4 py-4 bg-[#1B1C1E]">
-      <h2 className="font-bold mt-4 text-xxl text-white text-center lg:text-start">
+      <h2 className="font-bold mt-4 text-xxl text-white text-center lg:text-start ml-4">
         Create Resource
       </h2>
 
@@ -347,7 +347,7 @@ const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
         ) : (
           <PreviewCourse course={course} />
         )}
-        <div className="w-full flex gap-x-10 ">
+        <div className="w-full flex gap-x-10 ml-4 ">
           <span
             className="text-start text-PrimaryPurple cursor-pointer w-fit rounded-md px-2 py-1"
             onClick={addModule}
