@@ -20,6 +20,9 @@ const RecruitNavbar = () => {
     courses: {
       isActive: false,
     },
+    myCourses: {
+      isActive: false,
+    },
     payment: {
       isActive: false,
     },
@@ -38,6 +41,7 @@ const RecruitNavbar = () => {
           ...state,
           dashboard: { isActive: true },
           courses: { isActive: false },
+          myCourses: { isActive: false },
           payment: { isActive: false },
           peerNetwork: { isActive: false },
           credentials: { isActive: false },
@@ -48,6 +52,18 @@ const RecruitNavbar = () => {
           ...state,
           dashboard: { isActive: false },
           courses: { isActive: true },
+          myCourses: { isActive: false },
+          payment: { isActive: false },
+          peerNetwork: { isActive: false },
+          credentials: { isActive: false },
+        };
+      }
+      case "MYCOURSES": {
+        return {
+          ...state,
+          dashboard: { isActive: false },
+          courses: { isActive: false },
+          myCourses: { isActive: true },
           payment: { isActive: false },
           peerNetwork: { isActive: false },
           credentials: { isActive: false },
@@ -58,6 +74,7 @@ const RecruitNavbar = () => {
           ...state,
           dashboard: { isActive: false },
           courses: { isActive: false },
+          myCourses: { isActive: false },
           payment: { isActive: true },
           peerNetwork: { isActive: false },
           credentials: { isActive: false },
@@ -68,6 +85,7 @@ const RecruitNavbar = () => {
           ...state,
           dashboard: { isActive: false },
           courses: { isActive: false },
+          myCourses: { isActive: false },
           payment: { isActive: false },
           peerNetwork: { isActive: true },
           credentials: { isActive: false },
@@ -78,6 +96,7 @@ const RecruitNavbar = () => {
           ...state,
           dashboard: { isActive: false },
           courses: { isActive: false },
+          myCourses: { isActive: false },
           payment: { isActive: false },
           peerNetwork: { isActive: false },
           credentials: { isActive: true },
@@ -94,6 +113,8 @@ const RecruitNavbar = () => {
       return dispatch({ type: "DASHBOARD" });
     } else if (location.pathname === "/app/recruit/courses") {
       return dispatch({ type: "COURSES" });
+    } else if (location.pathname === "/app/recruit/mycourses") {
+      return dispatch({ type: "MYCOURSES" });
     } else if (location.pathname === "/app/recruit/payment") {
       return dispatch({ type: "PAYMENT" });
     } else if (location.pathname === "/app/recruit/peer-network") {
@@ -136,7 +157,20 @@ const RecruitNavbar = () => {
             >
               <div className="flex flex-col w-full text-sm gap-x-1 lg:flex-row items-center">
                 <BiBook className="text-lg" />
-                <span className="">Courses</span>
+                <span className="">Explore Courses</span>
+              </div>
+            </Link>
+            <Link
+              to="/app/recruit/mycourses"
+              onClick={() => handleDispatch("MYCOURSES")}
+              className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
+                state.myCourses.isActive &&
+                "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
+              } `}
+            >
+              <div className="flex flex-col w-full text-sm gap-x-1 lg:flex-row items-center">
+                <BiBook className="text-lg" />
+                <span className="">My Courses</span>
               </div>
             </Link>
             <Link
