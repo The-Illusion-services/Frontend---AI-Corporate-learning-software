@@ -12,7 +12,7 @@ export const getEnrolledCourses = async () => {
     );
     if (response.ok) {
       const responseData = await response.json();
-      console.log(responseData);
+
       return responseData;
     } else {
       throw new Error();
@@ -34,7 +34,7 @@ export const getAllCourses = async () => {
     );
     if (response.ok) {
       const responseData = await response.json();
-      console.log(responseData);
+
       return responseData;
     } else {
       throw new Error();
@@ -56,7 +56,7 @@ export const getCreatedCourses = async () => {
     );
     if (response.ok) {
       const responseData = await response.json();
-      console.log(responseData);
+
       return responseData;
     } else {
       throw new Error();

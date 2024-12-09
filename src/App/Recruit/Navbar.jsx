@@ -1,17 +1,17 @@
-import React, { useReducer, useEffect, useContext } from "react";
+import React, { useReducer, useEffect, useContext, useState } from "react";
 import { CreateContext } from "../../Context/Context";
 import { Navigate, Outlet } from "react-router";
-import { GoHome } from "react-icons/go";
+import { GoHome, GoSignOut } from "react-icons/go";
 import { BiBook } from "react-icons/bi";
 import { LuVideo } from "react-icons/lu";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { PiCertificateLight } from "react-icons/pi";
 import { Link, useLocation } from "react-router-dom";
-import { GoSignOut } from "react-icons/go";
 
 const RecruitNavbar = () => {
   const { logout, userRole } = useContext(CreateContext).auth;
   const location = useLocation();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const initialState = {
     dashboard: {
@@ -36,7 +36,7 @@ const RecruitNavbar = () => {
 
   const reducerFunc = (state, action) => {
     switch (action.type) {
-      case "DASHBOARD": {
+      case "DASHBOARD":
         return {
           ...state,
           dashboard: { isActive: true },
@@ -46,8 +46,7 @@ const RecruitNavbar = () => {
           peerNetwork: { isActive: false },
           credentials: { isActive: false },
         };
-      }
-      case "COURSES": {
+      case "LESSONS":
         return {
           ...state,
           dashboard: { isActive: false },
@@ -57,7 +56,7 @@ const RecruitNavbar = () => {
           peerNetwork: { isActive: false },
           credentials: { isActive: false },
         };
-      }
+      
       case "MYCOURSES": {
         return {
           ...state,
@@ -69,7 +68,7 @@ const RecruitNavbar = () => {
           credentials: { isActive: false },
         };
       }
-      case "PAYMENT": {
+      case "PAYMENT":
         return {
           ...state,
           dashboard: { isActive: false },
@@ -79,8 +78,7 @@ const RecruitNavbar = () => {
           peerNetwork: { isActive: false },
           credentials: { isActive: false },
         };
-      }
-      case "PEER_NETWORK": {
+      case "PEER_NETWORK":
         return {
           ...state,
           dashboard: { isActive: false },
@@ -90,8 +88,7 @@ const RecruitNavbar = () => {
           peerNetwork: { isActive: true },
           credentials: { isActive: false },
         };
-      }
-      case "CREDENTIALS": {
+      case "CREDENTIALS":
         return {
           ...state,
           dashboard: { isActive: false },
@@ -101,7 +98,8 @@ const RecruitNavbar = () => {
           peerNetwork: { isActive: false },
           credentials: { isActive: true },
         };
-      }
+      default:
+        return state;
     }
   };
 
@@ -116,17 +114,19 @@ const RecruitNavbar = () => {
     } else if (location.pathname === "/app/recruit/mycourses") {
       return dispatch({ type: "MYCOURSES" });
     } else if (location.pathname === "/app/recruit/payment") {
-      return dispatch({ type: "PAYMENT" });
+      dispatch({ type: "PAYMENT" });
     } else if (location.pathname === "/app/recruit/peer-network") {
-      return dispatch({ type: "PEER_NETWORK" });
+      dispatch({ type: "PEER_NETWORK" });
     } else if (location.pathname === "/app/recruit/credentials") {
-      return dispatch({ type: "CREDENTIALS" });
+      dispatch({ type: "CREDENTIALS" });
     }
   }, [location.pathname]);
+
   const [state, dispatch] = useReducer(reducerFunc, initialState);
 
   const handleDispatch = (type) => {
     dispatch({ type });
+    setIsMobileMenuOpen(false); // Close menu after navigation
   };
 
   if (userRole === "Employee") {
@@ -213,17 +213,20 @@ const RecruitNavbar = () => {
               </div>
             </Link>
           </article>
-          <article className="lg:block hidden  mt-auto py-2">
-            <div
+
+          {/* Logout Button */}
+          <article className="mt-auto p-4">
+            <button
               onClick={logout}
-              className=" hover:lg:bg-PrimaryPurple cursor-pointer rounded-md h-8 px-2 flex flex-col w-full text-sm gap-x-1 lg:flex-row items-center"
+              className="hover:lg:bg-PrimaryPurple cursor-pointer rounded-md h-8 px-2 flex w-full text-sm gap-x-1 lg:flex-row items-center"
             >
-              <GoSignOut className="text-lg" />
-              <span className="">Sign Out</span>
-            </div>
+              <GoSignOut />
+              <span>Sign Out</span>
+            </button>
           </article>
         </section>
 
+        {/* Content Section */}
         <Outlet />
       </React.Fragment>
     );

@@ -3,30 +3,32 @@ import { CreateContext } from "../Context/Context";
 import { MdDeleteOutline } from "react-icons/md";
 import { toast } from "sonner";
 import ReactQuill from "react-quill";
-import PreviewCourse from "./previewCourse";
+import PreviewCourse from "../App/Recruit/ViewCourse";
 import "react-quill/dist/quill.snow.css";
 
 const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
   const { auth, loader } = useContext(CreateContext);
+  const { courseInView, setCourseInView } = useContext(CreateContext).course;
   const { token } = auth;
   const { setIsLoading } = loader;
   const [formElements, setFormElements] = useState([]);
   const [preview, setPreview] = useState(false);
 
-  const handlePreview = () => {
-    setPreview(true);
-  };
   const handleCreate = () => {
     setPreview(false);
   };
-
+  
   const [course, setCourse] = useState({
     course_title: "",
     course_description: "",
     price: "",
     modules: [],
   });
-
+  
+  const handlePreview = () => {
+    setCourseInView(course)
+    setPreview(true);
+  };
   const checkLessonsFieldValidity = () => {
     let validity = true;
     course.modules.map((module) => {
@@ -58,7 +60,7 @@ const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
         if (response.ok) {
           const responseData = await response.json();
           toast.success("Course Published!");
-          console.log(responseData);
+          console.log(cacheKey);
           localStorage.removeItem(cacheKey);
         }
       } catch (err) {
@@ -345,7 +347,7 @@ const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
         {!preview ? (
           formElements.map((element, index) => renderElement(element, index))
         ) : (
-          <PreviewCourse course={course} />
+          <PreviewCourse  />
         )}
         <div className="w-full flex gap-x-10 ml-4 ">
           <span

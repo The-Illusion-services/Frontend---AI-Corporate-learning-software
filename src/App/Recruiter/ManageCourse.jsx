@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { CreateContext } from "../../Context/Context";
 import { CiSearch } from "react-icons/ci";
 import { FaBell } from "react-icons/fa6";
@@ -8,11 +8,10 @@ import { useQuery } from "@tanstack/react-query";
 import { getCreatedCourses } from "../../services/apiCourses";
 import { CgSpinner } from "react-icons/cg";
 import LessonImage from "../../assets/lessons/lessonGallery.svg";
-import PreviewCourse from "../../CourseBuilder/previewCourse";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const ManageCourses = () => {
+  const pathname = useLocation().pathname;
   const {
     data: createdCourses,
     isLoading,
@@ -21,9 +20,9 @@ const ManageCourses = () => {
     queryKey: ["created-courses"],
     queryFn: getCreatedCourses,
   });
-  const navigate = useNavigate()
-  
-  const { setCourseInView} = useContext(CreateContext).course;
+  const navigate = useNavigate();
+
+  const { setCourseInView } = useContext(CreateContext).course;
   const [activeTab, setActiveTab] = useState("description");
   // Course Details
   const [activeSection, setActiveSection] = useState(null);
@@ -31,12 +30,20 @@ const ManageCourses = () => {
   const toggleSection = (index) => {
     setActiveSection(index === activeSection ? null : index);
   };
-  
-    const handleCourseView =(course)=>{
-          console.log(course);
-        setCourseInView(course)
-        navigate("/app/recruiter/course/view")
-    }
+
+  const handleCourseView = (course) => {
+    console.log(course);
+    setCourseInView(course);
+    navigate("/app/recruiter/course/view");
+  };
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }, [pathname]);
 
   if (isLoading) {
     // setIsLoading(true)
@@ -97,33 +104,27 @@ const ManageCourses = () => {
           <input
             type="search"
             className="border-inputborderGreen text-textGray rounded-lg px-2 py-3 mt-1 text-sm w-[50%] bg-inputBackground focus:outline-PrimaryPurple focus:ring focus:border-PrimaryPurple"
-            placeholder="       ...Search"
+            placeholder="...Search"
           />
         </div>
       </div>
       <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-3">
-        {/* {images.map((image) => (
-              <div key={image.id} className="overflow-hidden rounded-lg shadow-md m-3">
-                <img src={LessonImage} alt={image.alt} className="object-cover w-full h-48 transform hover:scale-110 transition duration-300 ease-in-out" />
-                <p key={image.text}></p>
-              </div>
-            ))} */}
-
         {createdCourses?.map((course) => {
           return (
-            
-              <div className="gap-y-3 border-inputBorderColor border p-5 rounded-lg" onClick={()=> handleCourseView(course)}>
-                <img src={LessonImage} className="object-cover rounded-lg" />
-                <p className="text-yellow-500 bg-yellow-700 bg-opacity-10 rounded-xl  p-1 px-2 py-1 w-fit">
-                  {course.course_level}
-                </p>
-                <h3 className="text-white font-bold">{course.course_title}</h3>
-                <div className="flex text-textGray text-sm items-center justify-between">
-                  <p>12 Lessons</p>
-                  <p>24hrs 40mins</p>
-                </div>
+            <div
+              className="gap-y-3 border-inputBorderColor border p-5 rounded-lg"
+              onClick={() => handleCourseView(course)}
+            >
+              <img src={LessonImage} className="object-cover rounded-lg" />
+              <p className="text-yellow-500 bg-yellow-700 bg-opacity-10 rounded-xl  p-1 px-2 py-1 w-fit">
+                {course.course_level}
+              </p>
+              <h3 className="text-white font-bold">{course.course_title}</h3>
+              <div className="flex text-textGray text-sm items-center justify-between">
+                <p>12 Lessons</p>
+                <p>24hrs 40mins</p>
               </div>
-            
+            </div>
           );
         })}
       </div>
