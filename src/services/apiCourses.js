@@ -1,5 +1,5 @@
 const storedData = JSON.parse(localStorage.getItem("userData"));
-const token = storedData?.accessToken
+const token = storedData?.accessToken;
 export const getEnrolledCourses = async () => {
   try {
     const response = await fetch(
@@ -15,7 +15,7 @@ export const getEnrolledCourses = async () => {
       console.log(responseData);
       return responseData;
     } else {
-      throw new Error;
+      throw new Error();
     }
   } catch (err) {
     return err.message;
@@ -37,7 +37,7 @@ export const getAllCourses = async () => {
       console.log(responseData);
       return responseData;
     } else {
-      throw new Error;
+      throw new Error();
     }
   } catch (err) {
     return err.message;
@@ -59,7 +59,7 @@ export const getCreatedCourses = async () => {
       console.log(responseData);
       return responseData;
     } else {
-      throw new Error;
+      throw new Error();
     }
   } catch (err) {
     return err.message;

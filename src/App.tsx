@@ -23,6 +23,7 @@ import ManageCourses from "./App/Recruiter/ManageCourse";
 import CourseList from "./App/Recruit/Courses";
 import ViewCourse from "./App/Recruit/ViewCourse";
 import UpdateCourse from "./CourseBuilder/UpdateCourse";
+import MyCourses from "./App/Recruit/MyCourses";
 
 function App() {
   return (
@@ -44,8 +45,12 @@ function App() {
         <Route element={<RequireAuth />}>
           <Route path="/app/recruit" element={<RecruitNavbar />}>
             <Route index element={<RecruitDashboard />} />
-            <Route path="dashboard" element={<RecruitDashboard />} />
+            <Route
+              path="app/recruit/dashboard"
+              element={<RecruitDashboard />}
+            />
             <Route path="courses" element={<CourseList />} />
+            <Route path="/app/recruit/mycourses" element={<MyCourses />} />
             <Route path="course/view" element={<ViewCourse />} />
             <Route path="course" element={<Payment />} />
             <Route path="lessons-gallery" element={<LessonsGallery />} />
@@ -55,7 +60,7 @@ function App() {
             <Route index element={<RecruiterDashboard />} />
             <Route path="dashboard" element={<RecruiterDashboard />} />
             <Route path="create-jobs" element={<CreateJobs />} />
-              <Route path="update" element={<UpdateCourse />} />
+            <Route path="update" element={<UpdateCourse />} />
             <Route path="manage-courses" element={<ManageCourses />}>
               <Route index element={<ManageCourses />} />
             </Route>
