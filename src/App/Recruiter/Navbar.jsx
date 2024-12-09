@@ -8,6 +8,7 @@ import { IoChatbubblesOutline } from "react-icons/io5";
 import { PiCertificateLight } from "react-icons/pi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GoSignOut } from "react-icons/go";
+import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 import Course from "./Course";
 
 const RecruitNavbar = () => {
@@ -140,9 +141,14 @@ const RecruitNavbar = () => {
                 "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
               } `}
             >
-              <div className="flex flex-col w-full text-sm gap-x-1 lg:flex-row items-center">
+              <div className="flex flex-col w-full text-sm gap-x-1 lg:flex-row items-center cursor-pointer">
                 <BiBook className="text-lg" />
                 <span className="">Course</span>
+                {
+                  !showDropdown ?
+                  <FaCaretDown/> :
+                  <FaCaretUp/>
+                }
               </div>
             </div>
             <article
