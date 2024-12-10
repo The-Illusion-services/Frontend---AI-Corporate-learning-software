@@ -133,7 +133,7 @@ const RecruitNavbar = () => {
                       onClick={handleCourseDropdown}
                       className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
                         state.course.isActive &&
-                        "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
+                        "text-white lg:bg-PrimaryPurple"
                       } `}
                     >
                       <div className="flex flex-row w-full text-sm gap-x-1 lg:flex-row items-center cursor-pointer">
@@ -188,7 +188,7 @@ const RecruitNavbar = () => {
         </section>
 
         {/* Outlet for Routing */}
-        <section className="ml-[16%]">
+        <section className="lg:ml-[16%]">
         <Outlet />
         </section>
       </>
