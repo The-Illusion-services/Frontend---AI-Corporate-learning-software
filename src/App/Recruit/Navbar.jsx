@@ -1,6 +1,8 @@
 import React, { useReducer, useEffect, useContext, useState } from "react";
+import React, { useReducer, useEffect, useContext, useState } from "react";
 import { CreateContext } from "../../Context/Context";
 import { Navigate, Outlet } from "react-router";
+import { GoHome, GoSignOut } from "react-icons/go";
 import { GoHome, GoSignOut } from "react-icons/go";
 import { BiBook } from "react-icons/bi";
 import { LuVideo } from "react-icons/lu";
@@ -11,6 +13,7 @@ import { Link, useLocation } from "react-router-dom";
 const RecruitNavbar = () => {
   const { logout, userRole } = useContext(CreateContext).auth;
   const location = useLocation();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const initialState = {
@@ -24,10 +27,12 @@ const RecruitNavbar = () => {
   const reducerFunc = (state, action) => {
     switch (action.type) {
       case "DASHBOARD":
+      case "DASHBOARD":
         return {
           ...state,
           dashboard: { isActive: true },
-          lessons: { isActive: false },
+          courses: { isActive: false },
+          myCourses: { isActive: false },
           payment: { isActive: false },
           peerNetwork: { isActive: false },
           credentials: { isActive: false },
@@ -36,7 +41,18 @@ const RecruitNavbar = () => {
         return {
           ...state,
           dashboard: { isActive: false },
-          lessons: { isActive: true },
+          courses: { isActive: true },
+          myCourses: { isActive: false },
+          payment: { isActive: false },
+          peerNetwork: { isActive: false },
+          credentials: { isActive: false },
+        };
+      case "LESSONS":
+        return {
+          ...state,
+          dashboard: { isActive: false },
+          courses: { isActive: false },
+          myCourses: { isActive: true },
           payment: { isActive: false },
           peerNetwork: { isActive: false },
           credentials: { isActive: false },
@@ -45,29 +61,36 @@ const RecruitNavbar = () => {
         return {
           ...state,
           dashboard: { isActive: false },
-          lessons: { isActive: false },
+          courses: { isActive: false },
+          myCourses: { isActive: false },
           payment: { isActive: true },
           peerNetwork: { isActive: false },
           credentials: { isActive: false },
         };
       case "PEER_NETWORK":
+      case "PEER_NETWORK":
         return {
           ...state,
           dashboard: { isActive: false },
-          lessons: { isActive: false },
+          courses: { isActive: false },
+          myCourses: { isActive: false },
           payment: { isActive: false },
           peerNetwork: { isActive: true },
           credentials: { isActive: false },
         };
       case "CREDENTIALS":
+      case "CREDENTIALS":
         return {
           ...state,
           dashboard: { isActive: false },
-          lessons: { isActive: false },
+          courses: { isActive: false },
+          myCourses: { isActive: false },
           payment: { isActive: false },
           peerNetwork: { isActive: false },
           credentials: { isActive: true },
         };
+      default:
+        return state;
       default:
         return state;
     }
@@ -83,17 +106,22 @@ const RecruitNavbar = () => {
       dispatch({ type: "LESSONS" });
     } else if (location.pathname === "/app/recruit/payment") {
       dispatch({ type: "PAYMENT" });
+      dispatch({ type: "PAYMENT" });
     } else if (location.pathname === "/app/recruit/peer-network") {
+      dispatch({ type: "PEER_NETWORK" });
       dispatch({ type: "PEER_NETWORK" });
     } else if (location.pathname === "/app/recruit/credentials") {
       dispatch({ type: "CREDENTIALS" });
+      dispatch({ type: "CREDENTIALS" });
     }
   }, [location.pathname]);
+
 
   const [state, dispatch] = useReducer(reducerFunc, initialState);
 
   const handleDispatch = (type) => {
     dispatch({ type });
+    setIsMobileMenuOpen(false); // Close menu after navigation
     setIsMobileMenuOpen(false); // Close menu after navigation
   };
 
@@ -139,15 +167,24 @@ const RecruitNavbar = () => {
           {/* Logout Button */}
           <article className="mt-auto p-4">
             <button
+
+          {/* Logout Button */}
+          <article className="mt-auto p-4">
+            <button
               onClick={logout}
               className="hover:lg:bg-PrimaryPurple cursor-pointer rounded-md h-8 px-2 flex w-full text-sm gap-x-1 lg:flex-row items-center"
+              className="hover:lg:bg-PrimaryPurple cursor-pointer rounded-md h-8 px-2 flex w-full text-sm gap-x-1 lg:flex-row items-center"
             >
+              <GoSignOut />
+              <span>Sign Out</span>
+            </button>
               <GoSignOut />
               <span>Sign Out</span>
             </button>
           </article>
         </section>
 
+        {/* Content Section */}
         {/* Content Section */}
         <Outlet />
       </React.Fragment>

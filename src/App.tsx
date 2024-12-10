@@ -7,8 +7,8 @@ import Signup from "./Auth/Signup";
 import RecruitNavbar from "./App/Recruit/Navbar";
 import RecruiterNavbar from "./App/Recruiter/Navbar";
 import Landingpage from "./HomePage/Landingpage";
-import Lessons from "./App/Recruit/Lessons";
-import LessonsGallry from "./App/Recruit/LessonsGallery";
+import Courses from "./App/Recruit/Courses";
+import LessonsGallery from "./App/Recruit/LessonsGallery";
 import RequireAuth from "./Auth/RequireAuth";
 import ForgottenPassword from "./Auth/ForgottenPassword";
 import Spinner from "./UiElements/spinner";
@@ -19,12 +19,17 @@ import CourseLandingPage from "./CourseBuilder/CourseLandingPage";
 import Payment from "./App/Recruit/Payment";
 import CreateJobs from "./App/Recruiter/CreateJobs";
 import Toast from "./Shared/toast";
+import ManageCourses from "./App/Recruiter/ManageCourse";
+import CourseList from "./App/Recruit/Courses";
+import ViewCourse from "./App/Recruit/ViewCourse";
+import UpdateCourse from "./CourseBuilder/UpdateCourse";
+import MyCourses from "./App/Recruit/MyCourses";
 
 function App() {
   return (
     <>
       <Spinner />
-      <Toast/>
+      <Toast />
       <Routes>
         <Route path="/" element={<Landingpage />} />
         <Route path="/create-course" element={<CreateCourse />} />
@@ -40,18 +45,29 @@ function App() {
         <Route element={<RequireAuth />}>
           <Route path="/app/recruit" element={<RecruitNavbar />}>
             <Route index element={<RecruitDashboard />} />
-            <Route path="dashboard" element={<RecruitDashboard />} />
-            <Route path="lessons" element={<Lessons />} />
+            <Route
+              path="app/recruit/dashboard"
+              element={<RecruitDashboard />}
+            />
+            <Route path="courses" element={<CourseList />} />
+            <Route path="/app/recruit/mycourses" element={<MyCourses />} />
+            <Route path="course/view" element={<ViewCourse />} />
             <Route path="course" element={<Payment />} />
-            <Route path="lessonsGallery" element={<LessonsGallry />} />
+            <Route path="lessons-gallery" element={<LessonsGallery />} />
             <Route path="payment" element={<Payment />} />
           </Route>
           <Route path="/app/recruiter" element={<RecruiterNavbar />}>
             <Route index element={<RecruiterDashboard />} />
             <Route path="dashboard" element={<RecruiterDashboard />} />
             <Route path="create-jobs" element={<CreateJobs />} />
-            <Route path="course" element={<Course />}>
+            <Route path="update" element={<UpdateCourse />} />
+            <Route path="manage-courses" element={<ManageCourses />}>
+              <Route index element={<ManageCourses />} />
+            </Route>
+            <Route path="course/view" element={<ViewCourse />} />
+            <Route path="create-course" element={<Course />}>
               <Route index element={<CourseLandingPage />} />
+              <Route path="landing-page" element={<CourseLandingPage />} />
               <Route path="create-resource" element={<CreateCourse />} />
               <Route path="quiz" element={<QuizBuilder />} />
             </Route>
