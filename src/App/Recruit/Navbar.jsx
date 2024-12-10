@@ -56,7 +56,17 @@ const RecruitNavbar = () => {
           peerNetwork: { isActive: false },
           credentials: { isActive: false },
         };
-      
+      case "COURSES": {
+        return {
+          ...state,
+          dashboard: { isActive: false },
+          courses: { isActive: true },
+          myCourses: { isActive: false },
+          payment: { isActive: false },
+          peerNetwork: { isActive: false },
+          credentials: { isActive: false },
+        };
+      }
       case "MYCOURSES": {
         return {
           ...state,
