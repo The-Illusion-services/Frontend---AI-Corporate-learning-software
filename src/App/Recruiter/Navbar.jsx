@@ -6,14 +6,12 @@ import { BiBook } from "react-icons/bi";
 import { LuVideo } from "react-icons/lu";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { PiCertificateLight } from "react-icons/pi";
-import { Link, useLocation } from "react-router-dom";
-import { FaCaretDown, FaCaretUp } from "react-icons/fa";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { GoSignOut } from "react-icons/go";
 
 const RecruitNavbar = () => {
   const { logout, userRole } = useContext(CreateContext).auth;
   const location = useLocation();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
 
   const initialState = {
     dashboard: { isActive: true },
@@ -89,92 +87,79 @@ const RecruitNavbar = () => {
 
   const handleDispatch = (type) => {
     dispatch({ type });
-    setIsMobileMenuOpen(false); // Close the menu after navigation
-  };
-
-  const handleCourseDropdown = () => {
-    setShowDropdown(!showDropdown);
   };
 
   if (userRole === "Employer") {
     return (
-      <>
-        {/* Hamburger Button */}
-        <button
-          className="lg:hidden fixed top-3 right-5 z-50 bg-transparent font-bold text-[20px] bg-black mb-20 text-white p-2 rounded"
-          onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-        >
-          {isMobileMenuOpen ? "✖" : "☰"}
-        </button>
+      <React.Fragment>
+        <section className=" bg-[#101010] text-white border-solid lg:py-0 mt-10 fixed z-50 lg:h-full shadow-md flex flex-col text-3xl h-20 bottom-0  w-full lg:w-[16%] lg:px-4">
+          <article className="lg:h-[70%] lg:items-start flex flex-row lg:flex-col justify-evenly  items-center h-full  w-full border-b">
+            <Link
+              to="/app/recruiter/dashboard"
+              onClick={() => handleDispatch("DASHBOARD")}
+              className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
+                state.dashboard.isActive &&
+                "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
+              } `}
+            >
+              <div className="flex flex-col w-full text-sm gap-x-1 lg:flex-row items-center ">
+                <GoHome className="text-lg " />
+                <span className="">Dashboard</span>
+              </div>
+            </Link>
+            <Link
+              to="/app/recruiter/course"
+              onClick={() => handleDispatch("COURSE")}
+              className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
+                state.course.isActive &&
+                "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
+              } `}
+            >
+              <div className="flex flex-col w-full text-sm gap-x-1 lg:flex-row items-center">
+                <BiBook className="text-lg" />
+                <span className="">Course</span>
+              </div>
+            </Link>
+            <Link
+              to="/app/recruiter/liveSessions"
+              onClick={() => handleDispatch("LIVE_SESSIONS")}
+              className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
+                state.liveSessions.isActive &&
+                "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
+              } `}
+            >
+              <div className=" w-full flex flex-col text-sm gap-x-1 lg:flex-row  items-center">
+                <LuVideo className="text-lg" />
+                <span className="">Live Sessions</span>
+              </div>
+            </Link>
 
-        {/* Navbar Section */}
-        <section
-          className={`fixed top-0 left-0 z-40 h-full bg-[#101010] text-white transition-transform ${
-            isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-          } lg:translate-x-0 lg:w-[16%] w-[70%]`}
-        >
-          <article className="lg:h-[70%] flex flex-col justify-evenly p-4">
-            {[
-              { type: "DASHBOARD", label: "Dashboard", Icon: GoHome },
-              { type: "COURSE", label: "Course", Icon: BiBook },
-              { type: "LIVE_SESSIONS", label: "Live Sessions", Icon: LuVideo },
-              { type: "JOBS", label: "Jobs", Icon: IoChatbubblesOutline },
-              {
-                type: "CREDENTIALS",
-                label: "Credentials",
-                Icon: PiCertificateLight,
-              },
-            ].map(({ type, label, Icon }) => {
-              if (type === "COURSE") {
-                return (
-                  <>
-                    <div
-                      // to="/app/recruiter/course"
-                      onClick={handleCourseDropdown}
-                      className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
-                        state.course.isActive &&
-                        "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
-                      } `}
-                    >
-                      <div className="flex flex-row w-full text-sm gap-x-1 lg:flex-row items-center cursor-pointer">
-                        <BiBook className="text-lg" />
-                        <span className="">Course</span>
-                        {!showDropdown ? <FaCaretDown /> : <FaCaretUp />}
-                      </div>
-                    </div>{" "}
-                    <article
-                      className={`flex flex-col ${
-                        showDropdown ? "h-auto" : "h-0 hidden"
-                      }  transition-all text-[12px] w-full  `}
-                    >
-                      <Link to="/app/recruiter/create-course" className="">
-                        <div className="pl-5">Create Course</div>
-                      </Link>
-                      <Link to="/app/recruiter/manage-courses" className="">
-                        <div className="pl-5">Manage Courses</div>
-                      </Link>
-                    </article>
-                  </>
-                );
-              } else {
-                return (
-                  <Link
-                    key={type}
-                    to={`/app/recruiter/${type
-                      .toLowerCase()
-                      .replace("_", "-")}`}
-                    onClick={() => handleDispatch(type)}
-                    className={`flex items-center gap-2 py-2 ${
-                      state[type.toLowerCase()]?.isActive &&
-                      "text-white bg-PrimaryPurple rounded-lg p-3"
-                    }`}
-                  >
-                    <Icon className="text-lg" />
-                    <span>{label}</span>
-                  </Link>
-                );
-              }
-            })}
+            <Link
+              to="/app/recruiter/create-jobs"
+              onClick={() => handleDispatch("JOBS")}
+              className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
+                state.jobs.isActive &&
+                "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
+              } `}
+            >
+              <div className="flex flex-col w-full text-sm gap-x-1 lg:flex-row items-center">
+                <IoChatbubblesOutline className="text-lg" />
+                <span className="">Jobs</span>
+              </div>
+            </Link>
+
+            <Link
+              onClick={() => handleDispatch("CREDENTIALS")}
+              className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
+                state.credentials.isActive &&
+                "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
+              } `}
+            >
+              <div className="flex flex-col w-full text-sm gap-x-1 lg:flex-row items-center">
+                <PiCertificateLight className="text-lg" />
+                <span className="">Credentials</span>
+              </div>
+            </Link>
           </article>
           <article className="mt-auto p-4">
             <button
@@ -187,11 +172,8 @@ const RecruitNavbar = () => {
           </article>
         </section>
 
-        {/* Outlet for Routing */}
-        <section className="ml-[16%]">
         <Outlet />
-        </section>
-      </>
+      </React.Fragment>
     );
   }
   return null;

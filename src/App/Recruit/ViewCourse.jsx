@@ -1,5 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
-import { CreateContext } from "../../Context/Context";
+import React, { useState } from "react";
+import { CiSearch } from "react-icons/ci";
+import { FaBell } from "react-icons/fa6";
+import { IoPersonCircleSharp } from "react-icons/io5";
 import { FaClock } from "react-icons/fa";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { LiaDownloadSolid } from "react-icons/lia";
@@ -19,88 +21,73 @@ import face from "../../assets/lessons/face.svg";
 import rocket from "../../assets/lessons/rocket.svg";
 import smirk from "../../assets/lessons/smirking.svg";
 import message from "../../assets/lessons/message.svg";
-import DOMPurify from "dompurify";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 
-const PreviewCourse = () => {
-  const pathname = useLocation().pathname
-  const navigate = useNavigate();
-  const { courseInView, setCourseInView } = useContext(CreateContext).course;
+const RecruitLessons = () => {
   const [activeTab, setActiveTab] = useState("description");
   // Course Details
-  const [activeModuleIndex, setActiveModuleIndex] = useState(0);
-  const [activeModule, setActiveModule] = useState({});
-  const [activeLesson, setActiveLesson] = useState(0);
-  const [showModuleLessons, setShowModuleLessons] = useState(false);
-  const lessons = courseInView?.modules[activeModuleIndex]?.lessons;
-  const lesson_description =
-    courseInView?.modules[activeModuleIndex]?.lessons[activeLesson]
-      ?.description;
-
-  
-
+  const [activeSection, setActiveSection] = useState(null);
   // Function to toggle accordion sections in the course details
-  const [visibleModules, setVisibleModules] = useState({});
-
-  const toggleSection = (moduleIndex) => {
-    setVisibleModules((prev) => ({
-      ...prev,
-      [moduleIndex]: !prev[moduleIndex], // Toggle the specific module's visibility
-    }));
+  const toggleSection = (index) => {
+    setActiveSection(index === activeSection ? null : index);
   };
-
-  console.log(visibleModules);
-
-  const handleActiveLesson = (lessonIndex, moduleIndex) => {
-    setActiveModuleIndex(moduleIndex);
-    setActiveLesson(lessonIndex);
-  };
-
-  const handleNextLesson = () => {
-    if (
-      activeLesson + 1 <
-      courseInView?.modules[activeModuleIndex]?.lessons.length
-    ) {
-      setActiveLesson(activeLesson + 1);
-    } else if (courseInView?.modules.length > activeModuleIndex + 1) {
-      setActiveModuleIndex(activeModuleIndex + 1);
-      setActiveLesson(0);
-    }
-  };
-
-  const handlePreviousLesson = () => {
-    if (activeLesson > 0) {
-      setActiveLesson(activeLesson - 1);
-    }
-  };
-
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
-  }, [pathname]);
 
   return (
     <section className=" bg-mobileBackground text-white min-h-screen max-w-full">
+      {/* Heading/Search */}
+      <div className="flex justify-between bg-mobileBackground text-white h-auto lg:ml-[16%] p-3">
+        <div className=" text-white flex items-center justify-center text-1xl border-inputBorderColor lg:ml-[3%]">
+          <h2 className="hidden xl:block p-3">Course Detail</h2>
+          <img
+            src={Profile}
+            alt="login illustration"
+            className="object-contain w-10 h-10 rounded-full xl:hidden"
+          />
+        </div>
+
+        <div className="hidden relative xl:block">
+          <div className="absolute bottom-4 left-3 flex text-2xl text-textGray">
+            <CiSearch />
+          </div>
+
+          <input
+            type="search"
+            className="border-inputborderGreen text-textGray rounded-lg px-3 py-4 mt-1 text-sm w-[700px] bg-inputBackground focus:outline-PrimaryPurple focus:ring focus:border-PrimaryPurple"
+            placeholder="       ...Search"
+          />
+        </div>
+
+        <div className="flex items-center justify-between mr-[3%]">
+          <div className=" rounded-full text-PrimaryPurple w-10 h-10 flex items-center justify-center text-3xl bg-[#1b1c1e] border-inputBorderColor">
+            <FaBell />
+          </div>
+
+          <div className=" rounded-full text-PrimaryPurple w-10 h-10 flex items-center justify-center text-3xl bg-[#1b1c1e] border-inputBorderColor xl:hidden">
+            <IoPersonCircleSharp />
+          </div>
+          <img
+            src={Profile}
+            alt="login illustration"
+            className="object-contain w-10 h-10 rounded-full hidden xl:block"
+          />
+        </div>
+      </div>
+
       {/* Content Area */}
-      <div className="xl:flex bg-mobileBackground text-white min-h-screen max-w-full ">
+      <div className="xl:flex bg-mobileBackground text-white min-h-screen max-w-full lg:ml-[16%]">
         {/* Main Content Area */}
-        <main className="w-full p-6 lg:px-12 lg:py-8 xl:w-[70%]  flex flex-col">
-          {/* <h1 className="xl:hidden">Course Detail</h1> */}
+        <main className="w-full p-6 lg:px-12 lg:py-8 xl:w-[70%]">
+          <h1 className="xl:hidden">Course Detail</h1>
           {/* Course Title */}
-          <div className="mb-6 mt-6  flex justify-between items-center py-2 px-1">
+          <div className="mb-6 mt-6">
             <h1 className=" lg:text-3xl font-bold">
-              {courseInView.course_title}
+              Complete Website Responsive Design: from Figma to Webflow to
+              Website Design
             </h1>
-            
           </div>
 
           {/* Video Section */}
           <div className="bg-inputBackground rounded-lg flex items-center justify-center">
-            {/* <img
+            <img
               src={Video}
               alt="Course"
               className="aspect-video object-cover rounded-lg w-full flex relative"
@@ -110,12 +97,11 @@ const PreviewCourse = () => {
               src={Eclipse}
               className="flex absolute object-cover rounded-lg"
             />
-            <img src={play} className="flex absolute object-cover rounded-lg" /> */}
+            <img src={play} className="flex absolute object-cover rounded-lg" />
           </div>
-          {/* {activeModuleIndex.} */}
 
           {/* Quiz Section */}
-          {/* <div className="mb-6 mt-6 hidden">
+          <div className="mb-6 mt-6 hidden">
             <div className="flex text-textGray">
               <img src={Profile3} />
               <p>Dianne Russell.Kristin Watson</p>
@@ -146,57 +132,49 @@ const PreviewCourse = () => {
                 expedita distinctio.
               </p>
             </div>
-          </div> */}
+          </div>
 
           {/* Lecture Section */}
-          <div className="mb-6 mt-6 ">
+          <div className="mb-6 mt-6 hidden">
             <div className="flex items-center space-x-3 text-textGray">
               <img src={Profile3} />
               <p>Dianne Russell.Kristin Watson</p>
             </div>
 
-            <div className="flex flex-col justify-between my-2">
-              <h2 className="text-2xl font-bold">
-                {courseInView?.modules[activeModuleIndex]?.title}
-              </h2>
-              <div className="flex justify-between mt-4">
-                <h2 className="text-lg">
-                  {
-                    courseInView?.modules[activeModuleIndex]?.lessons[
-                      activeLesson
-                    ]?.title
-                  }
-                </h2>
-                <div className="flex gap-x-2">
-                  <button
-                    className="border rounded-sm h-8 w-28 hover:bg-PrimaryPurple hover:border-0"
-                    onClick={handlePreviousLesson}
-                  >
-                    Previous
-                  </button>
-                  <button
-                    className="border rounded-sm h-8 w-28 hover:bg-PrimaryPurple hover:border-0"
-                    onClick={handleNextLesson}
-                  >
-                    Next
-                  </button>
-                </div>
-              </div>
+            <div className="flex justify-between items-center my-2">
+              <h2 className="text-lg font-bold">Lecture 1</h2>
             </div>
 
-            <div
-              className="border rounded-md lg:max-h-[300px] lg:h-[300px] px-2 py-2 overflow-y-auto"
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(lesson_description),
-              }}
-            ></div>
+            <div>
+              <p className="text-textGray p-2">
+                "At vero eos et accusamus et justo odio dignissimos ducimus qui
+                blanditiis praesentium voluptatum deleniti atque corrupti quos
+                dolores et quas molestias excepturi sint occaecati." Omnis
+                voluptas assumenda est, omnis dolor repellendus. Harum quidem
+                rerum facilis est et expedita distinctio. Omnis voluptas
+                assumenda est, omnis dolor repellendus. Harum quidem rerum
+                facilis est et expedita distinctio. Omnis voluptas assumenda
+                est, omnis dolor repellendus. Harum quidem rerum facilis est et
+                expedita distinctio.
+              </p>
+            </div>
           </div>
 
           {/* Tab Section */}
-          <div className=" bg-mobileBackground border border-inputBorderColor rounded-lg p-3 mt-auto">
+          <div className="mt-6 bg-mobileBackground border border-inputBorderColor rounded-lg p-3">
             {/* Tab Headers */}
             <div className="">
               <ul className="flex space-x-2 lg:space-x-10 border-b border-inputBorderColor items-center justify-center">
+                <li
+                  className={`cursor-pointer pb-3 ${
+                    activeTab === "home"
+                      ? "border-b-2 border-PrimaryPurple text-PrimaryPurple"
+                      : "text-textGray xl:hidden"
+                  }`}
+                  onClick={() => setActiveTab("home")}
+                >
+                  Home
+                </li>
                 <li
                   className={`cursor-pointer pb-3 ${
                     activeTab === "description"
@@ -243,12 +221,125 @@ const PreviewCourse = () => {
             {/* Tab Content */}
             <div className="mt-4 mb-20">
               {/* Home Tab */}
+              {activeTab === "home" && (
+                <div>
+                  {/* Left Section: Course List */}
+                  <div className="flex flex-col lg:flex-row items-center justify-between mt-5 px-5 xl:mt-0 py-7 w-full">
+                    <div className="bg-[#1b1c1e] border-2 border-inputBorderColor p-6 rounded-lg w-full lg:w-full space-y-4 m-2">
+                      {/** Accordion List */}
+                      {[
+                        { id: 1, title: "Introduction" },
+                        {
+                          id: 2,
+                          title: "Section 1",
+                          items: [
+                            "Lorem ipsum dolor sit amet ipsum",
+                            "Lorem ipsum dolor sit amet ipsum dolor sit amet",
+                            "Lorem ipsum dolor sit amet ipsum dolor sit amet",
+                            "Lorem ipsum dolor sit amet ipsum dolor sit amet",
+                          ],
+                        },
+                        { id: 3, title: "Section 2" },
+                        { id: 4, title: "Section 3" },
+                      ].map((section, index) => (
+                        <div key={section.id}>
+                          <div
+                            className="flex items-center justify-between cursor-pointer p-4 hover:bg-mobileBackground rounded"
+                            onClick={() => toggleSection(index)}
+                          >
+                            <div className="flex items-center gap-2">
+                              <span className="flex items-center justify-center w-6 h-6 rounded-full border border-textGray">
+                                {section.id}
+                              </span>
+                              <span
+                                className={
+                                  index === activeSection
+                                    ? "text-PrimaryPurple"
+                                    : "text-white"
+                                }
+                              >
+                                {section.title}
+                              </span>
+                            </div>
+                            {index === activeSection ? (
+                              <IoIosArrowUp className="text-lg" />
+                            ) : (
+                              <IoIosArrowDown className="text-lg" />
+                            )}
+                          </div>
+
+                          {/* Expandable Content */}
+                          {index === activeSection && section.items && (
+                            <div className="bg-inputBackground p-4 mt-2 rounded space-y-2">
+                              {section.items.map((item, itemIndex) => (
+                                <div
+                                  key={itemIndex}
+                                  className="flex justify-between"
+                                >
+                                  <div className="flex items-center gap-2">
+                                    <span className="w-2 h-2 rounded-full bg-purple-500" />
+                                    <span className="text-gray-300">
+                                      {item}
+                                    </span>
+                                  </div>
+                                  <span className="text-xs">21:03</span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Course Progress */}
+
+                    {/* Right Section: Course Metadata */}
+                    <div className="bg-[#1b1c1e] border-2 border-inputBorderColor p-6 rounded-lg w-full lg:w-full space-y-4 mb-10">
+                      {/* Course Metadata Items */}
+                      <div className="flex items-center gap-4">
+                        <img src={CourseIcon} className="text-textGray" />
+                        <span className="text-textGray">6 courses and 29</span>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <img src={DurationIcon} className="text-textGray" />
+                        <span className="text-textGray">24hrs 30min</span>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <img
+                          src={IntermediateIcon}
+                          className="text-textGray text-lg"
+                        />
+                        <span className="text-textGray">Intermediate</span>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <img src={AssignmentIcon} className="text-textGray" />
+                        <span className="text-textGray">
+                          5 Assignments and 7 Lessons
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <img src={StarIcon} />
+                        <span className="text-textGray">
+                          Receive NFT certificate upon completing all 6 courses
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Description Tab */}
               {activeTab === "description" && (
                 <div>
                   <p className="text-gray-400">
-                    {courseInView.course_description}
+                    "At vero eos et accusamus et justo odio dignissimos ducimus
+                    qui blanditiis praesentium voluptatum deleniti atque
+                    corrupti quos dolores et quas molestias excepturi sint
+                    occaecati."
+                  </p>
+                  <p className="mt-4 text-gray-400">
+                    Omnis voluptas assumenda est, omnis dolor repellendus. Harum
+                    quidem rerum facilis est et expedita distinctio.
                   </p>
                 </div>
               )}
@@ -507,15 +598,13 @@ const PreviewCourse = () => {
         </main>
 
         {/* Course Info Sidebar */}
-        <aside className="hidden xl:block mt-5 px-5 xl:mt-3 py-7  lg:w-[35%]">
+        <aside className="hidden xl:block mt-5 px-5 xl:mt-3 py-7  lg:w-[30%]">
           {/* Right Section: Course Metadata */}
           <div className="bg-[#1b1c1e] border-2 border-inputBorderColor p-6 rounded-lg w-full lg:w-full space-y-4 mb-10">
             {/* Course Metadata Items */}
             <div className="flex items-center gap-4">
               <img src={CourseIcon} className="text-textGray" />
-              <span className="text-textGray">
-                {courseInView.modules.length} modules{" "}
-              </span>
+              <span className="text-textGray">6 courses and 29</span>
             </div>
             <div className="flex items-center gap-4">
               <img src={DurationIcon} className="text-textGray" />
@@ -538,67 +627,70 @@ const PreviewCourse = () => {
           </div>
 
           {/* Left Section: Course List */}
-          <section className=" h-[100px] lg:h-[445px] flex flex-col items-center justify-center lg:py-4">
-            <div className="bg-[#1b1c1e] border-2 border-inputBorderColor  rounded-lg w-full lg:w-[90%] flex flex-col lg:gap-y-6  overflow-y-auto h-full lg:p-2">
-              {/** Accordion List */}
-              {courseInView.modules.map((module, moduleIndex) => (
-                <div key={moduleIndex} className="">
-                  <div
-                    className="flex items-center justify-between cursor-pointer  hover:bg-PrimaryPurple hover:text-white rounded"
-                    onClick={() => toggleSection(moduleIndex)}
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className="">{module.title}</span>
-                    </div>
-                    {visibleModules[moduleIndex] ? (
-                      <IoIosArrowUp className="text-lg" />
-                    ) : (
-                      <IoIosArrowDown className="text-lg" />
-                    )}
+          <div className="bg-[#1b1c1e] border-2 border-inputBorderColor p-6 rounded-lg w-full lg:w-full space-y-4 mb-5">
+            {/** Accordion List */}
+            {[
+              { id: 1, title: "Introduction" },
+              {
+                id: 2,
+                title: "Section 1",
+                items: [
+                  "Lorem ipsum dolor sit amet ipsum",
+                  "Lorem ipsum dolor sit amet ipsum dolor sit amet",
+                  "Lorem ipsum dolor sit amet ipsum dolor sit amet",
+                  "Lorem ipsum dolor sit amet ipsum dolor sit amet",
+                ],
+              },
+              { id: 3, title: "Introduction" },
+              { id: 4, title: "Introduction" },
+            ].map((section, index) => (
+              <div key={section.id}>
+                <div
+                  className="flex items-center justify-between cursor-pointer p-4 hover:bg-PrimaryPurple rounded"
+                  onClick={() => toggleSection(index)}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="flex items-center justify-center w-6 h-6 rounded-full border border-gray-500">
+                      {section.id}
+                    </span>
+                    <span
+                      className={
+                        index === activeSection
+                          ? "text-PrimaryPurple"
+                          : "text-white"
+                      }
+                    >
+                      {section.title}
+                    </span>
                   </div>
-
-                  {/* Expandable Content */}
-
-                  {visibleModules[moduleIndex] && module.lessons && (
-                    <div className="bg-[#1b1c1e] border-2 border-inputBorderColor p-4 mt-2 rounded space-y-5">
-                      {module.lessons.map((lesson, lessonIndex) => (
-                        <div
-                          key={lessonIndex}
-                          className="flex justify-between text-xs"
-                          onClick={() =>
-                            handleActiveLesson(lessonIndex, moduleIndex)
-                          }
-                        >
-                          <div className="flex items-center gap-2 cursor-pointer">
-                            <span
-                              className={`w-2 h-2 rounded-full ${
-                                lessonIndex === activeLesson &&
-                                moduleIndex == activeModuleIndex &&
-                                "bg-PrimaryPurple"
-                              }`}
-                            />
-                            <span
-                              className="text-gray-300 text-nowrap overflow-x-hidden"
-                              title={lesson.title}
-                            >
-                              {lesson.title.length > 22
-                                ? `${lesson.title.slice(0, 22)}...`
-                                : lesson.title}
-                            </span>
-                          </div>
-                          <span className="text-xs">21:03</span>
-                        </div>
-                      ))}
-                    </div>
+                  {index === activeSection ? (
+                    <IoIosArrowUp className="text-lg" />
+                  ) : (
+                    <IoIosArrowDown className="text-lg" />
                   )}
                 </div>
-              ))}
-            </div>
-          </section>
+
+                {/* Expandable Content */}
+                {index === activeSection && section.items && (
+                  <div className="bg-[#1b1c1e] border-2 border-inputBorderColor p-4 mt-2 rounded space-y-5">
+                    {section.items.map((item, itemIndex) => (
+                      <div key={itemIndex} className="flex justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-PrimaryPurple" />
+                          <span className="text-gray-300">{item}</span>
+                        </div>
+                        <span className="text-xs">21:03</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </aside>
       </div>
     </section>
   );
 };
 
-export default PreviewCourse;
+export default RecruitLessons;
