@@ -3,12 +3,12 @@ import { CreateContext } from "../Context/Context";
 import { MdDeleteOutline } from "react-icons/md";
 import { toast } from "sonner";
 import ReactQuill from "react-quill";
-import PreviewCourse from "../App/Recruit/ViewCourse";
+import PreviewCourse from "../App/Learner/ViewCourse";
 import "react-quill/dist/quill.snow.css";
 
 const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
   const { auth, loader } = useContext(CreateContext);
-  const { courseInView, setCourseInView } = useContext(CreateContext).course;
+  const { courseInView, setCourseInView, course, setCourse } = useContext(CreateContext).course;
   const { token } = auth;
   const { setIsLoading } = loader;
   const [formElements, setFormElements] = useState([]);
@@ -17,13 +17,6 @@ const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
   const handleCreate = () => {
     setPreview(false);
   };
-  
-  const [course, setCourse] = useState({
-    course_title: "",
-    course_description: "",
-    price: "",
-    modules: [],
-  });
   
   const handlePreview = () => {
     setCourseInView(course)

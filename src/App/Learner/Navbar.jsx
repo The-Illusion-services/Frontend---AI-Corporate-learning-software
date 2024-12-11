@@ -8,10 +8,14 @@ import { IoChatbubblesOutline } from "react-icons/io5";
 import { PiCertificateLight } from "react-icons/pi";
 import { Link, useLocation } from "react-router-dom";
 
-const RecruitNavbar = () => {
-  const { logout, userRole } = useContext(CreateContext).auth;
+const LearnerNavbar = () => {
+  const { logout, userRole, setShowSignOutModal, showSignOutModal } = useContext(CreateContext).auth;
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const handleShowSignOutModal = ()=>{
+    setShowSignOutModal(!showSignOutModal)
+  }
 
   const initialState = {
     dashboard: {
@@ -115,19 +119,19 @@ const RecruitNavbar = () => {
 
   useEffect(() => {
     if (
-      location.pathname === "/app/recruit" ||
-      location.pathname === "/app/recruit/dashboard"
+      location.pathname === "/app/learner" ||
+      location.pathname === "/app/learner/dashboard"
     ) {
       return dispatch({ type: "DASHBOARD" });
-    } else if (location.pathname === "/app/recruit/courses") {
+    } else if (location.pathname === "/app/learner/courses") {
       return dispatch({ type: "COURSES" });
-    } else if (location.pathname === "/app/recruit/mycourses") {
+    } else if (location.pathname === "/app/learner/mycourses") {
       return dispatch({ type: "MYCOURSES" });
-    } else if (location.pathname === "/app/recruit/payment") {
+    } else if (location.pathname === "/app/learner/payment") {
       dispatch({ type: "PAYMENT" });
-    } else if (location.pathname === "/app/recruit/peer-network") {
+    } else if (location.pathname === "/app/learner/peer-network") {
       dispatch({ type: "PEER_NETWORK" });
-    } else if (location.pathname === "/app/recruit/credentials") {
+    } else if (location.pathname === "/app/learner/credentials") {
       dispatch({ type: "CREDENTIALS" });
     }
   }, [location.pathname]);
@@ -145,7 +149,7 @@ const RecruitNavbar = () => {
         <section className=" bg-[#101010] text-white border-solid mt-10 fixed z-50 lg:h-full shadow-md flex flex-col text-3xl h-20 bottom-0  w-full lg:w-[16%] lg:px-4">
           <article className="lg:h-[70%] lg:items-start flex flex-row lg:flex-col justify-evenly  items-center h-full  w-full border-b">
             <Link
-              to="/app/recruit/dashboard"
+              to="/app/learner/dashboard"
               onClick={() => handleDispatch("DASHBOARD")}
               className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
                 state.dashboard.isActive &&
@@ -158,7 +162,7 @@ const RecruitNavbar = () => {
               </div>
             </Link>
             <Link
-              to="/app/recruit/courses"
+              to="/app/learner/explore-courses"
               onClick={() => handleDispatch("COURSES")}
               className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
                 state.courses.isActive &&
@@ -171,7 +175,7 @@ const RecruitNavbar = () => {
               </div>
             </Link>
             <Link
-              to="/app/recruit/mycourses"
+              to="/app/learner/my-courses"
               onClick={() => handleDispatch("MYCOURSES")}
               className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
                 state.myCourses.isActive &&
@@ -184,7 +188,7 @@ const RecruitNavbar = () => {
               </div>
             </Link>
             <Link
-              to="/app/recruit/payment"
+              to="/app/learner/payment"
               onClick={() => handleDispatch("PAYMENT")}
               className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
                 state.payment.isActive &&
@@ -227,7 +231,7 @@ const RecruitNavbar = () => {
           {/* Logout Button */}
           <article className="mt-auto p-4">
             <button
-              onClick={logout}
+              onClick={handleShowSignOutModal}
               className="hover:lg:bg-PrimaryPurple cursor-pointer rounded-md h-8 px-2 flex w-full text-sm gap-x-1 lg:flex-row items-center"
             >
               <GoSignOut />
@@ -237,7 +241,9 @@ const RecruitNavbar = () => {
         </section>
 
         {/* Content Section */}
+        <section className="lg:ml-[16%]">
         <Outlet />
+        </section>
       </React.Fragment>
     );
   } else {
@@ -245,4 +251,4 @@ const RecruitNavbar = () => {
   }
 };
 
-export default RecruitNavbar;
+export default LearnerNavbar;

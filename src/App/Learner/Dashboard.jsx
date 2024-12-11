@@ -17,7 +17,7 @@ import Clock from "../../assets/dashboard/clock.svg";
 import PaymentCheckout from "../../Payment/PaymentCheckout";
 const RecruitDashboard = () => {
   return (
-    <div className="bg-mobileBackground min-h-screen lg:w-[84%] relative lg:left-[16%]">
+    <div className="bg-mobileBackground min-h-screen lg:w-full relative ">
       <div className="flex flex-col h-full pt-5 pb-28 lg:p-7 px-5">
         <div className="xl:flex xl:gap-5">
           {/* welcome, highlights, assignments */}
@@ -68,7 +68,7 @@ const RecruitDashboard = () => {
                 <div className="bg-[#1b1c1e] border-2 border-inputBorderColor h-28 w-[240px] flex-shrink-0 lg:flex-1 rounded-xl p-3">
                   <div className="flex items-center">
                     <img src={Courses} alt="" />
-                    <h4 className="text-[#999999] font-semibold ml-3 text-lg">
+                    <h4 className="text-[#999999] font-semibold ml-3 text-sm">
                       Completed courses
                     </h4>
                   </div>
@@ -77,7 +77,7 @@ const RecruitDashboard = () => {
                 <div className="bg-[#1b1c1e] border-2 border-inputBorderColor h-28 w-[240px] flex-shrink-0 lg:flex-1 rounded-xl p-3">
                   <div className="flex items-center">
                     <img src={Lesson} alt="" />
-                    <h4 className="text-[#999999] font-semibold ml-3 text-lg">
+                    <h4 className="text-[#999999] font-semibold ml-3 text-sm">
                       Ongoing lessons
                     </h4>
                   </div>
@@ -86,7 +86,7 @@ const RecruitDashboard = () => {
                 <div className="bg-[#1b1c1e] border-2 border-inputBorderColor h-28 w-[240px] flex-shrink-0 lg:flex-1 rounded-xl p-3">
                   <div className="flex items-center">
                     <img src={Quiz} alt="" />
-                    <h4 className="text-[#999999] font-semibold ml-3 text-lg">
+                    <h4 className="text-[#999999] font-semibold ml-3 text-sm">
                       Quiz
                     </h4>
                   </div>

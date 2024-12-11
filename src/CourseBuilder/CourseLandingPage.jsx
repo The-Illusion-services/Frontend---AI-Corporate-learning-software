@@ -10,6 +10,7 @@ const CourseLandingPage = () => {
 
   useEffect(() => {
     const savedData = JSON.parse(localStorage.getItem("courseBuilder"));
+    console.log(savedData);
     if (savedData) {
       setCourse((prev) => ({
         ...prev,
@@ -22,6 +23,7 @@ const CourseLandingPage = () => {
   }, []);
 
   useEffect(() => {
+    console.log(course);
     if (course.course_title || course.course_description || course.price) {
       localStorage.setItem("courseBuilder", JSON.stringify({ ...course }));
     }
@@ -46,18 +48,18 @@ const CourseLandingPage = () => {
     course.course_title &&
     course.course_description &&
     course.price &&
-    !isNaN(course.price);
+    !isNaN(course.price) && course.price > 0;
 
   const handleNavigateToCourseBuilder = () => {
     if (isValid) {
-      navigate("/app/recruiter/create-course/create-resource");
+      navigate("/app/creator/course-management/create/create-resource");
     } else {
       toast.error("Fields cannot be empty");
     }
   };
 
   return (
-    <div>
+    <div className="bg-mobileBackground min-h-screen px-4 py-2 border  border-inputBorderColor mt-4 rounded-md">
       <Modal />
       <article className="flex flex-col gap-y-4">
         <div className="text-white text-lg w-full mt-4">
@@ -72,6 +74,7 @@ const CourseLandingPage = () => {
           <input
             type="text"
             name="course_title"
+            placeholder="Course title"
             value={course.course_title}
             onChange={handleChange}
             className="h-12 mt-2 px-2 text-sm bg-inputBackground border-inputBorderColor border rounded-md w-[70%]"
@@ -107,6 +110,27 @@ const CourseLandingPage = () => {
         </div>
 
         <div className="text-white">
+          <h2 className="">Course Category</h2>
+          {/* <input
+            name="price"
+            value={course.price}
+            onBlur={roundUp}
+            onChange={handleChange}
+            className="bg-inputBackground border-inputBorderColor h-8 px-2 py-2"
+          /> */}
+          <select name="course-category" className="bg-inputBackground border-inputBorderColor h-8 px-2 ">
+          <option value="" selected className="italic">---Select an option---</option>
+            <option  value="Blockchain Basics">Blockchain Basics</option>
+            <option value="Smart Contracts">Smart Contracts</option>
+            <option value="dApp Development">dApp Development</option>
+            <option value="Decentralized Governance">Decentralized Governance</option>
+            <option value="Crypto Wallets">Crypto Wallets</option>
+            <option value="NFTs">NFTs</option>
+            <option value="DeFi">DeFi</option>
+          </select>
+        </div>
+
+        <div className="text-white">
           <h2 className="">Course Price ($)</h2>
           <input
             name="price"
@@ -120,7 +144,7 @@ const CourseLandingPage = () => {
       <button
         disabled={!isValid}
         onClick={handleNavigateToCourseBuilder}
-        className={`mt-2 w-16 px-2 py-1 ${
+        className={`mt-2 w-24 px-2 py-1 ${
           isValid ? "bg-PrimaryPurple" : "bg-transparent border"
         } rounded-md text-white`}
       >
@@ -131,3 +155,4 @@ const CourseLandingPage = () => {
 };
 
 export default CourseLandingPage;
+

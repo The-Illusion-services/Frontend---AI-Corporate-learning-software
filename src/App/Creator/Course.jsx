@@ -17,7 +17,7 @@ const CreateCourseLandingPage = () => {
   const { course, setCourse } = useContext(CreateContext).course;
   const handleNavigateToCourseBuilder = () => {
     if (course.course_title && course.course_description && course.price) {
-      navigate("/app/recruiter/create-course/create-resource");
+      navigate("/app/creator/create-course/create-resource");
     } else {
       toast.error("Fields cannot be empty");
     }
@@ -50,10 +50,9 @@ const CreateCourseLandingPage = () => {
 
   return (
     <>
-      <PageHeader />
       <main className=" lg:mb-0 mb-16">
-        <section className="bg-[#1B1C1E] min-h-screen px-4 py-4">
-          <div className="text-white text-xs flex flex-row gap-x-4 justify-center lg:justify-normal">
+        <section className="bg-mobileBackground  min-h-screen px-4 py-4">
+          <div className="text-white text-xs flex flex-row gap-x-4 justify-center lg:justify-normal px-4">
             <Link
               to="/app/recruiter/create-course/landing-page"
               className="flex flex-row gap-x-1"
@@ -67,7 +66,7 @@ const CreateCourseLandingPage = () => {
               >
                 1{" "}
               </span>
-              <span>Create course content</span>
+              <span>Plan your course</span>
             </Link>
             <div
               onClick={handleNavigateToCourseBuilder}
@@ -82,7 +81,7 @@ const CreateCourseLandingPage = () => {
               >
                 2{" "}
               </span>
-              <span>Create resource</span>
+              <span>Create course content</span>
             </div>
             {/* <Link to="/app/recruiter/course/quiz" className="flex flex-row gap-x-1">
               <span className={`${activeTab.quiz ? "bg-PrimaryPurple" : "bg-inputBorderColor"}  text-center rounded-full w-4 h-4`}>3 </span>

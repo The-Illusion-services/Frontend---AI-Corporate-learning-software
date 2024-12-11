@@ -90,7 +90,7 @@ const PreviewCourse = () => {
         id: courseInView.id,
       })
     );
-    navigate("/app/recruiter/update");
+    navigate("/app/creator/update");
   };
 
   return (
@@ -105,12 +105,7 @@ const PreviewCourse = () => {
             <h1 className=" lg:text-3xl font-bold">
               {courseInView.course_title}
             </h1>
-            <button
-              className="w-40 px-2 py-1  rounded-md bg-PrimaryPurple"
-              onClick={handleManageCourse}
-            >
-              Manage Course
-            </button>
+          
           </div>
 
           {/* Video Section */}
@@ -182,31 +177,32 @@ const PreviewCourse = () => {
                     ]?.title
                   }
                 </h2>
-                <div className="flex gap-x-2">
-                  <button
-                    className="border rounded-sm h-8 w-28 hover:bg-PrimaryPurple hover:border-0"
-                    onClick={handlePreviousLesson}
-                  >
-                    Previous
-                  </button>
-                  <button
-                    className="border rounded-sm h-8 w-28 hover:bg-PrimaryPurple hover:border-0"
-                    onClick={handleNextLesson}
-                  >
-                    Next
-                  </button>
-                </div>
+               
               </div>
             </div>
 
             <div
-              className="border rounded-md lg:max-h-[300px] lg:h-[300px] px-2 py-2 overflow-y-auto"
+              className="border rounded-md lg:max-h-[300px] lg:h-[300px] px-2 py-2 overflow-y-auto border-inputBorderColor"
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(lesson_description),
               }}
             ></div>
           </div>
 
+          <div className=" gap-x-2 w-full flex justify-end mb-6">
+                  <button
+                    className="border rounded-sm h-8 w-24 hover:bg-PrimaryPurple hover:border-0"
+                    onClick={handlePreviousLesson}
+                  >
+                    Previous
+                  </button>
+                  <button
+                    className=" rounded-sm h-8 w-24 bg-PrimaryPurple hover:border-0"
+                    onClick={handleNextLesson}
+                  >
+                    Next
+                  </button>
+                </div>
           {/* Tab Section */}
           <div className=" bg-mobileBackground border border-inputBorderColor rounded-lg p-3 mt-auto">
             {/* Tab Headers */}
@@ -553,13 +549,13 @@ const PreviewCourse = () => {
           </div>
 
           {/* Left Section: Course List */}
-          <section className=" h-[100px] lg:h-[445px] flex flex-col items-center justify-center lg:py-4">
-            <div className="bg-[#1b1c1e] border-2 border-inputBorderColor  rounded-lg w-full lg:w-[90%] flex flex-col lg:gap-y-6  overflow-y-auto h-full lg:p-2">
+          <section className=" h-[100px] lg:h-[445px] flex flex-col items-center justify-center bg-[#1b1c1e] lg:py-4 border-2 border-inputBorderColor rounded-sm">
+            <div className=" rounded-lg w-full lg:w-full flex flex-col lg:gap-y-6 overflow-y-auto scrollbar-hide h-full lg:p-2">
               {/** Accordion List */}
               {courseInView.modules.map((module, moduleIndex) => (
-                <div key={moduleIndex} className="">
+                <div key={moduleIndex} className=" r">
                   <div
-                    className="flex items-center justify-between cursor-pointer  hover:bg-PrimaryPurple hover:text-white rounded"
+                    className="flex items-center justify-between cursor-pointer hover:bg-PrimaryPurple px-1 hover:text-white rounded "
                     onClick={() => toggleSection(moduleIndex)}
                   >
                     <div className="flex items-center gap-2">
@@ -579,7 +575,7 @@ const PreviewCourse = () => {
                       {module.lessons.map((lesson, lessonIndex) => (
                         <div
                           key={lessonIndex}
-                          className="flex justify-between text-xs"
+                          className="flex justify-between text-xs border px-1 rounded-md border-inputBorderColor py-1"
                           onClick={() =>
                             handleActiveLesson(lessonIndex, moduleIndex)
                           }
@@ -588,8 +584,8 @@ const PreviewCourse = () => {
                             <span
                               className={`w-2 h-2 rounded-full ${
                                 lessonIndex === activeLesson &&
-                                moduleIndex == activeModuleIndex &&
-                                "bg-PrimaryPurple"
+                                moduleIndex == activeModuleIndex ?
+                                "bg-PrimaryPurple" : "bg-inputBorderColor"
                               }`}
                             />
                             <span

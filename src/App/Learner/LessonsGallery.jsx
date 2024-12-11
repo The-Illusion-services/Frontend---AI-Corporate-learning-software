@@ -8,7 +8,7 @@ import Profile from "../../assets/lessons/profile.svg";
 
 const RecruitLessonsGallery = () => {
   return (
-    <div className="bg-mobileBackground min-h-screen py-8 px-4 lg:ml-[16%]">
+    <div className="bg-mobileBackground min-h-screen py-8 px-4 ">
       <div className="flex justify-between bg-mobileBackground text-white h-auto">
         <div className=" text-white flex items-center justify-center text-1xl border-inputBorderColor lg:ml-[3%]">
           <h2 className="hidden xl:block p-3">Course Detail</h2>

@@ -17,6 +17,7 @@ const ContextProvider = (props) => {
   const [currUser, setCurrUser] = useState("recruit");
   const [skeletalLoading, setSkeletalLoading] = useState(false);
   const [courseInView, setCourseInView] = useState([])
+  const [showSignOutModal, setShowSignOutModal] = useState(false)
 
   const location = useLocation()
   const pathname = location.pathname
@@ -30,8 +31,8 @@ const ContextProvider = (props) => {
       JSON.stringify({ accessToken, userId, userRole })
     );
     userRole == "Employee"
-      ? navigate("/app/recruit")
-      : navigate("/app/recruiter");
+      ? navigate("/app/learner")
+      : navigate("/app/creator");
   };
 
   const getCourses = () => {};
@@ -57,7 +58,7 @@ const ContextProvider = (props) => {
   }, [token]);
 
   useEffect(()=>{
-    if (!pathname.includes("/recruiter/create-course")){
+    if (!pathname.includes("/creator/create-course")){
       localStorage.removeItem("checkCachedCourse")
     }
   })
@@ -91,11 +92,22 @@ const ContextProvider = (props) => {
   //   queryFn: getAllCourses
   // })
 
+
+
   const [course, setCourse] = useState({
     course_title: "",
     course_description: "",
     price: "",
+    modules: []
   });
+  
+  // Clear course to avoid mixing up cached data of course update and course create
+  useEffect(()=>{
+      if(pathname !== "/app/creator/course-management/create" || pathname !== "app/creator/course-management/update"){
+        setCourse({})
+      }
+  }, [pathname])
+
   return (
     <CreateContext.Provider
       value={{
@@ -108,6 +120,8 @@ const ContextProvider = (props) => {
           userRole,
           login,
           logout,
+          showSignOutModal,
+          setShowSignOutModal
         },
 
         modal: {
