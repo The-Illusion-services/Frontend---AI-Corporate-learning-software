@@ -193,12 +193,6 @@ const ManageCourses = () => {
           </div>
         </div>
         <div className="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-3">
-          {/* {images.map((image) => (
-                <div key={image.id} className="overflow-hidden rounded-lg shadow-md m-3">
-                  <img src={LessonImage} alt={image.alt} className="object-cover w-full h-48 transform hover:scale-110 transition duration-300 ease-in-out" />
-                  <p key={image.text}></p>
-                </div>
-              ))} */}
           {isLoading ?  <div className="flex flex-row gap-x-1">
               <Skeleton height="306px" width="246px" baseColor="#222222" />
               <Skeleton height="306px" width="246px" baseColor="#222222" />

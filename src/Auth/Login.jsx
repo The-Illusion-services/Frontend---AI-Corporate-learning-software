@@ -142,12 +142,12 @@ const Login = () => {
             </button>
           </form>
 
-          <div className="flex items-center gap-3 mt-10 text-textGray">
+          {/* <div className="flex items-center gap-3 mt-10 text-textGray">
             <div className="w-5 bg-[#333333] flex-grow h-[1px]"></div>
             Or
             <div className="w-5 bg-[#333333] flex-grow h-[1px]"></div>
-          </div>
-          <div className="flex mt-10 gap-3">
+          </div> */}
+          {/* <div className="flex mt-10 gap-3">
             <button className="bg-inputBackground border-inputBorderColor border-2 border-solid rounded-md h-16 flex-grow text-lg font-semibold flex items-center justify-center gap-2 outline-none text-white">
               <FcGoogle />
               Google
@@ -163,7 +163,7 @@ const Login = () => {
               <img src={Wallets} alt="" />
               Wallet
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

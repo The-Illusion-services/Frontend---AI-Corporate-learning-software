@@ -113,13 +113,12 @@ const CourseList = () => {
           </div>
         </div>
         <div className="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-3">
-          {/* {images.map((image) => (
-              <div key={image.id} className="overflow-hidden rounded-lg shadow-md m-3">
-                <img src={LessonImage} alt={image.alt} className="object-cover w-full h-48 transform hover:scale-110 transition duration-300 ease-in-out" />
-                <p key={image.text}></p>
-              </div>
-            ))} */}
-          {allCourses?.length >= 1 ? (
+        {isLoading ?  <div className="flex flex-row gap-x-1">
+              <Skeleton height="306px" width="246px" baseColor="#222222" />
+              <Skeleton height="306px" width="246px" baseColor="#222222" />
+              <Skeleton height="306px" width="246px" baseColor="#222222" />
+              <Skeleton height="306px" width="246px" baseColor="#222222" />
+            </div> : !isLoading && allCourses?.length >= 1 ? (
             allCourses?.map((course, index) => {
               return (
                 <div onClick={() => handleViewCourse(index)}>
@@ -145,7 +144,9 @@ const CourseList = () => {
                         ? `${course.course_title.slice(0, 22)}...`
                         : course.course_title}
                     </h3>
-                    <p className="text-[13px] text-[#AAAAAA] mb-5">Google</p>
+                    <p className="text-[13px] text-[#AAAAAA] mb-5">
+                      {course.course_category}
+                    </p>
                     <div className="flex text-textGray text-sm items-center justify-between">
                       <p>12 Lessons</p>
                       <p className="text-PrimaryPurple font-bold text-[20px]">
@@ -157,11 +158,9 @@ const CourseList = () => {
               );
             })
           ) : (
-            <div className="flex flex-row gap-x-1">
-            <Skeleton height="306px" width="246px" baseColor="#222222"/>
-           <Skeleton height="306px" width="246px" baseColor="#222222"/>
-            <Skeleton height="306px" width="246px" baseColor="#222222"/>
-            <Skeleton height="306px" width="246px" baseColor="#222222"/>
+            <div className="flex text-white text-3xl items-center justify-center font-bold w-[1000px] h-[200px] text-center">
+
+            <h2 >No Course Found</h2>
             </div>
           )}
         </div>

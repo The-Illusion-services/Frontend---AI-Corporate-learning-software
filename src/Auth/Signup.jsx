@@ -7,40 +7,64 @@ import { FaRegCheckCircle } from "react-icons/fa";
 import Wallets from "../assets/signup/wallets.svg";
 import { CreateContext } from "../Context/Context";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
-  const {login} = useContext(CreateContext).auth
+  const navigate = useNavigate()
+  const { login } = useContext(CreateContext).auth;
+   const {setIsLoading} = useContext(CreateContext).loader
   const [registerForm, setRegisterForm] = useState({
     first_name: "",
     last_name: "",
     email: "",
     password: "",
+    company: "illusion",
     confirm_password: "",
-    company: "",
     role: "",
   });
-  const signup = async()=>{
-    
-    const response = await fetch(
-      "https://illusion-6ga5.onrender.com/api/register/",
-      {
-        method: "POST",
-        body: JSON.stringify(registerForm),
-        headers: {
-          "Content-Type": "application/json", // Ensure JSON content type
+  const signup = async () => {
+    setIsLoading(true)
+    try {
+      const response = await fetch(
+        "https://illusion-6ga5.onrender.com/api/register/",
+        {
+          method: "POST",
+          body: JSON.stringify({...registerForm, role:  registerForm.role === "Creator" ? "Employer" : "Employee"}),
+          headers: {
+            "Content-Type": "application/json", // Ensure JSON content type
+          },
         }
-      }
       );
       const responseData = await response.json();
-      const { access_token: accessToken, user_id: userId, role: userRole} = responseData
-    
-      login(accessToken, userId, userRole)
+      if (response.ok) {
+       
+        toast.success("Registration successful");
+        console.log(responseData);
+        navigate("/auth/login")
+        setIsLoading(false)
+      } else {
+        setIsLoading(false)
+        toast.error("An error occured, please check your form");
+      }
+    } catch (err) {
+      toast.error("An error occured");
+      console.log(err);
     }
+  };
+
   const submit = (e) => {
-    e.preventDefault()
-   return registerForm.first_name && registerForm.last_name && registerForm.email && registerForm.role && registerForm.password && registerForm.confirm_password && registerForm.company && registerForm.password === registerForm.confirm_password
-      && signup()
-    
+    e.preventDefault();
+    return (
+      registerForm.first_name &&
+      registerForm.last_name &&
+      registerForm.email &&
+      registerForm.role &&
+      registerForm.password &&
+      registerForm.confirm_password &&
+      registerForm.password === registerForm.confirm_password &&
+      signup()
+    );
   };
   const formDataChangeHandler = (e) => {
     setRegisterForm((prev) => {
@@ -48,6 +72,7 @@ const Signup = () => {
     });
   };
 
+  console.log(registerForm);
 
   // if (isLoading) return <Spinner/>
   return (
@@ -62,9 +87,9 @@ const Signup = () => {
               Let's get started
             </h1>
             <p className="text-textGray text-sm">
-              Have an account? 
+              Have an account?
               <Link to="/auth/login">
-              <span className="text-PrimaryPurple">Login</span>{" "}
+                <span className="text-PrimaryPurple">Login</span>{" "}
               </Link>
               {/*the "login" would eventually become a link to the login page*/}
             </p>
@@ -109,19 +134,6 @@ const Signup = () => {
                 <option value="UI/UX Design">UI/UX Design</option>
               </select>
             </div> */}
-             <div className="flex flex-col mb-5">
-              <label htmlFor="company id" className="text-sm mb-2">
-                Company
-              </label>
-              <input
-                type="text"
-                placeholder="company"
-                name="company"
-                onChange={formDataChangeHandler}
-                value={registerForm.company}
-                className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md py-2 px-2 placeholder:text-sm placeholder:text-gray-300 outline-none focus:border-PrimaryPurple focus:border-2"
-              />
-            </div> 
             <div className="flex flex-col mb-5">
               <label htmlFor="email address" className="text-sm mb-2">
                 Email Address
@@ -136,7 +148,7 @@ const Signup = () => {
               />
             </div>
             <div className="flex flex-col mb-5">
-              <label htmlFor="first name" className="text-sm mb-2">
+              <label htmlFor="Role" className="text-sm mb-2">
                 Role
               </label>
               <select
@@ -144,12 +156,13 @@ const Signup = () => {
                 id=""
                 onChange={formDataChangeHandler}
                 value={registerForm.role}
-                
                 className="bg-inputBackground border-inputBorderColor border-solid border-2 rounded-md py-2 px-2 placeholder:text-sm placeholder:text-gray-300 outline-none focus:border-PrimaryPurple focus:border-2"
               >
-                <option value="select option" defaultValue="select option"  disabled>Select option</option>
-                <option value="Employee" >Employee</option>
-                <option value="Employer">Employer</option>
+                <option value="" className="italic">
+                  --Select Role--
+                </option>
+                <option value="Learner">Learner</option>
+                <option value="Creator">Creator</option>
               </select>
             </div>
             <div className="flex flex-col mb-5">

@@ -30,7 +30,7 @@ const ContextProvider = (props) => {
       "userData",
       JSON.stringify({ accessToken, userId, userRole })
     );
-    userRole == "Employee"
+    userRole === "Employee"
       ? navigate("/app/learner")
       : navigate("/app/creator");
   };
