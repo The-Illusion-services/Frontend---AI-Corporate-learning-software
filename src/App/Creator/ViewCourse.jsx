@@ -80,13 +80,14 @@ const PreviewCourse = () => {
   };
 
   const handleManageCourse = () => {
+    
     localStorage.setItem(
       "manageCourse",
       JSON.stringify({
-        course_title: courseInView.title,
-        course_description: courseInView.description,
+        course_title: courseInView.course_title,
+        course_description: courseInView.course_description,
         price: courseInView.price,
-        modules: courseInView.modules,
+        modules: [...courseInView.modules],
         id: courseInView.id,
       })
     );

@@ -104,9 +104,13 @@ const ContextProvider = (props) => {
   // Clear course to avoid mixing up cached data of course update and course create
   useEffect(()=>{
       if(pathname !== "/app/creator/course-management/create" || pathname !== "app/creator/course-management/update"){
-        setCourse({})
+        setCourse({
+          
+        })
       }
   }, [pathname])
+
+  console.log(course);
 
   return (
     <CreateContext.Provider

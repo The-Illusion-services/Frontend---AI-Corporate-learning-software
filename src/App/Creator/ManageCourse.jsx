@@ -24,33 +24,33 @@ const ManageCourses = () => {
     "DeFi",
   ];
 
-  let randomNum = Math.floor(Math.random() * 7);
   const pathname = useLocation().pathname;
   const {
     data: createdCourses,
     isLoading,
-    error,
+    isError,
   } = useQuery({
     queryKey: ["created-courses"],
     queryFn: getCreatedCourses,
   });
-  const [updatedCourses, setUpdatedCourses] = useState(createdCourses)
-  
-  useEffect(()=>{
-    setUpdatedCourses((prev)=>{
-      
-       const courses = createdCourses?.map((course)=>{
-         return {...course, course_category: course_category[Math.floor(Math.random() * 7)]}
-        })
+  const [updatedCourses, setUpdatedCourses] = useState(createdCourses);
 
-        localStorage.setItem("createdCourses", JSON.stringify(courses))
-        return courses
-      })
-    
-  }, [createdCourses])
+  useEffect(() => {
+    if (!isError) {
+      setUpdatedCourses((prev) => {
+        const courses = createdCourses?.map((course) => {
+          return {
+            ...course,
+            course_category: course_category[Math.floor(Math.random() * 7)],
+          };
+        });
 
+        localStorage.setItem("createdCourses", JSON.stringify(courses));
+        return courses;
+      });
+    }
+  }, [createdCourses]);
 
-  
   const navigate = useNavigate();
 
   const { setCourseInView } = useContext(CreateContext).course;
@@ -67,19 +67,19 @@ const ManageCourses = () => {
     navigate("/app/creator/course/view");
   };
 
-  const handleFilter = (e)=>{
-    const createdCourses = JSON.parse(localStorage.getItem("createdCourses"))
+  const handleFilter = (e) => {
+    const createdCourses = JSON.parse(localStorage.getItem("createdCourses"));
     console.log(createdCourses);
-    setUpdatedCourses((prev)=>{
-      return createdCourses?.filter((course)=>{  
-        if(e.target.value === ""){
-          return createdCourses
-        } else{
-          return course.course_category === e.target.value
+    setUpdatedCourses((prev) => {
+      return createdCourses?.filter((course) => {
+        if (e.target.value === "") {
+          return createdCourses;
+        } else {
+          return course.course_category === e.target.value;
         }
-      })
-    })
-  }
+      });
+    });
+  };
 
   useEffect(() => {
     window.scrollTo({
@@ -179,26 +179,32 @@ const ManageCourses = () => {
                 className="h-full text-textGray outline-none text-sm bg-transparent text-center"
               >
                 <option value="">All Category</option>
-                <option  value="Blockchain Basics">Blockchain Basics</option>
-                <option  value="Smart Contracts">Smart Contracts</option>
-                <option  value="dApp Development">dApp Development</option>
-                <option  value="Decentralized Governance">
+                <option value="Blockchain Basics">Blockchain Basics</option>
+                <option value="Smart Contracts">Smart Contracts</option>
+                <option value="dApp Development">dApp Development</option>
+                <option value="Decentralized Governance">
                   Decentralized Governance
                 </option>
-                <option  value="Crypto Wallets">Crypto Wallets</option>
-                <option  value="NFTs">NFTs</option>
-                <option  value="DeFi">DeFi</option>
+                <option value="Crypto Wallets">Crypto Wallets</option>
+                <option value="NFTs">NFTs</option>
+                <option value="DeFi">DeFi</option>
               </select>
             </div>
           </div>
         </div>
         <div className="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-3">
-          {isLoading ?  <div className="flex flex-row gap-x-1">
+          {isError ? (
+            <div className="flex text-white text-3xl items-center justify-center font-bold w-[1000px] h-[200px] text-center">
+              <h2>An error occured, refresh to try again</h2>
+            </div>
+          ) : isLoading ? (
+            <div className="flex flex-row gap-x-1">
               <Skeleton height="306px" width="246px" baseColor="#222222" />
               <Skeleton height="306px" width="246px" baseColor="#222222" />
               <Skeleton height="306px" width="246px" baseColor="#222222" />
               <Skeleton height="306px" width="246px" baseColor="#222222" />
-            </div> : !isLoading && updatedCourses?.length >= 1 ? (
+            </div>
+          ) : !isLoading && updatedCourses?.length >= 1 ? (
             updatedCourses?.map((course, index) => {
               return (
                 <div onClick={() => handleViewCourse(index)}>
@@ -239,8 +245,7 @@ const ManageCourses = () => {
             })
           ) : (
             <div className="flex text-white text-3xl items-center justify-center font-bold w-[1000px] h-[200px] text-center">
-
-            <h2 >No Course Found</h2>
+              <h2>No Course Found</h2>
             </div>
           )}
         </div>

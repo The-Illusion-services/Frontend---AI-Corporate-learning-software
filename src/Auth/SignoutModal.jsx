@@ -16,8 +16,8 @@ const SignoutModal = () => {
   if(showSignOutModal){
 
   return (
-    <section className="fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-[#00000060] z-40 backdrop-blur-sm">
-    <article className="lg:w-[26%] lg:h-[35%] border bg-[#1b1c1e] text-white flex flex-col justify-center items-center lg:gap-y-8">
+    <section className="fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-[#00000060] z-50 backdrop-blur-sm">
+    <article className="lg:w-[26%] lg:h-[35%] bg-[#1b1c1e] text-white flex flex-col justify-center items-center lg:gap-y-8">
       <FaCircleInfo className="text-xl text-PrimaryPurple"/>
       <span className="text-xl font-bold">
         Sign Out?

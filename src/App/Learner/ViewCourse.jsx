@@ -47,6 +47,7 @@ const PreviewCourse = () => {
       [moduleIndex]: !prev[moduleIndex], // Toggle the specific module's visibility
     }));
   };
+  
 
   useEffect(() => {
     window.scrollTo({

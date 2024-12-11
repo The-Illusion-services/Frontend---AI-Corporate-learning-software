@@ -137,7 +137,10 @@ const MyCourses = () => {
         </div>
 
         <div className="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-3">
-        {isLoading ?  <div className="flex flex-row gap-x-1">
+        {isError ? (
+            <div className="flex text-white text-3xl items-center justify-center font-bold w-[1000px] h-[200px] text-center">
+              <h2>An error occured, refresh to try again</h2>
+            </div>) : isLoading ?  <div className="flex flex-row gap-x-1">
               <Skeleton height="306px" width="246px" baseColor="#222222" />
               <Skeleton height="306px" width="246px" baseColor="#222222" />
               <Skeleton height="306px" width="246px" baseColor="#222222" />

@@ -3,12 +3,15 @@ import { CreateContext } from "../Context/Context";
 import { MdDeleteOutline } from "react-icons/md";
 import { toast } from "sonner";
 import ReactQuill from "react-quill";
+import { useNavigate } from "react-router-dom";
 import PreviewCourse from "../App/Learner/ViewCourse";
 import "react-quill/dist/quill.snow.css";
 
 const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
+  const navigate = useNavigate()
   const { auth, loader } = useContext(CreateContext);
-  const { courseInView, setCourseInView, course, setCourse } = useContext(CreateContext).course;
+  const { courseInView, setCourseInView, course, setCourse } =
+    useContext(CreateContext).course;
   const { token } = auth;
   const { setIsLoading } = loader;
   const [formElements, setFormElements] = useState([]);
@@ -17,9 +20,9 @@ const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
   const handleCreate = () => {
     setPreview(false);
   };
-  
+
   const handlePreview = () => {
-    setCourseInView(course)
+    setCourseInView(course);
     setPreview(true);
   };
   const checkLessonsFieldValidity = () => {
@@ -39,22 +42,22 @@ const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
       setIsLoading(true);
 
       try {
-        const response = await fetch(
-          publishUrl,
-          {
-            method: requestMethod,
-            body: JSON.stringify(course),
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + token,
-            },
-          }
-        );
+        const response = await fetch(publishUrl, {
+          method: requestMethod,
+          body: JSON.stringify(course),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        });
+        const responseData = await response.json();
         if (response.ok) {
-          const responseData = await response.json();
           toast.success("Course Published!");
-          console.log(cacheKey);
           localStorage.removeItem(cacheKey);
+          navigate("/app/creator/course-management")
+        } else {
+          console.log(responseData);
+          toast.error(responseData.detail);
         }
       } catch (err) {
         return console.log("error");
@@ -66,36 +69,35 @@ const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
     }
   };
 
+  const [hasInitialized, setHasInitialized] = useState(false);
+
   useEffect(() => {
-    // Retrieve the saved course data from localStorage
     const savedData = JSON.parse(localStorage.getItem(cacheKey));
 
     if (savedData) {
       setCourse((prev) => ({
-        course_title: savedData.course_title || prev.course_title,
-        course_description:
-          savedData.course_description || prev.course_description,
-        price: savedData.price || prev.price,
-        modules: savedData.modules || prev.modules,
+        course_title: savedData.course_title,
+        course_description: savedData.course_description,
+        price: savedData.price,
+        modules: savedData.modules,
       }));
 
       setFormElements(savedData.modules || []);
+      setHasInitialized(true); // Mark initialization complete
     }
-  }, []); // Only run once on component mount
+  }, []);
 
   // Save course state to localStorage whenever formElements change
   useEffect(() => {
+    if (!hasInitialized) return; // Skip effect during initialization
+
     const updatedCourse = {
       ...course,
       modules: formElements, // Update modules with formElements
     };
 
-    // Save the updated course object to localStorage
-    if (updatedCourse.course_title && updatedCourse.course_description) {
-      console.log("dds");
-      localStorage.setItem(cacheKey, JSON.stringify(updatedCourse));
-    }
-  }, [formElements]); // Only trigger when formElements change
+    localStorage.setItem(cacheKey, JSON.stringify(updatedCourse));
+  }, [formElements, hasInitialized]); // Depend on hasInitialized
 
   const addModule = () => {
     const newModule = {
@@ -114,9 +116,9 @@ const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
     };
     setFormElements([...formElements, newModule]);
     setCourse((prev) => ({
-      ...prev,
+      ...course,
       modules: [
-        ...prev.modules,
+        ...course.modules,
         {
           title: newModule.title,
           lessons: [
@@ -186,10 +188,10 @@ const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
     const updatedLessons = [...moduleToUpdate.lessons];
     updatedLessons[lessonIndex][field] = value;
     moduleToUpdate.lessons = updatedLessons;
-  
+
     updatedFormElements[moduleIndex] = moduleToUpdate;
     setFormElements(updatedFormElements);
-  
+
     setCourse((prev) => ({
       ...prev,
       modules: updatedFormElements.map((module) => ({
@@ -201,30 +203,27 @@ const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
       })),
     }));
   };
-  
 
   const deleteLesson = (moduleIndex, lessonId) => {
-    setFormElements((currFormElements) => {
-      return currFormElements.map((formElement, idx) => {
-        if (idx === moduleIndex) {
-          const updatedLessons = formElement.lessons
-            .filter((element) => element.id !== lessonId)
-            .map((element, index) => ({
-              ...element,
-              index: index + 1,
-            }));
+    const updatedFormElements = formElements.map((formElement, idx) => {
+      if (idx === moduleIndex) {
+        const updatedLessons = formElement.lessons
+          .filter((element) => element.id !== lessonId)
+          .map((element, index) => ({
+            ...element,
+            index: index + 1,
+          }));
 
-          return {
-            ...formElement,
-            lessons: updatedLessons,
-          };
-        }
-        setCourse(() => {
-          return { ...course, modules: formElement };
-        });
+        return {
+          ...formElement,
+          lessons: updatedLessons,
+        };
+      }
+    });
 
-        return formElement;
-      });
+    setFormElements(updatedFormElements);
+    setCourse(() => {
+      return { ...course, modules: updatedFormElements };
     });
   };
 
@@ -340,7 +339,7 @@ const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
         {!preview ? (
           formElements.map((element, index) => renderElement(element, index))
         ) : (
-          <PreviewCourse  />
+          <PreviewCourse />
         )}
         <div className="w-full flex gap-x-10 ml-4 ">
           <span

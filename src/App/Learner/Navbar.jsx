@@ -21,7 +21,7 @@ const LearnerNavbar = () => {
     dashboard: {
       isActive: true,
     },
-    courses: {
+    explore_courses: {
       isActive: false,
     },
     myCourses: {
@@ -44,17 +44,17 @@ const LearnerNavbar = () => {
         return {
           ...state,
           dashboard: { isActive: true },
-          courses: { isActive: false },
+          explore_courses: { isActive: false },
           myCourses: { isActive: false },
           payment: { isActive: false },
           peerNetwork: { isActive: false },
           credentials: { isActive: false },
         };
-      case "LESSONS":
+      case "EXPLORE_COURSES":
         return {
           ...state,
           dashboard: { isActive: false },
-          courses: { isActive: true },
+          explore_courses: { isActive: true },
           myCourses: { isActive: false },
           payment: { isActive: false },
           peerNetwork: { isActive: false },
@@ -64,7 +64,7 @@ const LearnerNavbar = () => {
         return {
           ...state,
           dashboard: { isActive: false },
-          courses: { isActive: true },
+          explore_courses: { isActive: true },
           myCourses: { isActive: false },
           payment: { isActive: false },
           peerNetwork: { isActive: false },
@@ -75,7 +75,7 @@ const LearnerNavbar = () => {
         return {
           ...state,
           dashboard: { isActive: false },
-          courses: { isActive: false },
+          explore_courses: { isActive: false },
           myCourses: { isActive: true },
           payment: { isActive: false },
           peerNetwork: { isActive: false },
@@ -96,7 +96,7 @@ const LearnerNavbar = () => {
         return {
           ...state,
           dashboard: { isActive: false },
-          courses: { isActive: false },
+          explore_courses: { isActive: false },
           myCourses: { isActive: false },
           payment: { isActive: false },
           peerNetwork: { isActive: true },
@@ -123,8 +123,8 @@ const LearnerNavbar = () => {
       location.pathname === "/app/learner/dashboard"
     ) {
       return dispatch({ type: "DASHBOARD" });
-    } else if (location.pathname === "/app/learner/courses") {
-      return dispatch({ type: "COURSES" });
+    } else if (location.pathname === "/app/learner/explore-courses") {
+      return dispatch({ type: "EXPLORE_COURSES" });
     } else if (location.pathname === "/app/learner/mycourses") {
       return dispatch({ type: "MYCOURSES" });
     } else if (location.pathname === "/app/learner/payment") {
@@ -146,7 +146,7 @@ const LearnerNavbar = () => {
   if (userRole === "Employee") {
     return (
       <React.Fragment>
-        <section className=" bg-[#101010] text-white border-solid mt-10 fixed z-50 lg:h-full shadow-md flex flex-col text-3xl h-20 bottom-0  w-full lg:w-[16%] lg:px-4">
+        <section className=" bg-[#101010] text-white border-solid mt-10 fixed z-40 lg:h-full shadow-md flex flex-col text-3xl h-20 bottom-0  w-full lg:w-[16%] lg:px-4">
           <article className="lg:h-[70%] lg:items-start flex flex-row lg:flex-col justify-evenly  items-center h-full  w-full border-b">
             <Link
               to="/app/learner/dashboard"
@@ -165,7 +165,7 @@ const LearnerNavbar = () => {
               to="/app/learner/explore-courses"
               onClick={() => handleDispatch("COURSES")}
               className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
-                state.courses.isActive &&
+                state.explore_courses.isActive &&
                 "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
               } `}
             >
@@ -188,8 +188,8 @@ const LearnerNavbar = () => {
               </div>
             </Link>
             <Link
-              to="/app/learner/payment"
-              onClick={() => handleDispatch("PAYMENT")}
+              to="#"
+              // onClick={() => handleDispatch("PAYMENT")}
               className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
                 state.payment.isActive &&
                 "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
@@ -202,7 +202,7 @@ const LearnerNavbar = () => {
             </Link>
 
             <Link
-              onClick={() => handleDispatch("PEER_NETWORK")}
+              // onClick={() => handleDispatch("PEER_NETWORK")}
               className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
                 state.peerNetwork.isActive &&
                 "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
@@ -215,7 +215,7 @@ const LearnerNavbar = () => {
             </Link>
 
             <Link
-              onClick={() => handleDispatch("CREDENTIALS")}
+              // onClick={() => handleDispatch("CREDENTIALS")}
               className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
                 state.credentials.isActive &&
                 "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
