@@ -174,12 +174,12 @@ const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
           >
             {element.title}
           </div>
+        </div>
           <MdDeleteOutline
             onClick={() => deleteModule(element.id)}
             className="text-2xl hover:text-PrimaryPurple cursor-pointer"
             title="delete"
           />
-        </div>
       </article>
 
       {element.lessons.map((lesson, lessonIndex) => (
@@ -190,11 +190,11 @@ const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
           <div className="gap-x-2 flex justify-between  h-12 items-center border-b border-inputBorderColor px-2">
             <div className="flex gap-x-2 ">
               <h2>Lesson {lesson.index}</h2>
+            </div>
               <MdDeleteOutline
                 onClick={() => deleteLesson(moduleIndex, lesson.id)}
                 className="text-lg hover:text-PrimaryPurple cursor-pointer"
               />
-            </div>
           </div>
 
           <section className="flex flex-col py-2 gap-y-2">
@@ -265,7 +265,7 @@ const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
         >
           Publish Course
         </button>
-        <button onClick={handlePreview}>
+        <button onClick={handlePreview} className="text-white">
           {preview ? "Edit Course" : "Preview Course"}
         </button>
       </div>
