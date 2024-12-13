@@ -63,7 +63,7 @@ const ContextProvider = ({ children }) => {
     }
   }, [pathname]);
 
-  // Clear cached course on navigation
+  // Clear cached course checker on navigation
   useEffect(() => {
     if (!pathname.includes("/creator/course-management")) {
       localStorage.removeItem("checkCachedCourse");

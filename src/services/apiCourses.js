@@ -1,8 +1,10 @@
-const storedData = JSON.parse(localStorage.getItem("userData"));
-const token = storedData?.token;
+const getToken = () => {
+  const storedData = JSON.parse(localStorage.getItem("userData"));
+  return storedData?.token;
+};
 
 export const getEnrolledCourses = async () => {
-  console.log(token);
+  const token = getToken();
   try {
     const response = await fetch(
       "https://illusion-6ga5.onrender.com/api/courses/enrolled",
@@ -25,6 +27,7 @@ export const getEnrolledCourses = async () => {
 };
 
 export const getAllCourses = async () => {
+  const token = getToken();
   try {
     const response = await fetch(
       "https://illusion-6ga5.onrender.com/api/courses/",
@@ -48,6 +51,7 @@ export const getAllCourses = async () => {
 };
 
 export const getCreatedCourses = async () => {
+  const token = getToken();
   try {
     const response = await fetch(
       "https://illusion-6ga5.onrender.com/api/courses/created/",
@@ -70,6 +74,7 @@ export const getCreatedCourses = async () => {
 };
 
 export const buyCourse = async () => {
+  const token = getToken();
   try {
     const response = await fetch(
       "https://illusion-6ga5.onrender.com/api/courses/created/",

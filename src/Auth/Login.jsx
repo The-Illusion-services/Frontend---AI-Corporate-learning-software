@@ -18,11 +18,11 @@ const Login = () => {
     password: "",
   });
   const formDataChangeHandler = (e) => {
-    console.log(e.target.value);
+    
     setLoginForm((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
-    console.log(loginForm);
+    
   };
 
   const [showPassword, setShowPassword] = useState(false); 
