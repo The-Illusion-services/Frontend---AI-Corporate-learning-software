@@ -7,7 +7,7 @@ import { LuVideo } from "react-icons/lu";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { PiCertificateLight } from "react-icons/pi";
 import { Link, useLocation } from "react-router-dom";
-import { FaCaretDown, FaCaretUp } from "react-icons/fa";
+import logo from "../../assets/logo.png"
 
 const RecruitNavbar = () => {
   const { logout, userRole } = useContext(CreateContext).auth;
@@ -114,10 +114,13 @@ const RecruitNavbar = () => {
 
         {/* Navbar Section */}
         <section
-          className={`fixed top-0 left-0 z-40 h-full bg-[#1B1C1E] text-white transition-transform ${
+          className={`py-4 fixed top-0 left-0 z-40 h-full bg-[#1B1C1E] text-white transition-transform ${
             isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
           } lg:translate-x-0 lg:w-[16%] w-[70%]`}
         >
+          <div className=" flex items-center px-4">
+          <img src={logo} className="h-10 w-24"/>
+          </div>
           <article className="lg:h-[70%] flex flex-col justify-evenly p-4">
             {[
               { type: "DASHBOARD", label: "Dashboard", Icon: GoHome },

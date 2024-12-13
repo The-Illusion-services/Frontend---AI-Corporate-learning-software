@@ -7,6 +7,7 @@ import { LuVideo } from "react-icons/lu";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { PiCertificateLight } from "react-icons/pi";
 import { Link, useLocation } from "react-router-dom";
+import logo from "../../assets/logo.png"
 
 const LearnerNavbar = () => {
   const { logout, userRole, setShowSignOutModal, showSignOutModal } = useContext(CreateContext).auth;
@@ -146,7 +147,10 @@ const LearnerNavbar = () => {
   if (userRole === "Employee") {
     return (
       <React.Fragment>
-        <section className=" bg-[#101010] text-white border-solid mt-10 fixed z-40 lg:h-full shadow-md flex flex-col text-3xl h-20 bottom-0  w-full lg:w-[16%] lg:px-4">
+        <section className=" bg-[#101010] text-white border-solid mt-10 fixed z-40 lg:h-full shadow-md flex flex-col text-3xl h-20 bottom-0  w-full lg:w-[16%] lg:px-4 py-4">
+        <div className=" flex items-center px-4">
+          <img src={logo} className="h-10 w-24"/>
+          </div>
           <article className="lg:h-[70%] lg:items-start flex flex-row lg:flex-col justify-evenly  items-center h-full  w-full border-b">
             <Link
               to="/app/learner/dashboard"
