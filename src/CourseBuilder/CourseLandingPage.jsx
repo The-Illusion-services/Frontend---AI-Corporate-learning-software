@@ -10,7 +10,7 @@ const CourseLandingPage = () => {
 
   useEffect(() => {
     const savedData = JSON.parse(localStorage.getItem("courseBuilder"));
-    console.log(savedData);
+
     if (savedData) {
       setCourse((prev) => ({
         ...prev,
@@ -23,7 +23,6 @@ const CourseLandingPage = () => {
   }, []);
 
   useEffect(() => {
-    console.log(course);
     if (course.course_title || course.course_description || course.price) {
       localStorage.setItem("courseBuilder", JSON.stringify({ ...course }));
     }
@@ -48,7 +47,8 @@ const CourseLandingPage = () => {
     course.course_title &&
     course.course_description &&
     course.price &&
-    !isNaN(course.price) && course.price > 0;
+    !isNaN(course.price) &&
+    course.price > 0;
 
   const handleNavigateToCourseBuilder = () => {
     if (isValid) {
@@ -118,12 +118,19 @@ const CourseLandingPage = () => {
             onChange={handleChange}
             className="bg-inputBackground border-inputBorderColor h-8 px-2 py-2"
           /> */}
-          <select name="course-category" className="bg-inputBackground border-inputBorderColor h-8 px-2 ">
-          <option value="" selected className="italic">---Select an option---</option>
-            <option  value="Blockchain Basics">Blockchain Basics</option>
+          <select
+            name="course-category"
+            className="bg-inputBackground border-inputBorderColor h-8 px-2 "
+          >
+            <option value="" selected className="italic">
+              ---Select an option---
+            </option>
+            <option value="Blockchain Basics">Blockchain Basics</option>
             <option value="Smart Contracts">Smart Contracts</option>
             <option value="dApp Development">dApp Development</option>
-            <option value="Decentralized Governance">Decentralized Governance</option>
+            <option value="Decentralized Governance">
+              Decentralized Governance
+            </option>
             <option value="Crypto Wallets">Crypto Wallets</option>
             <option value="NFTs">NFTs</option>
             <option value="DeFi">DeFi</option>
@@ -155,4 +162,3 @@ const CourseLandingPage = () => {
 };
 
 export default CourseLandingPage;
-

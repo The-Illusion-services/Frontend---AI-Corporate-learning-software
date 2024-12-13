@@ -9,11 +9,13 @@ const Modal = () => {
     const savedData = JSON.parse(localStorage.getItem("courseBuilder"));
     const checkedCachedCourse = localStorage.getItem("checkCachedCourse");
     if (
-      savedData?.course_title ||
-      savedData?.course_description ||
-      (savedData?.price > 0 && !checkedCachedCourse)
-    )
+      !checkedCachedCourse &&
+      (savedData?.course_title ||
+        savedData?.course_description ||
+        Number(savedData?.price) > 0)
+    ) {
       setShowModal(true);
+    }
   }, []);
 
   const clearCachedCourse = () => {

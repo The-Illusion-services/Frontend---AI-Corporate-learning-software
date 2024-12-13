@@ -16,11 +16,11 @@ const ContextProvider = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [currUser, setCurrUser] = useState("recruit");
   const [skeletalLoading, setSkeletalLoading] = useState(false);
-  const [courseInView, setCourseInView] = useState([])
-  const [showSignOutModal, setShowSignOutModal] = useState(false)
+  const [courseInView, setCourseInView] = useState([]);
+  const [showSignOutModal, setShowSignOutModal] = useState(false);
 
-  const location = useLocation()
-  const pathname = location.pathname
+  const location = useLocation();
+  const pathname = location.pathname;
 
   const login = (accessToken, userId, userRole) => {
     setToken(accessToken);
@@ -57,11 +57,12 @@ const ContextProvider = (props) => {
     }
   }, [token]);
 
-  useEffect(()=>{
-    if (!pathname.includes("/creator/create-course")){
-      localStorage.removeItem("checkCachedCourse")
+  useEffect(() => {
+    if (!pathname.includes("/creator/course-management")) {
+      console.log("checked");
+      localStorage.removeItem("checkCachedCourse");
     }
-  })
+  }, [pathname]);
 
   // const getAllCourses = async()=>{
   //   try{
@@ -83,34 +84,36 @@ const ContextProvider = (props) => {
   //     return err.message
   //   }
 
-
   // }
-
 
   // const {data: courses, isLoading: loading, error} = useQuery({
   //   queryKey: ["all-courses"],
   //   queryFn: getAllCourses
   // })
 
-
-
   const [course, setCourse] = useState({
     course_title: "",
     course_description: "",
     price: "",
-    modules: []
+    modules: [],
   });
-  
-  // Clear course to avoid mixing up cached data of course update and course create
-  useEffect(()=>{
-      if(pathname !== "/app/creator/course-management/create" || pathname !== "app/creator/course-management/update"){
-        setCourse({
-          
-        })
-      }
-  }, [pathname])
 
-  console.log(course);
+  // Clear course to avoid mixing up cached data of course update and course create
+  useEffect(() => {
+    if (
+      pathname !== "/app/creator/course-management/create" ||
+      pathname !== "app/creator/course-management/update"
+    ) {
+      setCourse({
+        course_title: "",
+        course_description: "",
+        price: "",
+        modules: [],
+      });
+    }
+  }, [pathname]);
+
+  
 
   return (
     <CreateContext.Provider
@@ -125,7 +128,7 @@ const ContextProvider = (props) => {
           login,
           logout,
           showSignOutModal,
-          setShowSignOutModal
+          setShowSignOutModal,
         },
 
         modal: {
@@ -150,8 +153,8 @@ const ContextProvider = (props) => {
           courseInView,
           setCourseInView,
           course,
-          setCourse
-        }
+          setCourse,
+        },
       }}
     >
       {props.children}
