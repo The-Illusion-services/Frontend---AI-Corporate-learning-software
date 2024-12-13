@@ -1,7 +1,8 @@
 const storedData = JSON.parse(localStorage.getItem("userData"));
-const token = storedData?.accessToken;
+const token = storedData?.token;
 
 export const getEnrolledCourses = async () => {
+  console.log(token);
   try {
     const response = await fetch(
       "https://illusion-6ga5.onrender.com/api/courses/enrolled",

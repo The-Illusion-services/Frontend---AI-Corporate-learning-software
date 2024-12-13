@@ -8,28 +8,25 @@ const CourseLandingPage = () => {
   const navigate = useNavigate();
   const { course, setCourse } = useContext(CreateContext).course;
 
+  // Load course data from localStorage on component mount
   useEffect(() => {
-    const savedData = JSON.parse(localStorage.getItem("courseBuilder"));
-
+    const savedData = localStorage.getItem("courseBuilder");
     if (savedData) {
-      setCourse((prev) => ({
-        ...prev,
-        course_title: savedData.course_title,
-        course_description: savedData.course_description,
-        price: savedData.price,
-        modules: savedData.modules,
-      }));
+      setCourse(JSON.parse(savedData));
     }
-  }, []);
+  }, [setCourse]);
 
-  console.log(course);
-
+  // Update localStorage whenever course state changes
   useEffect(() => {
-    if (course.course_title || course.course_description || course.price) {
-      localStorage.setItem("courseBuilder", JSON.stringify({ ...course }));
-    }
-  }, [course.course_title, course.course_description, course.price]);
+    const timeoutId = setTimeout(() => {
+      if (course.course_title || course.course_description || course.price) {
+        localStorage.setItem("courseBuilder", JSON.stringify(course));
+      }
+    }, 500); // Debounced update for better performance
+    return () => clearTimeout(timeoutId);
+  }, [course]);
 
+  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCourse((prev) => ({
@@ -38,91 +35,79 @@ const CourseLandingPage = () => {
     }));
   };
 
-  const roundUp = () => {
-    setCourse((prev) => ({
-      ...prev,
-      price: Number(course.price).toFixed(2),
-    }));
+  // Round up price on blur
+  const roundUpPrice = () => {
+    if (!isNaN(course.price) && course.price) {
+      setCourse((prev) => ({
+        ...prev,
+        price: parseFloat(course.price).toFixed(2),
+      }));
+    }
   };
 
+  // Validation for form completion
   const isValid =
-    course.course_title &&
-    course.course_description &&
+    course.course_title?.trim() &&
+    course.course_description?.trim() &&
     course.price &&
     !isNaN(course.price) &&
     course.price > 0;
 
+  // Navigate to the course builder page if the form is valid
   const handleNavigateToCourseBuilder = () => {
     if (isValid) {
       navigate("/app/creator/course-management/create/create-resource");
     } else {
-      toast.error("Fields cannot be empty");
+      toast.error("All fields must be completed and valid");
     }
   };
 
   return (
-    <div className="bg-mobileBackground min-h-screen px-4 py-2 border  border-inputBorderColor mt-4 rounded-md">
+    <div className="bg-mobileBackground min-h-screen px-4 py-2 border border-inputBorderColor mt-4 rounded-md">
       <Modal />
       <article className="flex flex-col gap-y-4">
-        <div className="text-white text-lg w-full mt-4">
-          Course Landing Page
-        </div>
-        <div className="text-white">
-          <h2>Course title</h2>
+        <h1 className="text-white text-lg mt-4">Course Landing Page</h1>
+
+        {/* Course Title */}
+        <section className="text-white">
+          <h2>Course Title</h2>
           <p className="text-sm font-light">
             You must enter at least 4 learning objectives or outcomes that
-            learners can expect to achieve after completing your <br /> course.
+            learners can expect to achieve after completing your course.
           </p>
           <input
             type="text"
             name="course_title"
-            placeholder="Course title"
+            placeholder="Course Title"
             value={course.course_title}
             onChange={handleChange}
-            className="h-12 mt-2 px-2 text-sm bg-inputBackground border-inputBorderColor border rounded-md w-[70%]"
+            className="h-12 mt-2 px-2 text-sm bg-inputBackground border border-inputBorderColor rounded-md w-[70%]"
           />
-        </div>
+        </section>
 
-        {/* <div className="text-white">
-      <h2>Course description</h2>
-      <p className="font-light">
-        List the required skills, experience, tools or equipment
-        learners should have prior to taking your course. <br />
-        If there are no requirements, use this space as an opportunity
-        to lower the barrier for beginners.
-      </p>
-      <input type="fil" className="h-12 bg-inputBackground border-inputBorderColor border rounded-md" />
-    </div> */}
-
-        <div className="text-white">
-          <h2>Course description</h2>
+        {/* Course Description */}
+        <section className="text-white">
+          <h2>Course Description</h2>
           <p className="font-light text-sm">
-            List the required skills, experience, tools or equipment learners
-            should have prior to taking your course. <br />
-            If there are no requirements, use this space as an opportunity to
-            lower the barrier for beginners.
+            List the required skills, experience, tools, or equipment learners
+            should have prior to taking your course.
           </p>
           <textarea
             name="course_description"
             value={course.course_description}
             onChange={handleChange}
             placeholder="Course Description"
-            className="min-h-28 mt-2 text-xs px-2 py-2 bg-inputBackground border-inputBorderColor border rounded-md w-[70%]"
+            className="min-h-28 mt-2 px-2 py-2 bg-inputBackground border border-inputBorderColor rounded-md w-[70%]"
           ></textarea>
-        </div>
+        </section>
 
-        <div className="text-white">
-          <h2 className="">Course Category</h2>
-          {/* <input
-            name="price"
-            value={course.price}
-            onBlur={roundUp}
-            onChange={handleChange}
-            className="bg-inputBackground border-inputBorderColor h-8 px-2 py-2"
-          /> */}
+        {/* Course Category */}
+        <section className="text-white">
+          <h2>Course Category</h2>
           <select
-            name="course-category"
-            className="bg-inputBackground border-inputBorderColor h-8 px-2 "
+            name="course_category"
+            onChange={handleChange}
+            className="bg-inputBackground border border-inputBorderColor h-8 px-2"
           >
             <option value="" className="italic">
               ---Select an option---
@@ -137,23 +122,28 @@ const CourseLandingPage = () => {
             <option value="NFTs">NFTs</option>
             <option value="DeFi">DeFi</option>
           </select>
-        </div>
+        </section>
 
-        <div className="text-white">
-          <h2 className="">Course Price ($)</h2>
+        {/* Course Price */}
+        <section className="text-white">
+          <h2>Course Price ($)</h2>
           <input
+            type="number"
             name="price"
             value={course.price}
-            onBlur={roundUp}
+            onBlur={roundUpPrice}
             onChange={handleChange}
-            className="bg-inputBackground border-inputBorderColor h-8 px-2 py-2"
+            placeholder="Price"
+            className="bg-inputBackground border border-inputBorderColor h-8 px-2 py-2"
           />
-        </div>
+        </section>
       </article>
+
+      {/* Submit Button */}
       <button
         disabled={!isValid}
         onClick={handleNavigateToCourseBuilder}
-        className={`mt-2 w-24 px-2 py-1 ${
+        className={`mt-4 w-24 px-2 py-1 ${
           isValid ? "bg-PrimaryPurple" : "bg-transparent border"
         } rounded-md text-white`}
       >

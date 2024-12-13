@@ -36,7 +36,7 @@ const ManageCourses = () => {
   const [updatedCourses, setUpdatedCourses] = useState(createdCourses);
 
   useEffect(() => {
-    if (!isError) {
+    if (!isError && !isLoading && createdCourses) {
       setUpdatedCourses((prev) => {
         const courses = createdCourses?.map((course) => {
           return {
