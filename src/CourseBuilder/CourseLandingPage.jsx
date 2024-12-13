@@ -22,6 +22,8 @@ const CourseLandingPage = () => {
     }
   }, []);
 
+  console.log(course);
+
   useEffect(() => {
     if (course.course_title || course.course_description || course.price) {
       localStorage.setItem("courseBuilder", JSON.stringify({ ...course }));
@@ -122,7 +124,7 @@ const CourseLandingPage = () => {
             name="course-category"
             className="bg-inputBackground border-inputBorderColor h-8 px-2 "
           >
-            <option value="" selected className="italic">
+            <option value="" className="italic">
               ---Select an option---
             </option>
             <option value="Blockchain Basics">Blockchain Basics</option>

@@ -115,7 +115,7 @@ const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
       ],
     };
     setFormElements([...formElements, newModule]);
-    console.log(course);
+    
     setCourse((prev) => ({
       ...prev,
       modules: [
