@@ -33,23 +33,23 @@ const ManageCourses = () => {
     queryKey: ["created-courses"],
     queryFn: getCreatedCourses,
   });
-  const [updatedCourses, setUpdatedCourses] = useState(createdCourses);
+  // const [updatedCourses, setUpdatedCourses] = useState(createdCourses);
 
-  useEffect(() => {
-    if (!isError && !isLoading && createdCourses) {
-      setUpdatedCourses((prev) => {
-        const courses = createdCourses?.map((course) => {
-          return {
-            ...course,
-            course_category: course_category[Math.floor(Math.random() * 7)],
-          };
-        });
+  // useEffect(() => {
+  //   if (!isError && !isLoading) {
+  //     setUpdatedCourses((prev) => {
+  //       const courses = createdCourses?.map((course) => {
+  //         return {
+  //           ...course,
+  //           course_category: course_category[Math.floor(Math.random() * 7)],
+  //         };
+  //       });
 
-        localStorage.setItem("createdCourses", JSON.stringify(courses));
-        return courses;
-      });
-    }
-  }, [createdCourses]);
+  //       localStorage.setItem("createdCourses", JSON.stringify(courses));
+  //       return courses;
+  //     });
+  //   }
+  // }, [createdCourses]);
 
   const navigate = useNavigate();
 
@@ -67,19 +67,19 @@ const ManageCourses = () => {
     navigate("/app/creator/course/view");
   };
 
-  const handleFilter = (e) => {
-    const createdCourses = JSON.parse(localStorage.getItem("createdCourses"));
-    console.log(createdCourses);
-    setUpdatedCourses((prev) => {
-      return createdCourses?.filter((course) => {
-        if (e.target.value === "") {
-          return createdCourses;
-        } else {
-          return course.course_category === e.target.value;
-        }
-      });
-    });
-  };
+  // const handleFilter = (e) => {
+  //   const createdCourses = JSON.parse(localStorage.getItem("createdCourses"));
+  //   console.log(createdCourses);
+  //   setUpdatedCourses((prev) => {
+  //     return createdCourses?.filter((course) => {
+  //       if (e.target.value === "") {
+  //         return createdCourses;
+  //       } else {
+  //         return course.course_category === e.target.value;
+  //       }
+  //     });
+  //   });
+  // };
 
   useEffect(() => {
     window.scrollTo({
@@ -175,7 +175,7 @@ const ManageCourses = () => {
               <select
                 name="sort"
                 id="sort"
-                onChange={handleFilter}
+                // onChange={handleFilter}
                 className="h-full text-textGray outline-none text-sm bg-transparent text-center"
               >
                 <option value="">All Category</option>
@@ -204,8 +204,8 @@ const ManageCourses = () => {
               <Skeleton height="306px" width="246px" baseColor="#222222" />
               <Skeleton height="306px" width="246px" baseColor="#222222" />
             </div>
-          ) : !isLoading && updatedCourses?.length >= 1 ? (
-            updatedCourses?.map((course, index) => {
+          ) : !isLoading && createdCourses?.length >= 1 ? (
+            createdCourses?.map((course, index) => {
               return (
                 <div onClick={() => handleViewCourse(index)}>
                   <div
