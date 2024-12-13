@@ -9,8 +9,8 @@ import "react-quill/dist/quill.snow.css";
 
 const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
   const navigate = useNavigate();
-  const { auth, loader, setCourseInView } = useContext(CreateContext);
-  const { setCourse, course } = useContext(CreateContext).course;
+  const { auth, loader } = useContext(CreateContext);
+  const { setCourse, course, setCourseInView } = useContext(CreateContext).course;
   const { token } = auth;
   const { setIsLoading } = loader;
   const [formElements, setFormElements] = useState([]);
@@ -38,6 +38,7 @@ const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
   }, [formElements, hasInitialized, course, cacheKey]);
 
   const handleCreate = () => setPreview(false);
+
   const handlePreview = () => {
     setCourseInView(course);
     setPreview(true);
@@ -175,11 +176,11 @@ const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
             {element.title}
           </div>
         </div>
-          <MdDeleteOutline
-            onClick={() => deleteModule(element.id)}
-            className="text-2xl hover:text-PrimaryPurple cursor-pointer"
-            title="delete"
-          />
+        <MdDeleteOutline
+          onClick={() => deleteModule(element.id)}
+          className="text-2xl hover:text-PrimaryPurple cursor-pointer"
+          title="delete"
+        />
       </article>
 
       {element.lessons.map((lesson, lessonIndex) => (
@@ -191,10 +192,10 @@ const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
             <div className="flex gap-x-2 ">
               <h2>Lesson {lesson.index}</h2>
             </div>
-              <MdDeleteOutline
-                onClick={() => deleteLesson(moduleIndex, lesson.id)}
-                className="text-lg hover:text-PrimaryPurple cursor-pointer"
-              />
+            <MdDeleteOutline
+              onClick={() => deleteLesson(moduleIndex, lesson.id)}
+              className="text-lg hover:text-PrimaryPurple cursor-pointer"
+            />
           </div>
 
           <section className="flex flex-col py-2 gap-y-2">
@@ -265,9 +266,21 @@ const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
         >
           Publish Course
         </button>
-        <button onClick={handlePreview} className="text-white">
-          {preview ? "Edit Course" : "Preview Course"}
-        </button>
+        {!preview ? (
+          <button
+            onClick={handlePreview}
+            className="hover:bg-PrimaryPurple  rounded-md w-fit px-2 py-1 text-white"
+          >
+            Preview Course
+          </button>
+        ) : (
+          <button
+            onClick={handleCreate}
+            className="hover:bg-PrimaryPurple rounded-md w-fit px-2 py-1 text-white"
+          >
+            Edit Course
+          </button>
+        )}
       </div>
     </main>
   );
