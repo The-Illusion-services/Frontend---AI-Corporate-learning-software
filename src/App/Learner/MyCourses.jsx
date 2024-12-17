@@ -17,7 +17,6 @@ import { useNavigate } from "react-router-dom";
 
 const MyCourses = () => {
   const navigate = useNavigate()
-  const { courseInView, setCourseInView } = useContext(CreateContext).course;
   // Use React Query to fetch enrolled courses with object syntax
   const {
     data: enrolledCourses,
@@ -31,9 +30,8 @@ const MyCourses = () => {
 
 
 
-  const handleViewCourse = (courseIndex) => {
-    setCourseInView(enrolledCourses[courseIndex]);
-    navigate("/app/learner/course/view");
+  const handleViewCourse = (courseId) => {
+    navigate(`/app/learner/course/view/?id=${courseId}`);
   };
   
 
@@ -148,7 +146,7 @@ const MyCourses = () => {
             </div> : !isLoading && enrolledCourses?.length >= 1 ? (
             enrolledCourses?.map((course, index) => {
               return (
-                <div onClick={() => handleViewCourse(index)}>
+                <div onClick={() => handleViewCourse(course.id)}>
                   <div
                     className="space-y-3 border-inputBorderColor border p-5 rounded-lg cursor-pointer"
                     title={course.course_title}

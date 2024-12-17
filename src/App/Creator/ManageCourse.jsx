@@ -53,7 +53,7 @@ const ManageCourses = () => {
 
   const navigate = useNavigate();
 
-  const { setCourseInView } = useContext(CreateContext).course;
+  
   const [activeTab, setActiveTab] = useState("description");
   // Course Details
   const [activeSection, setActiveSection] = useState(null);
@@ -62,9 +62,8 @@ const ManageCourses = () => {
     setActiveSection(index === activeSection ? null : index);
   };
 
-  const handleViewCourse = (courseIndex) => {
-    setCourseInView(createdCourses[courseIndex]);
-    navigate("/app/creator/course/view");
+  const handleViewCourse = (courseId) => {
+    navigate(`/app/creator/course/view/?id=${courseId}`);
   };
 
   // const handleFilter = (e) => {
@@ -209,9 +208,9 @@ const ManageCourses = () => {
               <h2>No Course Found</h2>
             </div>
           ) : (
-            createdCourses?.map((course, index) => {
+            createdCourses?.map((course) => {
               return (
-                <div onClick={() => handleViewCourse(index)}>
+                <div onClick={() => handleViewCourse(course.id)}>
                   <div
                     className="space-y-3 border-inputBorderColor border p-5 rounded-lg cursor-pointer"
                     title={course.course_title}

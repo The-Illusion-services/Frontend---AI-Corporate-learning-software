@@ -20,17 +20,21 @@ import rocket from "../../assets/lessons/rocket.svg";
 import smirk from "../../assets/lessons/smirking.svg";
 import message from "../../assets/lessons/message.svg";
 import DOMPurify from "dompurify";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
+import { getAllCourses } from "../../services/apiCourses";
+import useFetchViaSearchParams from "../../Custom Hooks/useFetchViaSearchParams";
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const Preview = () => {
+  const [searchParams] = useSearchParams()
+  const courseId = searchParams.get("id")
   const navigate = useNavigate()
   const pathname = useLocation().pathname;
-  const { courseInView, setCourseInView } = useContext(CreateContext).course;
   const [activeTab, setActiveTab] = useState("description");
 
   // Function to toggle accordion sections in the course details
-  const [visibleModules, setVisibleModules] = useState({});
+  const {courseInView} = useFetchViaSearchParams(getAllCourses, "all-courses", courseId)
 
   useEffect(() => {
     window.scrollTo({
@@ -54,7 +58,7 @@ const Preview = () => {
           {/* Course Title */}
           <div className="mb-6 mt-6  flex justify-between items-center py-2 px-1">
             <h1 className=" lg:text-3xl font-bold">
-              {courseInView.course_title}
+              {courseInView?.course_title}
             </h1>
           </div>
 
@@ -138,7 +142,7 @@ const Preview = () => {
               {activeTab === "description" && (
                 <div>
                   <p className="text-gray-400">
-                    {courseInView.course_description}
+                    {courseInView?.course_description}
                   </p>
                 </div>
               )}
@@ -402,7 +406,7 @@ const Preview = () => {
           <div className="bg-[#1b1c1e] border-2 border-inputBorderColor p-6 rounded-lg w-full lg:w-full space-y-4 mb-10">
             {/* Course Metadata Items */}
             <div>
-              <h2 className=" text-xl font-bold">${courseInView.price}</h2>
+              <h2 className=" text-xl font-bold">${courseInView?.price}</h2>
             </div>
             <div className="w-full flex flex-col gap-y-1">
               <button className="bg-PrimaryPurple rounded-sm py-1 ">
@@ -415,7 +419,7 @@ const Preview = () => {
             <div className="flex items-center gap-4">
               <img src={CourseIcon} className="text-textGray" />
               <span className="text-textGray">
-                {courseInView.modules.length} modules{" "}
+                {courseInView?.modules.length} modules{" "}
               </span>
             </div>
             <div className="flex items-center gap-4">

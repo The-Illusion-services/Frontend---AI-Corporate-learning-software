@@ -25,9 +25,9 @@ const CourseList = () => {
     queryFn: getAllCourses,
   });
 
-  const handleViewCourse = (courseIndex) => {
-    setCourseInView(allCourses[courseIndex]);
-    navigate("/app/learner/course/preview");
+  const handleViewCourse = (courseId) => {
+   
+    navigate(`/app/learner/course/preview/?id=${courseId}`);
   };
   return (
     <div className="bg-mobileBackground min-h-screen">
@@ -127,7 +127,7 @@ const CourseList = () => {
           ) : !isLoading && allCourses?.length >= 1 ? (
             allCourses?.map((course, index) => {
               return (
-                <div onClick={() => handleViewCourse(index)}>
+                <div onClick={() => handleViewCourse(course.id)}>
                   <div
                     className="space-y-3 border-inputBorderColor border p-5 rounded-lg cursor-pointer"
                     title={course.course_title}

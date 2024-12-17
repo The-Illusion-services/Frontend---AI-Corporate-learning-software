@@ -20,20 +20,27 @@ import rocket from "../../assets/lessons/rocket.svg";
 import smirk from "../../assets/lessons/smirking.svg";
 import message from "../../assets/lessons/message.svg";
 import DOMPurify from "dompurify";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
+import useFetchViaSearchParams from "../../Custom Hooks/useFetchViaSearchParams";
+import { getCreatedCourses } from "../../services/apiCourses";
 
 const PreviewCourse = () => {
+  const [searchParams] = useSearchParams();
+  const courseId = searchParams.get("id");
   const pathname = useLocation().pathname;
   const navigate = useNavigate();
-  const { courseInView, setCourseInView } = useContext(CreateContext).course;
   const [activeTab, setActiveTab] = useState("description");
   // Course Details
   const [activeModuleIndex, setActiveModuleIndex] = useState(0);
-  const [activeModule, setActiveModule] = useState({});
   const [activeLesson, setActiveLesson] = useState(0);
-  const [showModuleLessons, setShowModuleLessons] = useState(false);
-  const lessons = courseInView?.modules[activeModuleIndex]?.lessons;
+
+  const { courseInView } = useFetchViaSearchParams(
+    getCreatedCourses,
+    "created-courses",
+    courseId
+  );
+  console.log(courseInView);
+
   const lesson_description =
     courseInView?.modules[activeModuleIndex]?.lessons[activeLesson]
       ?.description;
@@ -80,15 +87,14 @@ const PreviewCourse = () => {
   };
 
   const handleManageCourse = () => {
-    
     localStorage.setItem(
       "manageCourse",
       JSON.stringify({
         course_title: courseInView.course_title,
-        course_description: courseInView.course_description,
-        price: courseInView.price,
+        course_description: courseInView?.course_description,
+        price: courseInView?.price,
         modules: [...courseInView.modules],
-        id: courseInView.id,
+        id: courseInView?.id,
       })
     );
     navigate("/app/creator/course-management/update");
@@ -104,7 +110,7 @@ const PreviewCourse = () => {
           {/* Course Title */}
           <div className="mb-6 mt-6  flex justify-between items-center py-2 px-1">
             <h1 className=" lg:text-3xl font-bold">
-              {courseInView.course_title}
+              {courseInView?.course_title}
             </h1>
             <button
               className="w-40 px-2 py-1  rounded-md bg-PrimaryPurple"
@@ -183,7 +189,6 @@ const PreviewCourse = () => {
                     ]?.title
                   }
                 </h2>
-               
               </div>
             </div>
 
@@ -196,19 +201,19 @@ const PreviewCourse = () => {
           </div>
 
           <div className=" gap-x-2 w-full flex justify-end mb-6">
-                  <button
-                    className="border rounded-sm h-8 w-24 hover:bg-PrimaryPurple hover:border-0"
-                    onClick={handlePreviousLesson}
-                  >
-                    Previous
-                  </button>
-                  <button
-                    className=" rounded-sm h-8 w-24 bg-PrimaryPurple hover:border-0"
-                    onClick={handleNextLesson}
-                  >
-                    Next
-                  </button>
-                </div>
+            <button
+              className="border rounded-sm h-8 w-24 hover:bg-PrimaryPurple hover:border-0"
+              onClick={handlePreviousLesson}
+            >
+              Previous
+            </button>
+            <button
+              className=" rounded-sm h-8 w-24 bg-PrimaryPurple hover:border-0"
+              onClick={handleNextLesson}
+            >
+              Next
+            </button>
+          </div>
           {/* Tab Section */}
           <div className=" bg-mobileBackground border border-inputBorderColor rounded-lg p-3 mt-auto">
             {/* Tab Headers */}
@@ -265,7 +270,7 @@ const PreviewCourse = () => {
               {activeTab === "description" && (
                 <div>
                   <p className="text-gray-400">
-                    {courseInView.course_description}
+                    {courseInView?.course_description}
                   </p>
                 </div>
               )}
@@ -531,7 +536,7 @@ const PreviewCourse = () => {
             <div className="flex items-center gap-4">
               <img src={CourseIcon} className="text-textGray" />
               <span className="text-textGray">
-                {courseInView.modules.length} modules{" "}
+                {courseInView?.modules.length} modules{" "}
               </span>
             </div>
             <div className="flex items-center gap-4">
@@ -558,7 +563,7 @@ const PreviewCourse = () => {
           <section className=" h-[100px] lg:h-[445px] flex flex-col items-center justify-center bg-[#1b1c1e] lg:py-4 border-2 border-inputBorderColor rounded-sm">
             <div className=" rounded-lg w-full lg:w-full flex flex-col lg:gap-y-6 overflow-y-auto scrollbar-hide h-full lg:p-2">
               {/** Accordion List */}
-              {courseInView.modules.map((module, moduleIndex) => (
+              {courseInView?.modules.map((module, moduleIndex) => (
                 <div key={moduleIndex} className=" r">
                   <div
                     className="flex items-center justify-between cursor-pointer hover:bg-PrimaryPurple px-1 hover:text-white rounded "
@@ -590,8 +595,9 @@ const PreviewCourse = () => {
                             <span
                               className={`w-2 h-2 rounded-full ${
                                 lessonIndex === activeLesson &&
-                                moduleIndex == activeModuleIndex ?
-                                "bg-PrimaryPurple" : "bg-inputBorderColor"
+                                moduleIndex == activeModuleIndex
+                                  ? "bg-PrimaryPurple"
+                                  : "bg-inputBorderColor"
                               }`}
                             />
                             <span

@@ -8,11 +8,11 @@ import Wallets from "../assets/signup/wallets.svg";
 import { CreateContext } from "../Context/Context";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 
 const Signup = () => {
   const navigate = useNavigate()
-  const { login } = useContext(CreateContext).auth;
+  const { login, token } = useContext(CreateContext).auth;
    const {setIsLoading} = useContext(CreateContext).loader
   const [registerForm, setRegisterForm] = useState({
     first_name: "",
@@ -75,6 +75,8 @@ const Signup = () => {
   console.log(registerForm);
 
   // if (isLoading) return <Spinner/>
+  const previousLocation = localStorage.getItem("lastVisitedPage")
+  if (!token) {
   return (
     <div className="w-screen flex bg-mobileBackground justify-center lg:justify-normal ">
       <div className="hidden lg:flex w-1/2 h-screen fixed">
@@ -240,6 +242,9 @@ const Signup = () => {
       </div>
     </div>
   );
-};
+} else{
+ return <Navigate to={previousLocation}/>
+}
+}
 
 export default Signup;

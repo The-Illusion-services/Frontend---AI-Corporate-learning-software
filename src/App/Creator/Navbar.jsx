@@ -81,7 +81,7 @@ const RecruitNavbar = () => {
     const path = location.pathname;
     if (path === "/app/creator" || path === "/app/creator/dashboard") {
       dispatch({ type: "DASHBOARD" });
-    } else if (path === "/app/creator/course-management") {
+    } else if (path.includes("/app/creator/course-management")) {
       dispatch({ type: "COURSE_MANAGEMENT" });
     } else if (path === "/app/creator/live-sessions") {
       dispatch({ type: "LIVE_SESSIONS" });

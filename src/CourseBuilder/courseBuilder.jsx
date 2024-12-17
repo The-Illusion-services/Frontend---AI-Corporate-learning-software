@@ -10,7 +10,8 @@ import "react-quill/dist/quill.snow.css";
 const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
   const navigate = useNavigate();
   const { auth, loader } = useContext(CreateContext);
-  const { setCourse, course, setCourseInView } = useContext(CreateContext).course;
+  const { setCourse, course, setCourseInView } =
+    useContext(CreateContext).course;
   const { token } = auth;
   const { setIsLoading } = loader;
   const [formElements, setFormElements] = useState([]);
@@ -45,42 +46,47 @@ const CourseBuilder = ({ cacheKey, publishUrl, requestMethod }) => {
   };
 
   const checkLessonsFieldValidity = () => {
-    return course.modules.every((module) =>
-      module.lessons.every((lesson) => lesson.title && lesson.description)
-    );
+    let validity = true;
+    course.modules.map((module) => {
+      const invalidLessons = module.lessons.filter((lesson) => {
+        return lesson.title === "" || lesson.description === "";
+      });
+      if (invalidLessons.length >= 1) {
+        return (validity = false);
+      }
+    });
+    return validity;
   };
 
   const publishCourse = async () => {
-    if (course.modules.length < 1 || !checkLessonsFieldValidity()) {
-      toast.error("Lessons fields or title cannot be empty");
-      return;
-    }
+    if (course.modules.length >= 1 && checkLessonsFieldValidity()) {
+      setIsLoading(true);
 
-    setIsLoading(true);
-
-    try {
-      const response = await fetch(publishUrl, {
-        method: requestMethod,
-        body: JSON.stringify(course),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const responseData = await response.json();
-      if (response.ok) {
-        toast.success("Course Published!");
-        localStorage.removeItem(cacheKey);
-        navigate("/app/creator/course-management");
-      } else {
-        toast.error(responseData.detail);
+      try {
+        const response = await fetch(publishUrl, {
+          method: requestMethod,
+          body: JSON.stringify(course),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        });
+        const responseData = await response.json();
+        if (response.ok) {
+          toast.success("Course Published!");
+          localStorage.removeItem(cacheKey);
+          navigate("/app/creator/course-management");
+        } else {
+          console.log(responseData);
+          toast.error(responseData.detail);
+        }
+      } catch (err) {
+        return console.log("error");
       }
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to publish course");
-    } finally {
+
       setIsLoading(false);
+    } else {
+      toast.error("Lessons fields or title cannot be empty");
     }
   };
 

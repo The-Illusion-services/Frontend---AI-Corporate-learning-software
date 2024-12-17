@@ -32,6 +32,19 @@ const ContextProvider = ({ children }) => {
     price: "",
     modules: [],
   });
+  const [previousLocation, setPreviousLocation] = useState();
+
+  useEffect(() => {
+    if (
+      pathname !== "/auth/login" &&
+      pathname !== "/auth/signup" &&
+      pathname !== "/"
+    ) {
+      const updatedPathname = `/app${window.location.href.split("/app")[1]}`;
+      localStorage.setItem("lastVisitedPage", updatedPathname);
+      setPreviousLocation(updatedPathname);
+    }
+  }, [pathname]);
 
   // Login function
   const login = (accessToken, userId, userRole) => {
@@ -78,12 +91,15 @@ const ContextProvider = ({ children }) => {
     }
   }, []);
 
+  console.log(window.location.href.split("/app")[1]);
+
   return (
     <CreateContext.Provider
       value={{
         auth: {
           token,
-          setToken: (newToken) => setAuthState((prev) => ({ ...prev, token: newToken })),
+          setToken: (newToken) =>
+            setAuthState((prev) => ({ ...prev, token: newToken })),
           setUsername,
           userId,
           username,
@@ -112,6 +128,8 @@ const ContextProvider = ({ children }) => {
           course,
           setCourse,
         },
+        previousLocation,
+        setPreviousLocation,
       }}
     >
       {children}
