@@ -20,33 +20,21 @@ import rocket from "../../assets/lessons/rocket.svg";
 import smirk from "../../assets/lessons/smirking.svg";
 import message from "../../assets/lessons/message.svg";
 import DOMPurify from "dompurify";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
+import { getAllCourses } from "../../services/apiCourses";
+import useFetchViaSearchParams from "../../Custom Hooks/useFetchViaSearchParams";
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
-const PreviewCourse = () => {
+const Preview = () => {
+  const [searchParams] = useSearchParams()
+  const courseId = searchParams.get("id")
+  const navigate = useNavigate()
   const pathname = useLocation().pathname;
-  const navigate = useNavigate();
-  const { courseInView, setCourseInView } = useContext(CreateContext).course;
   const [activeTab, setActiveTab] = useState("description");
-  // Course Details
-  const [activeModuleIndex, setActiveModuleIndex] = useState(0);
-  const [activeModule, setActiveModule] = useState({});
-  const [activeLesson, setActiveLesson] = useState(0);
-  const [showModuleLessons, setShowModuleLessons] = useState(false);
-  const lessons = courseInView?.modules[activeModuleIndex]?.lessons;
-  const lesson_description =
-    courseInView?.modules[activeModuleIndex]?.lessons[activeLesson]
-      ?.description;
 
   // Function to toggle accordion sections in the course details
-  const [visibleModules, setVisibleModules] = useState({});
-
-  const toggleSection = (moduleIndex) => {
-    setVisibleModules((prev) => ({
-      ...prev,
-      [moduleIndex]: !prev[moduleIndex], // Toggle the specific module's visibility
-    }));
-  };
+  const {courseInView} = useFetchViaSearchParams(getAllCourses, "all-courses", courseId)
 
   useEffect(() => {
     window.scrollTo({
@@ -56,42 +44,9 @@ const PreviewCourse = () => {
     });
   }, [pathname]);
 
-  const handleActiveLesson = (lessonIndex, moduleIndex) => {
-    setActiveModuleIndex(moduleIndex);
-    setActiveLesson(lessonIndex);
-  };
-
-  const handleNextLesson = () => {
-    if (
-      activeLesson + 1 <
-      courseInView?.modules[activeModuleIndex]?.lessons.length
-    ) {
-      setActiveLesson(activeLesson + 1);
-    } else if (courseInView?.modules.length > activeModuleIndex + 1) {
-      setActiveModuleIndex(activeModuleIndex + 1);
-      setActiveLesson(0);
-    }
-  };
-
-  const handlePreviousLesson = () => {
-    if (activeLesson > 0) {
-      setActiveLesson(activeLesson - 1);
-    }
-  };
-
-  const handleManageCourse = () => {
-    localStorage.setItem(
-      "manageCourse",
-      JSON.stringify({
-        course_title: courseInView.title,
-        course_description: courseInView.description,
-        price: courseInView.price,
-        modules: courseInView.modules,
-        id: courseInView.id,
-      })
-    );
-    navigate("/app/recruiter/update");
-  };
+  const handleNavigateToCheckout = ()=>{
+    navigate("/app/learner/course/checkout")
+  }
 
   return (
     <section className=" bg-mobileBackground text-white min-h-screen max-w-full">
@@ -103,19 +58,13 @@ const PreviewCourse = () => {
           {/* Course Title */}
           <div className="mb-6 mt-6  flex justify-between items-center py-2 px-1">
             <h1 className=" lg:text-3xl font-bold">
-              {courseInView.course_title}
+              {courseInView?.course_title}
             </h1>
-            <button
-              className="w-40 px-2 py-1  rounded-md bg-PrimaryPurple"
-              onClick={handleManageCourse}
-            >
-              Manage Course
-            </button>
           </div>
 
           {/* Video Section */}
           <div className="bg-inputBackground rounded-lg flex items-center justify-center">
-            {/* <img
+            <img
               src={Video}
               alt="Course"
               className="aspect-video object-cover rounded-lg w-full flex relative"
@@ -125,43 +74,9 @@ const PreviewCourse = () => {
               src={Eclipse}
               className="flex absolute object-cover rounded-lg"
             />
-            <img src={play} className="flex absolute object-cover rounded-lg" /> */}
+            <img src={play} className="flex absolute object-cover rounded-lg" />
           </div>
           {/* {activeModuleIndex.} */}
-
-          {/* Quiz Section */}
-          {/* <div className="mb-6 mt-6 hidden">
-            <div className="flex text-textGray">
-              <img src={Profile3} />
-              <p>Dianne Russell.Kristin Watson</p>
-            </div>
-            <div className="flex justify-between items-center my-3">
-              <h2 className="text-1xl font-bold">Quiz</h2>
-              <div className="flex text-textGray">
-                <p className="text-xs font-bold mx-4">Q3/4</p>
-                <FaClock />
-              </div>
-            </div>
-
-            <div className="flex justify-between items-center my-2 text-textGray">
-              <h2 className="text-lg font-bold">Question 1</h2>
-              <div className="flex">Skip</div>
-            </div>
-
-            <div>
-              <p className="text-textGray p-2">
-                "At vero eos et accusamus et justo odio dignissimos ducimus qui
-                blanditiis praesentium voluptatum deleniti atque corrupti quos
-                dolores et quas molestias excepturi sint occaecati." Omnis
-                voluptas assumenda est, omnis dolor repellendus. Harum quidem
-                rerum facilis est et expedita distinctio. Omnis voluptas
-                assumenda est, omnis dolor repellendus. Harum quidem rerum
-                facilis est et expedita distinctio. Omnis voluptas assumenda
-                est, omnis dolor repellendus. Harum quidem rerum facilis est et
-                expedita distinctio.
-              </p>
-            </div>
-          </div> */}
 
           {/* Lecture Section */}
           <div className="mb-6 mt-6 ">
@@ -169,49 +84,13 @@ const PreviewCourse = () => {
               <img src={Profile3} />
               <p>Dianne Russell.Kristin Watson</p>
             </div>
-
-            <div className="flex flex-col justify-between my-2">
-              <h2 className="text-2xl font-bold">
-                {courseInView?.modules[activeModuleIndex]?.title}
-              </h2>
-              <div className="flex justify-between mt-4">
-                <h2 className="text-lg">
-                  {
-                    courseInView?.modules[activeModuleIndex]?.lessons[
-                      activeLesson
-                    ]?.title
-                  }
-                </h2>
-                <div className="flex gap-x-2">
-                  <button
-                    className="border rounded-sm h-8 w-28 hover:bg-PrimaryPurple hover:border-0"
-                    onClick={handlePreviousLesson}
-                  >
-                    Previous
-                  </button>
-                  <button
-                    className="border rounded-sm h-8 w-28 hover:bg-PrimaryPurple hover:border-0"
-                    onClick={handleNextLesson}
-                  >
-                    Next
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className="border rounded-md lg:max-h-[300px] lg:h-[300px] px-2 py-2 overflow-y-auto"
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(lesson_description),
-              }}
-            ></div>
           </div>
 
           {/* Tab Section */}
           <div className=" bg-mobileBackground border border-inputBorderColor rounded-lg p-3 mt-auto">
             {/* Tab Headers */}
             <div className="">
-              <ul className="flex space-x-2 lg:space-x-10 border-b border-inputBorderColor items-center justify-center">
+              <ul className="flex space-x-2 lg:space-x-10 border-b border-inputBorderColor items-center justify-between">
                 <li
                   className={`cursor-pointer pb-3 ${
                     activeTab === "description"
@@ -263,7 +142,7 @@ const PreviewCourse = () => {
               {activeTab === "description" && (
                 <div>
                   <p className="text-gray-400">
-                    {courseInView.course_description}
+                    {courseInView?.course_description}
                   </p>
                 </div>
               )}
@@ -522,14 +401,25 @@ const PreviewCourse = () => {
         </main>
 
         {/* Course Info Sidebar */}
-        <aside className="hidden xl:block mt-5 px-5 xl:mt-3 py-7  lg:w-[35%]">
+        <aside className="hidden xl:block mt-6 px-5 xl:mt-3 py-7  lg:w-[35%] ">
           {/* Right Section: Course Metadata */}
           <div className="bg-[#1b1c1e] border-2 border-inputBorderColor p-6 rounded-lg w-full lg:w-full space-y-4 mb-10">
             {/* Course Metadata Items */}
+            <div>
+              <h2 className=" text-xl font-bold">${courseInView?.price}</h2>
+            </div>
+            <div className="w-full flex flex-col gap-y-1">
+              <button className="bg-PrimaryPurple rounded-sm py-1 ">
+                {" "}
+                Add to cart
+              </button>
+              <button className="border rounded-sm py-1" onClick={handleNavigateToCheckout}>Buy now</button>
+            </div>
+            <span className="mt-4">Course Info:</span>
             <div className="flex items-center gap-4">
               <img src={CourseIcon} className="text-textGray" />
               <span className="text-textGray">
-                {courseInView.modules.length} modules{" "}
+                {courseInView?.modules.length} modules{" "}
               </span>
             </div>
             <div className="flex items-center gap-4">
@@ -551,69 +441,10 @@ const PreviewCourse = () => {
               </span>
             </div>
           </div>
-
-          {/* Left Section: Course List */}
-          <section className=" h-[100px] lg:h-[445px] flex flex-col items-center justify-center lg:py-4">
-            <div className="bg-[#1b1c1e] border-2 border-inputBorderColor  rounded-lg w-full lg:w-[90%] flex flex-col lg:gap-y-6  overflow-y-auto h-full lg:p-2">
-              {/** Accordion List */}
-              {courseInView.modules.map((module, moduleIndex) => (
-                <div key={moduleIndex} className="">
-                  <div
-                    className="flex items-center justify-between cursor-pointer  hover:bg-PrimaryPurple hover:text-white rounded"
-                    onClick={() => toggleSection(moduleIndex)}
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className="">{module.title}</span>
-                    </div>
-                    {visibleModules[moduleIndex] ? (
-                      <IoIosArrowUp className="text-lg" />
-                    ) : (
-                      <IoIosArrowDown className="text-lg" />
-                    )}
-                  </div>
-
-                  {/* Expandable Content */}
-
-                  {visibleModules[moduleIndex] && module.lessons && (
-                    <div className="bg-[#1b1c1e] border-2 border-inputBorderColor p-4 mt-2 rounded space-y-5">
-                      {module.lessons.map((lesson, lessonIndex) => (
-                        <div
-                          key={lessonIndex}
-                          className="flex justify-between text-xs"
-                          onClick={() =>
-                            handleActiveLesson(lessonIndex, moduleIndex)
-                          }
-                        >
-                          <div className="flex items-center gap-2 cursor-pointer">
-                            <span
-                              className={`w-2 h-2 rounded-full ${
-                                lessonIndex === activeLesson &&
-                                moduleIndex == activeModuleIndex &&
-                                "bg-PrimaryPurple"
-                              }`}
-                            />
-                            <span
-                              className="text-gray-300 text-nowrap overflow-x-hidden"
-                              title={lesson.title}
-                            >
-                              {lesson.title.length > 22
-                                ? `${lesson.title.slice(0, 22)}...`
-                                : lesson.title}
-                            </span>
-                          </div>
-                          <span className="text-xs">21:03</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
         </aside>
       </div>
     </section>
   );
 };
 
-export default PreviewCourse;
+export default Preview;
