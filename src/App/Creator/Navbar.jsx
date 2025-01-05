@@ -16,11 +16,21 @@ const RecruitNavbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const initialState = {
-    dashboard: { isActive: true },
-    course: { isActive: false },
-    liveSessions: { isActive: false },
-    jobs: { isActive: false },
-    credentials: { isActive: false },
+    dashboard: { 
+      isActive: true 
+    },
+    course: { 
+      isActive: false 
+    },
+    liveSessions: {
+      isActive: false 
+    },
+    jobs: { 
+      isActive: false 
+    },
+    credentials: { 
+      isActive: false 
+    },
   };
 
   const reducerFunc = (state, action) => {
@@ -188,7 +198,7 @@ const RecruitNavbar = () => {
         </section>
 
         {/* Outlet for Routing */}
-        <section className="ml-[16%]">
+        <section className=" ">
         <Outlet />
         </section>
       </>

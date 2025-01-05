@@ -1,17 +1,19 @@
 import React, { useReducer, useEffect, useContext, useState } from "react";
 import { CreateContext } from "../../Context/Context";
-import { Navigate, Outlet } from "react-router";
+import { Outlet } from "react-router";
 import { GoHome, GoSignOut } from "react-icons/go";
 import { BiBook } from "react-icons/bi";
 import { LuVideo } from "react-icons/lu";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { PiCertificateLight } from "react-icons/pi";
 import { Link, useLocation } from "react-router-dom";
+import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 
 const RecruitNavbar = () => {
   const { logout, userRole } = useContext(CreateContext).auth;
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const initialState = {
     dashboard: {
@@ -103,17 +105,20 @@ const RecruitNavbar = () => {
     }
   };
 
+  const [state, dispatch] = useReducer(reducerFunc, initialState);
+
   useEffect(() => {
+    const path = location.pathname;
     if (
       location.pathname === "/app/recruit" ||
       location.pathname === "/app/recruit/dashboard"
     ) {
       return dispatch({ type: "DASHBOARD" });
-    } else if (location.pathname === "/app/recruit/courses") {
+    } else if (location.pathname === "/app/learner/course") {
       return dispatch({ type: "COURSES" });
-    } else if (location.pathname === "/app/recruit/mycourses") {
+    } else if (location.pathname === "/app/learner/mycourses") {
       return dispatch({ type: "MYCOURSES" });
-    } else if (location.pathname === "/app/recruit/payment") {
+    } else if (location.pathname === "/app/learner/payment") {
       dispatch({ type: "PAYMENT" });
     } else if (location.pathname === "/app/recruit/peer-network") {
       dispatch({ type: "PEER_NETWORK" });
@@ -122,97 +127,96 @@ const RecruitNavbar = () => {
     }
   }, [location.pathname]);
 
-  const [state, dispatch] = useReducer(reducerFunc, initialState);
-
   const handleDispatch = (type) => {
     dispatch({ type });
     setIsMobileMenuOpen(false); // Close menu after navigation
   };
 
+  const handleCourseDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
+
   if (userRole === "Employee") {
     return (
-      <React.Fragment>
-        <section className=" bg-[#101010] text-white border-solid mt-10 fixed z-50 lg:h-full shadow-md flex flex-col text-3xl h-20 bottom-0  w-full lg:w-[16%] lg:px-4">
-          <article className="lg:h-[70%] lg:items-start flex flex-row lg:flex-col justify-evenly  items-center h-full  w-full border-b">
-            <Link
-              to="/app/recruit/dashboard"
-              onClick={() => handleDispatch("DASHBOARD")}
-              className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
-                state.dashboard.isActive &&
-                "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
-              } `}
-            >
-              <div className="flex flex-col w-full text-sm gap-x-1 lg:flex-row items-center ">
-                <GoHome className="text-lg " />
-                <span className="">Dashboard</span>
-              </div>
-            </Link>
-            <Link
-              to="/app/recruit/courses"
-              onClick={() => handleDispatch("COURSES")}
-              className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
-                state.courses.isActive &&
-                "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
-              } `}
-            >
-              <div className="flex flex-col w-full text-sm gap-x-1 lg:flex-row items-center">
-                <BiBook className="text-lg" />
-                <span className="">Explore Courses</span>
-              </div>
-            </Link>
-            <Link
-              to="/app/recruit/mycourses"
-              onClick={() => handleDispatch("MYCOURSES")}
-              className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
-                state.myCourses.isActive &&
-                "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
-              } `}
-            >
-              <div className="flex flex-col w-full text-sm gap-x-1 lg:flex-row items-center">
-                <BiBook className="text-lg" />
-                <span className="">My Courses</span>
-              </div>
-            </Link>
-            <Link
-              to="/app/recruit/payment"
-              onClick={() => handleDispatch("PAYMENT")}
-              className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
-                state.payment.isActive &&
-                "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
-              } `}
-            >
-              <div className=" w-full flex flex-col text-sm gap-x-1 lg:flex-row  items-center">
-                <LuVideo className="text-lg" />
-                <span className="">Payment</span>
-              </div>
-            </Link>
+      <>
+        {/* Hamburger Button */}
+        <button
+          className="lg:hidden fixed top-3 right-5 z-50 bg-transparent font-bold text-[20px] bg-black mb-20 text-white p-2 rounded"
+          onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+        >
+          {isMobileMenuOpen ? "✖" : "☰"}
+        </button>
 
-            <Link
-              onClick={() => handleDispatch("PEER_NETWORK")}
-              className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
-                state.peerNetwork.isActive &&
-                "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
-              } `}
-            >
-              <div className="flex flex-col w-full text-sm gap-x-1 lg:flex-row items-center">
-                <IoChatbubblesOutline className="text-lg" />
-                <span className="">Peer Network</span>
-              </div>
-            </Link>
-
-            <Link
-              onClick={() => handleDispatch("CREDENTIALS")}
-              className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
-                state.credentials.isActive &&
-                "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
-              } `}
-            >
-              <div className="flex flex-col w-full text-sm gap-x-1 lg:flex-row items-center">
-                <PiCertificateLight className="text-lg" />
-                <span className="">Credentials</span>
-              </div>
-            </Link>
-          </article>
+        {/* Navbar Section */}
+        <section
+          className={`fixed top-0 left-0 z-40 h-full bg-[#101010] text-white transition-transform ${
+            isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+          } lg:translate-x-0 lg:w-[16%] w-[70%]`}
+        >
+          <article className="lg:h-[70%] flex flex-col justify-evenly p-4">
+                      {[
+                        { type: "DASHBOARD", label: "Dashboard", Icon: GoHome },
+                        { type: "COURSES", label: "Course", Icon: BiBook },
+                        { type: "MYCOURSES", label: "My Courses", Icon: LuVideo },
+                        { type: "PAYMENT", label: "Payment", Icon: IoChatbubblesOutline },
+                        { type: "PEER_NETWORK", label: "Peer Network", Icon: IoChatbubblesOutline },
+                        {
+                          type: "CREDENTIALS",
+                          label: "Credentials",
+                          Icon: PiCertificateLight,
+                        },
+                      ].map(({ type, label, Icon }) => {
+                        if (type === "COURSE") {
+                          return (
+                            <>
+                              <div
+                                // to="/app/recruiter/course"
+                                onClick={handleCourseDropdown}
+                                className={`w-full lg:h-8 flex items-center lg:rounded-md lg:px-2 justify-center ${
+                                  state.course.isActive &&
+                                  "text-PrimaryPurple lg:text-white lg:bg-PrimaryPurple"
+                                } `}
+                              >
+                                <div className="flex flex-row w-full text-sm gap-x-1 lg:flex-row items-center cursor-pointer">
+                                  <BiBook className="text-lg" />
+                                  <span className="">Course</span>
+                                  {!showDropdown ? <FaCaretDown /> : <FaCaretUp />}
+                                </div>
+                              </div>{" "}
+                              <article
+                                className={`flex flex-col ${
+                                  showDropdown ? "h-auto" : "h-0 hidden"
+                                }  transition-all text-[12px] w-full  `}
+                              >
+                                <Link to="/app/recruiter/create-course" className="">
+                                  <div className="pl-5">Create Course</div>
+                                </Link>
+                                <Link to="/app/recruiter/manage-courses" className="">
+                                  <div className="pl-5">Manage Courses</div>
+                                </Link>
+                              </article>
+                            </>
+                          );
+                        } else {
+                          return (
+                            <Link
+                              key={type}
+                              to={`/app/recruiter/${type
+                                .toLowerCase()
+                                .replace("_", "-")}`}
+                              onClick={() => handleDispatch(type)}
+                              className={`flex items-center gap-2 py-2 ${
+                                state[type.toLowerCase()]?.isActive &&
+                                "text-white bg-PrimaryPurple rounded-lg p-3"
+                              }`}
+                            >
+                              <Icon className="text-lg" />
+                              <span>{label}</span>
+                            </Link>
+                          );
+                        }
+                      })}
+                    </article>
 
           {/* Logout Button */}
           <article className="mt-auto p-4">
@@ -226,13 +230,18 @@ const RecruitNavbar = () => {
           </article>
         </section>
 
-        {/* Content Section */}
-        <Outlet />
-      </React.Fragment>
+        {/* Outlet for Routing */}
+        <section className="">
+          <Outlet />
+        </section>
+      </>
     );
+
   } else {
     return null;
   }
+
+  
 };
 
 export default RecruitNavbar;
