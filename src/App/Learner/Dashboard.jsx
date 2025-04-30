@@ -17,7 +17,7 @@ import Clock from "../../assets/dashboard/clock.svg";
 import PaymentCheckout from "../../Payment/PaymentCheckout";
 const RecruitDashboard = () => {
   return (
-    <div className="bg-mobileBackground min-h-screen lg:w-full relative ">
+    <div className="bg-mobileBackground min-h-screen lg:w-full relative lg:ml-[16%]">
       <div className="flex flex-col h-full pt-5 pb-28 lg:p-7 px-5">
         <div className="xl:flex xl:gap-5">
           {/* welcome, highlights, assignments */}
